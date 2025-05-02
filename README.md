@@ -39,5 +39,5 @@ La société **Pharmgreen** connaît une croissance rapide et doit améliorer so
 
 ## 8. Améliorations possibles
 
-- Ajouter des mécanismes de redondance réseau pour améliorer la tolérance aux pannes.
-- Mettre en place un système de sauvegarde plus robuste et automatisé.
+- Création domaine + arborescence 
+- Finaliser les VM/CT servers + clients 
