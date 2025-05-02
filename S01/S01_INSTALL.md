@@ -25,9 +25,6 @@
 
 1. **Adresses IP** :
    - Utilisez les plages définies dans le plan d'adressage IP pour attribuer les adresses IP aux serveurs et clients.
-   
-2. **VLAN** :
-   - Configurez les VLANs sur les switchs virtuels dans Proxmox pour séparer les départements.
 
 ## 3. FAQ
 
