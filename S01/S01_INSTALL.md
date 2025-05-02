@@ -15,11 +15,11 @@
 
 1. **Serveur Active Directory (AD)** :
    - Créez une VM avec Windows Server 2022.
-   - Installez le rôle "Contrôleur de Domaine Active Directory".
+   - Installation des cartes réseaux.
    
 2. **Clients (Windows 10)** :
    - Créez des VM Windows 10 pour chaque utilisateur.
-   - Configurez chaque VM pour rejoindre le domaine Active Directory une fois celui-ci créé.
+   - Installation des cartes réseaux.
 
 ### 2.3. Configuration IP et VLAN
 
