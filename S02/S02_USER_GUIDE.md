@@ -249,9 +249,9 @@ Cf. fichier : adduser.ps1
   
   
 ## 4. Arborescence AD 
-PharmGreen.local
-_____Interne
-_______________CommunicationRelationsPubliques
+PharmGreen.local  
+_____Interne   
+_______________CommunicationRelationsPubliques  
 _________________________CommunicationInterne	
 _________________________RelationsMedias
 _________________________GestionDesMarques
