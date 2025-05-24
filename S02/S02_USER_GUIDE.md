@@ -252,57 +252,57 @@ Cf. fichier : adduser.ps1
 PharmGreen.local  
 _____Interne   
 _______________CommunicationRelationsPubliques  
-_________________________CommunicationInterne	
-_________________________RelationsMedias
-_________________________GestionDesMarques
+_________________________CommunicationInterne	 
+_________________________RelationsMedias  
+_________________________GestionDesMarques  
 									
-_______________DepartementJuridique
-_________________________DroitsSociétés
-_________________________ProtectionDonnéesConformité
-_________________________PropriétéIntellectuelles
+_______________DepartementJuridique  
+_________________________DroitsSociétés  
+_________________________ProtectionDonnéesConformité  
+_________________________PropriétéIntellectuelles  
 									
-_______________DeveloppementLogiciels
-_________________________AnalyseConception
-_________________________Developpement
+_______________DeveloppementLogiciels  
+_________________________AnalyseConception  
+_________________________Developpement  
 									
-_______________OU.Direction
-_________________________User1
+_______________OU.Direction  
+_________________________User1  
 
-_______________OU.DSI	
-_________________________OU.AdminSystRes
-_________________________OU.DevIntegration
-_________________________OU.Exploitation
-_________________________OU.Support
-_________________________Directeur
+_______________OU.DSI	 
+_________________________OU.AdminSystRes  
+_________________________OU.DevIntegration  
+_________________________OU.Exploitation  
+_________________________OU.Support  
+_________________________Directeur  
 			
-_______________OU.FinanceCompta
-_________________________OU.Finance	
-_________________________OU.Fiscalité
-_________________________OU.Compta
+_______________OU.FinanceCompta  
+_________________________OU.Finance	  
+_________________________OU.Fiscalité  
+_________________________OU.Compta  
 			
-_______________OU.QHSE	
-_________________________OU.ControleQualité
-_________________________OU.Certification
-_________________________OU.GestionEnvironnementale	
+_______________OU.QHSE	  
+_________________________OU.ControleQualité  
+_________________________OU.Certification  
+_________________________OU.GestionEnvironnementale	  
 			
-_______________OU.ServiceCommercial
-_________________________OU.ADV
-_________________________OU.B2B	
-_________________________OU.ServiceAchat	
-_________________________OU.ServiceClient	
-_________________________Directeur
+_______________OU.ServiceCommercial  
+_________________________OU.ADV  
+_________________________OU.B2B	  
+_________________________OU.ServiceAchat	  
+_________________________OU.ServiceClient	  
+_________________________Directeur  
 			
-_______________OU.Recrutement
-_________________________OU.AgentRH
-_________________________OU.ResponsableRecrutement	
+_______________OU.Recrutement  
+_________________________OU.AgentRH  
+_________________________OU.ResponsableRecrutement	  
 									
-_____PrestatairesExterne
-_______________OU.Imagine
-_______________OU.StudioDlight	
-_______________OU.Livingston&Associés
-_______________OU.2Face
+_____PrestatairesExterne  
+_______________OU.Imagine  
+_______________OU.StudioDlight	  
+_______________OU.Livingston&Associés  
+_______________OU.2Face  
 									
-_____Utilisateurs
+_____Utilisateurs  
 
 ## 5. Groupes Windows 
 
