@@ -19,7 +19,7 @@ Pas de configuration pour le moment du à un problème technique sur proxmox
 
 ### 2.2 Server GLPI 
 
-#### 2.2.1 Installation GLPI 
+#### 2.2.1 Installation GLPI 
 - Créer une VM dans Proxmox 
 - ISO : debian12.iso
 - Ressources :  2 CPU, 2 Go RAM, 30 Go disque
@@ -27,9 +27,9 @@ Pas de configuration pour le moment du à un problème technique sur proxmox
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
 vmbr1 (adresse ip : 172.16.20.5 / masque : 255.255.255.224) 
 
-#### 2.2.2 Synchronisation GLPI et AD 
+#### 2.2.2 Synchronisation GLPI et AD 
 x
-#### 2.2.3 Synchronisation GLPI et AD 
+#### 2.2.3 Synchronisation GLPI et AD 
 Gestion de parc : Inclusion des objets AD (utilisateurs, groupes, ordinateurs)
 
 ### 2.3 Server GLPI Redondance 
@@ -50,8 +50,6 @@ vmbr1 (adresse ip : 172.16.20.6 / masque : 255.255.255.224)
 - Network : 
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
 vmbr1 (adresse ip : 172.16.20.4 / masque : 255.255.255.224) 
-
-cp-server
 
 
 ## 3. Mise en place des GPO de sécurité 
