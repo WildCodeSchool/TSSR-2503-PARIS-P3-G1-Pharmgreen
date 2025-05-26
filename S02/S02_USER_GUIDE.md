@@ -30,9 +30,39 @@ Install-ADDSForest `
   -InstallDNS:$true `
   -Force
 ```
+- Verifier si OpenSSH est installé 
+``` powershell
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+```
+
 - Installation OpenSSH-Server
 ``` powershell
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+```
+
+- Verification présence fichiers OpenSSH
+``` powershell
+Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
+Test-Path "C:\Windows\System32\OpenSSH\ssh.exe"
+```
+
+- Démarrer et activer le service sshd
+``` powershell
+Start-Service sshd
+Set-Service sshd -StartupType Automatic
+```
+
+- Ouverture du port 22 
+``` powershell
+New-NetFirewallRule -Name sshd -DisplayName "OpenSSH Server (sshd)" `
+ -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+```
+
+- Vérifief les fichiers et port
+``` powershell
+Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
+netstat -an | findstr :22
 ```
 
 - synchronisation des horloges : ouvrir powershell en administrateur 
@@ -65,10 +95,42 @@ Install-ADDSDomainController `
   -SafeModeAdministratorPassword (Read-Host -AsSecureString "Mot de passe DSRM") `
   -Force
 ```
+
+- Verifier si OpenSSH est installé 
+``` powershell
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+```
+
 - Installation OpenSSH-Server
 ``` powershell
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
 ```
+
+- Verification présence fichiers OpenSSH
+``` powershell
+Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
+Test-Path "C:\Windows\System32\OpenSSH\ssh.exe"
+```
+
+- Démarrer et activer le service sshd
+``` powershell
+Start-Service sshd
+Set-Service sshd -StartupType Automatic
+```
+
+- Ouverture du port 22 
+``` powershell
+New-NetFirewallRule -Name sshd -DisplayName "OpenSSH Server (sshd)" `
+ -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+```
+
+- Vérifief les fichiers et port
+``` powershell
+Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
+netstat -an | findstr :22
+```
+
 - synchronisation des horloges : 
 ``` powershell
 w32tm /config /syncfromflags:domhier /update
