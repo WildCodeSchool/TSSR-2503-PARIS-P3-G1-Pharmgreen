@@ -78,7 +78,7 @@ w32tm /resync
 - Clone de la machine Serveur Windows Server 2022 AD + DNS
 - Network : 
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
-vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224) 
+vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : IPServerADPrincipal ) 
 - Changement du SID de la nouvelle machine  
 ``` powershell 
 C:\Windows\System32\Sysprep\Sysprep.exe
