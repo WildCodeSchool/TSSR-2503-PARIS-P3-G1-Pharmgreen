@@ -30,6 +30,11 @@ Install-ADDSForest `
   -InstallDNS:$true `
   -Force
 ```
+- Installation OpenSSH-Server
+``` powershell
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+```
+
 - synchronisation des horloges : ouvrir powershell en administrateur 
 ``` powershell
 w32tm /config /manualpeerlist:"ntp.obspm.fr,0x8" /syncfromflags:manual /reliable:YES /update
@@ -59,6 +64,10 @@ Install-ADDSDomainController `
   -SiteName "Default-First-Site-Name" `
   -SafeModeAdministratorPassword (Read-Host -AsSecureString "Mot de passe DSRM") `
   -Force
+```
+- Installation OpenSSH-Server
+``` powershell
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 ```
 - synchronisation des horloges : 
 ``` powershell
