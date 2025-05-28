@@ -94,11 +94,6 @@ Install-ADDSDomainController `
   -Verbose
 ```
 
-- Promouvoir ce server en DC  complémentaire 
-``` powershell 
-Install-ADDSDomainController -DomainName "pharmgreen.local" -Credential (Get-Credential)
-```
-
 - Verifier si OpenSSH est installé 
 ``` powershell
 Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
