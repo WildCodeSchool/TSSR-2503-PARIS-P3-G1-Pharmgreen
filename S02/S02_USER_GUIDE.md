@@ -82,7 +82,16 @@ vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : IPServerADPri
 
 - Installer AD et features 
 ``` powershell 
-Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+Add-Computer -DomainName pharmgreen.local -Credential (Get-Credential) -Restart
+
+Install-ADDSDomainController `
+  -DomainName "pharmgreen.local" `
+  -InstallDns `
+  -Credential (Get-Credential) `
+  -SiteName "Default-First-Site-Name" `
+  -Verbose
 ```
 
 - Promouvoir ce server en DC  complémentaire 
