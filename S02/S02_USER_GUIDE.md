@@ -87,13 +87,9 @@ Aller dans Generalize -> Shutdown -> Enter System Out-of-Box Experience (OOBE)
 - Promouvoir ce server en DC  complémentaire 
 ``` powershell 
 Import-Module ADDSDeployment
-Install-ADDSDomainController `
-  -DomainName "pharmgreen.local" `
-  -Credential (Get-Credential) `
-  -InstallDNS:$true `
-  -SiteName "Default-First-Site-Name" `
-  -SafeModeAdministratorPassword (Read-Host -AsSecureString "Mot de passe DSRM") `
-  -Force
+
+Install-ADDSDomainController -DomainName "mondomaine.local"
+
 ```
 
 - Verifier si OpenSSH est installé 
