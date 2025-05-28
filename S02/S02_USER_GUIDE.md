@@ -75,21 +75,19 @@ w32tm /resync
 
 ### 2.1 Serveur Windows Server 2022 AD + DNS - Redondance 
 
-- Clone de la machine Serveur Windows Server 2022 AD + DNS
+- Installer une machine Serveur Windows Server 2022 AD + DNS 2 
 - Network : 
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
 vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : IPServerADPrincipal ) 
-- Changement du SID de la nouvelle machine  
+
+- Installer AD et features 
 ``` powershell 
-C:\Windows\System32\Sysprep\Sysprep.exe
+Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 ```
-Aller dans Generalize -> Shutdown -> Enter System Out-of-Box Experience (OOBE) 
+
 - Promouvoir ce server en DC  complémentaire 
 ``` powershell 
-Import-Module ADDSDeployment
-
-Install-ADDSDomainController -DomainName "mondomaine.local"
-
+Install-ADDSDomainController -DomainName "pharmgreen.local" -Credential (Get-Credential)
 ```
 
 - Verifier si OpenSSH est installé 
