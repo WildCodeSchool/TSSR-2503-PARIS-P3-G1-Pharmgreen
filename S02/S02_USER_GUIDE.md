@@ -38,13 +38,11 @@ Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
 - Installation OpenSSH-Server
 ``` powershell
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
 ```
 
 - Verification présence fichiers OpenSSH
 ``` powershell
 Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
-Test-Path "C:\Windows\System32\OpenSSH\ssh.exe"
 ```
 
 - Démarrer et activer le service sshd
@@ -114,17 +112,13 @@ Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
 ```
 
 - Installation si nécessaire
-Sur le server cible : installer OpenSS.server  
-Sur le PC d'admin : instaler OpenSSH.Client  
 ``` powershell
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0  
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0  
 ```
 
 - Verification présence fichiers OpenSSH
 ``` powershell
 Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
-Test-Path "C:\Windows\System32\OpenSSH\ssh.exe"
 ```
 
 - Démarrer et activer le service sshd
@@ -313,6 +307,7 @@ sudo chronyc makestep
 
 ### 2.4 PC Administration (Windows 11)
 Pas de configuration pour le moment du à un problème technique sur proxmox 
+Installer OpenSSH.Client
 
 ### 2.5 Server GLPI
 Configuration en cours 
