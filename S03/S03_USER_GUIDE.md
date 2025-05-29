@@ -27,10 +27,10 @@ Pas de configuration pour le moment du à un problème technique sur proxmox
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
 vmbr1 (adresse ip : 172.16.20.5 / masque : 255.255.255.224) 
 
-#### 2.2.2 Synchronisation GLPI et AD 
+#### 2.2.2 Synchronisation GLPI et AD avec ldap
 x
-#### 2.2.3 Synchronisation GLPI et AD 
-Gestion de parc : Inclusion des objets AD (utilisateurs, groupes, ordinateurs)
+#### 2.2.3 Inclusion des Objects AD (utilisateurs, groupes, ordinateurs) 
+x
 
 ### 2.3 Server GLPI Redondance 
 
@@ -52,32 +52,77 @@ vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255
 vmbr1 (adresse ip : 172.16.20.4 / masque : 255.255.255.224) 
 
 
-## 3. Mise en place des GPO de sécurité 
+## 3. Mise en place des GPO
 
-### 3.1 Gestion du pare-feu
-activation pare-feu tous profils (domaine, privé et public) 
-### 3.2 Ecran de veille en sortie  
-Au bout de 5min 
-exiger mot de passe à la sortie de veille
-### 3.3 Blocage panneau de configuration 
-Complet pour les utilisateurs standards 
-### 3.4 Verrouillage de compte  
+Pour la mise en place des GPOs, dans Server Manager -> Tools -> Group Policy Management
+Dérouler : Forest:pharmgreen.local / Domains / pharmgreen.local / Group Policy Object
+- Clique droit sur GPO -> New  
+Paramétrer les configuration suivantes : 
+
+### 3.1 GPO de sécurité 
+
+#### 3.1.1 Gestion du pare-feu
+Name : User_Manage_Firewall 
+
+Dérouler : User Configuration -> Policies -> Administrative Template -> Network -> Network Connection
+- Prohibit adding and removing components for a LAN or remote access connecion - Enabled   
+- Prohibit access to the Advanced Settings item on the Advanced menu -> Enabled 
+- Prohibit TCP/IP adanced configuration -> Enabled 
+- Prohibit Enabling/Disabling component of a LAN connection -> Enabled
+- Prohibit deletion of remote access connnections -> Enabled
+- Prohibit access to the remote access preferences item on the Advanced menu -> Enabled
+- Prohibit access to proprieties of components of a LAN connection -> Enabled
+- Prohibit access to properties of a LAN connecion -> Enabled
+- Prohibit access to the New Connection Wizard -> Enabled
+- Prohibit access to properties of components of a remote access connection -> Enabled
+- Prohibit connecting and disconnecting a remote access connection -> Enabled
+- Prohibit changing properties of a private remote access connection -> Enabled
+- Prohibit renaming private remote access connections -> Enabled
+- Prohibit viewing if status for an active connection -> Enabled
+
+Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+
+#### 3.1.2 Ecran de veille en sortie  
+Name : User_Manage_SleepDelay 
+
+Dérouler : User Configuration -> Policies -> Administrative Template -> Controle Panel -> 
+Personalization 
+
+- Enable screen saver -> Enable 
+- Screen save executable name -> Value 300 -> Enable
+- Password Protect the screen saver -> Enable
+
+Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+
+
+#### 3.1.3 Blocage panneau de configuration 
+Name : User_Manage_ControlPanelAndSettings
+
+Dérouler : User Configuration -> Policies -> Administrative Template -> Control Panel
+
+- Prohibit access to Control Panel and PC settings -> Enabled
+
+Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+
+
+#### 3.1.4 Verrouillage de compte  
  Blocage après 3 erreurs pendant 15 min 
-### 3.5 Restriction installation
+
+#### 3.1.5 Restriction installation
 totale 
 
 
-## 4. Mise en place des GPO standard  
+### 3.2 Mise en place des GPO standard  
 
-### 4.1 Fond d'écran
+#### 3.2.1 Fond d'écran
 file dans dossier partagé + deploiement sur tout les postes 
-### 4.2 Gestion Alimentation 
+#### 3.2.2 Gestion Alimentation 
 en économie d energie 
-### 4.3 Déploiement logiciel 
+#### 3.2.3 Déploiement logiciel 
 en publication 
-### 4.4 Redirection de dossier 
+#### 3.2.4 Redirection de dossier 
 activée pour tt les utilisateurs dans server fichier 
-### 4.5 Gestion des paramètres du navigateurs 
+#### 3.2.5 Gestion des paramètres du navigateurs 
 definir page d'accueil 
 forcer un moteur de recherche (google) 
 bloquer extensions non autorisé 
