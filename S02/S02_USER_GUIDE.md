@@ -110,12 +110,21 @@ Azerty1*
   
 - Terminer sur le SRV-AD1 :   
 Server Manager -> Manage -> Add Server   
-Cliquer sur "Find now", selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.   
+Cliquer sur "Find now"
+Selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.   
 Selectionner "SRV-AD2" puis OK    
 
-Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server as a DC", suivre la fin de l'installation   
+Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server to a a domain controler", 
+Selectionner Add a domain controler in an existing domain
+Indiquer le nom du domain
+Dans "Change" mettre les ID d'un administrator 
+
+
+A REPRENDRE ICI 
+
 ( Replicate depuis "SRV-AD1" )   
 Le SRV-AD2 devrait redémarrer.   
+Add a domain controler in a existing domain
 
 Vérifier en faisant depuis n'importe quel server :   
 ``` powershell
