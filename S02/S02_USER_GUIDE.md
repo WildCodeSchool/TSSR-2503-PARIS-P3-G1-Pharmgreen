@@ -80,7 +80,7 @@ Rename-Computer -NewName "SRV-AD1" -Restart
 ```
 - Network :  
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 )    
-vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : <IP de SRV-AD1>    
+vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : "<IP de SRV-AD1>", "127.0.0.1"    
 
 ``` powershell
 New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 172.16.20.2 -PrefixLenght 27  
@@ -92,6 +92,17 @@ Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "172.16.2
 Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools  
 ( Import-Module ActiveDirectory)
 ```
+
+- Ajout du server dans le domaine  
+``` powershell
+Add-Computer -DomainName "pharmgreen.local" -Credential (Get-Credential) -Restart
+```
+
+utiliser le compte Administrator pour autoriser l'ajout 
+pharmgreen.local\Administrator 
+Azerty1*
+
+  
 - Terminer sur le SRV-AD1 :   
 Server Manager -> Manage -> Add Server   
 Cliquer sur "Find now", selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.   
