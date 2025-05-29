@@ -16,7 +16,7 @@ Ce document inclut la procédure à suivre afin de créer les servers.  Ces mach
 
 - Créer une VM dans Proxmox 
 - ISO : Windows Server 2022
-- Ressources : 2 vCPU, 2 Go RAM, 40 Go disque
+- Ressources : 8 CPU (2 soquets/2 cores), 12 Go RAM, 40 Go disque
 - Network : 
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
 vmbr1 (172.16.20.1 255.255.255.224) 
@@ -75,23 +75,37 @@ w32tm /resync
 
 ### 2.1 Serveur Windows Server 2022 AD + DNS - Redondance 
 
-- Installer une machine Serveur Windows Server 2022 AD + DNS 2 
+- Installer une machine Serveur Windows Server 2022
+- Renommer "SRV-AD2"
+``` powershell
+Rename-Computer -NewName "SRV-AD1" -Restart
+```
 - Network : 
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
-vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : IPServerADPrincipal ) 
+vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : <IP de SRV-AD1> 
 
-- Installer AD et features 
+``` powershell
+New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 172.16.20.2 -PrefixLenght 27
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "172.16.20.1"
+```
+
+- Installer AD/DNS et features
 ``` powershell 
-Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools
+( Import-Module ActiveDirectory)
+```
+- Terminer sur le SRV-AD1 :
+Server Manager -> Manage -> Add Server
+Cliquer sur "Find now", selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.
+Selectionner "SRV-AD2" puis OK 
 
-Add-Computer -DomainName pharmgreen.local -Credential (Get-Credential) -Restart
+Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server as a DC", suivre la fin de l'installation
+( Replicate depuis "SRV-AD1" ) 
+Le SRV-AD2 devrait redémarrer. 
 
-Install-ADDSDomainController `
-  -DomainName "pharmgreen.local" `
-  -InstallDns `
-  -Credential (Get-Credential) `
-  -SiteName "Default-First-Site-Name" `
-  -Verbose
+Vérifier en faisant depuis n'importe quel server : 
+``` powershell
+Get-ADDomainController -Filter * | Select-Object HostName
 ```
 
 - Verifier si OpenSSH est installé 
