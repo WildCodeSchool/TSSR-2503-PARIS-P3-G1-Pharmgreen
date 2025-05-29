@@ -75,48 +75,50 @@ w32tm /resync
 
 ### 2.1 Serveur Windows Server 2022 AD + DNS - Redondance 
 
-- Installer une machine Serveur Windows Server 2022
-- Renommer "SRV-AD2"
+- Installer une machine Serveur Windows Server 2022  
+- Renommer "SRV-AD2"  
 ``` powershell
-Rename-Computer -NewName "SRV-AD1" -Restart
+Rename-Computer -NewName "SRV-AD1" -Restart  
 ```
 - Network : 
-vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 ) 
-vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : <IP de SRV-AD1> 
+vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 )   
+vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : <IP de SRV-AD1>   
 
 ``` powershell
-New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 172.16.20.2 -PrefixLenght 27
-Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "172.16.20.1"
+New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 172.16.20.2 -PrefixLenght 27  
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "172.16.20.1"  
 ```
 
-- Installer AD/DNS et features
+- Installer AD/DNS et features  
 ``` powershell 
-Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools  
 ( Import-Module ActiveDirectory)
 ```
-- Terminer sur le SRV-AD1 :
-Server Manager -> Manage -> Add Server
-Cliquer sur "Find now", selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.
-Selectionner "SRV-AD2" puis OK 
+- Terminer sur le SRV-AD1 :  
+Server Manager -> Manage -> Add Server  
+Cliquer sur "Find now", selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.  
+Selectionner "SRV-AD2" puis OK   
 
-Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server as a DC", suivre la fin de l'installation
-( Replicate depuis "SRV-AD1" ) 
-Le SRV-AD2 devrait redémarrer. 
+Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server as a DC", suivre la fin de l'installation  
+( Replicate depuis "SRV-AD1" )  
+Le SRV-AD2 devrait redémarrer.  
 
-Vérifier en faisant depuis n'importe quel server : 
+Vérifier en faisant depuis n'importe quel server :  
 ``` powershell
-Get-ADDomainController -Filter * | Select-Object HostName
+Get-ADDomainController -Filter * | Select-Object HostName  
 ```
 
-- Verifier si OpenSSH est installé 
+- Verifier si OpenSSH est installé  
 ``` powershell
-Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'  
 ```
 
-- Installation OpenSSH-Server
+- Installation si nécessaire
+Sur le server cible : installer OpenSS.server  
+Sur le PC d'admin : instaler OpenSSH.Client  
 ``` powershell
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0  
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0  
 ```
 
 - Verification présence fichiers OpenSSH
