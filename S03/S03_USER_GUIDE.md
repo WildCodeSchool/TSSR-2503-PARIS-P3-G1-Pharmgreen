@@ -2,24 +2,23 @@
 
 ## 1. Introduction
 
-Ce document inclut la procédure à suivre afin de créer les servers.  Ces machines ont été configuré depuis des Templates installés au préalable 
-
-- PC administration (Windows 11 GUI)  + installation logiciels nécessaire
-- Server GLPI 
-- Server GLPI Redondance
+Ce document reprend les instructions pour :   
+- la mise en place des GPO de sécurité et les GPO standards   
+- Installation du server GLPI  
+- Configuration GLPI (Synchronisation de l'AD et l'inclusion des objets AD)   
+- Installation de l'agent GLPI sur chaque ordinateur du domaine (via script ou GPO)  pour la gestion de l'inventaire  
 - Server Pfsense (TBC) 
 
 
 ## 2. Création des VMs
 
-
 ### 2.1 PC Administration (Windows 11) 
-Pas de configuration pour le moment du à un problème technique sur proxmox 
+
 Installation de OpenSSH Client (et server optionnel) 
 
 ### 2.2 Server GLPI 
 
-#### 2.2.1 Installation GLPI 
+#### 2.2.1 Installation Server GLPI 
 - Créer une VM dans Proxmox 
 - ISO : debian12.iso
 - Ressources :  2 CPU, 2 Go RAM, 30 Go disque
