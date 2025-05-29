@@ -15,7 +15,7 @@ Ce document inclut la procédure à suivre afin de créer les servers.  Ces mach
 
 ### 2.1 PC Administration (Windows 11) 
 Pas de configuration pour le moment du à un problème technique sur proxmox 
-
+Installation de OpenSSH Client (et server optionnel) 
 
 ### 2.2 Server GLPI 
 
