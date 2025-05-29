@@ -78,6 +78,11 @@ w32tm /resync
 ``` powershell
 Rename-Computer -NewName "SRV-AD1" -Restart  
 ```
+-Desactiver veille automatique  
+``` powershell
+powercfg -change -standby-timeout-ac 0  
+powercfg -change -standby-timeout-dc 0  
+```
 - Network :  
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 )    
 vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : "<IP de SRV-AD1>", "127.0.0.1"    
