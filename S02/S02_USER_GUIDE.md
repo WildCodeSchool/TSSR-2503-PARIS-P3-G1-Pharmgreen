@@ -16,7 +16,10 @@ Ce document inclut la procédure à suivre afin de créer les servers.  Ces mach
 
 - Créer une VM dans Proxmox  
 - ISO : Windows Server 2022  
-- Ressources : 8 CPU (2 soquets/2 cores), 12 Go RAM, 40 Go disque  
+- Ressources : 8 CPU (2 soquets/2 cores), 12 Go RAM, 40 Go disque
+- Renommer la machine (par exemple SRV-AD1)
+- Désactiver les firewall
+- Desactiver l'écran de veille
 - Network :   
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 )  
 vmbr1 (172.16.20.1 255.255.255.224)  
