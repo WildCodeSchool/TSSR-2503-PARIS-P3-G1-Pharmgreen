@@ -77,16 +77,16 @@ w32tm /resync
 ### 2.1 Serveur Windows Server 2022 AD + DNS - Redondance 
 
 - Installer une machine Serveur Windows Server 2022  
-- Renommer "SRV-AD2"  
+- Renommer la machine (par exemple "SRV-AD2-RIDMaster"  
 ``` powershell
-Rename-Computer -NewName "SRV-AD1" -Restart  
+Rename-Computer -NewName "SRV-AD2-RIDMaster" -Restart  
 ```
 -Desactiver veille automatique  
 ``` powershell
 powercfg -change -standby-timeout-ac 0  
 powercfg -change -standby-timeout-dc 0  
 ```
-- Network :  
+- Modifier l'adresse IP selon le modèle et les besoins :  
 vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255.255.255.0 / Gateway : 192.168.240.1 / DNS : 8.8.8.8 )    
 vmbr1 (adresse ip : 172.16.20.2 / masque : 255.255.255.224 / DNS : "IP de SRV-AD1", "127.0.0.1"    
 
@@ -98,41 +98,48 @@ Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "172.16.2
 - Installer AD/DNS et features   
 ``` powershell 
 Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools  
-( Import-Module ActiveDirectory)
 ```
 
-- Ajout du server dans le domaine  
+- Ajout de la machine dans le domaine  
 ``` powershell
 Add-Computer -DomainName "pharmgreen.local" -Credential (Get-Credential) -Restart
 ```
+Utiliser : Administrator et mot de passe pour autoriser l'ordinateur à joindre le domaine 
 
-utiliser le compte Administrator pour autoriser l'ajout 
-pharmgreen.local\Administrator 
-Azerty1*
+-Importer le module si nécessaire 
+``` powershell 
+Import-Module ActiveDirectory
+```
 
-  
-- Terminer sur le SRV-AD1 :   
-Server Manager -> Manage -> Add Server   
+- Synchroniser les horloges 
+``` powershell
+w32tm /config /syncfromflags:domhier /update
+net stop w32time
+net start w32time
+w32tm /resync
+```
+
+Revenir sur AD1 (en GUI) 
+
+- Dans "Server Manager" 
+-> Manage -> Add Server   
 Cliquer sur "Find now"
-Selectionner et double clique sur "SRV-AD2" pour le mettre dans la partie "selected" à droite.   
-Selectionner "SRV-AD2" puis OK    
+Selectionner et double clique sur le serveur AD à ajouter pour le mettre dans la partie "selected" à droite.   
+Selectionner le serveur puis cliquer sur OK    
 
-Revenir dans Server Manager, dans le drapeau en haut a gauche "Promote this server to a a domain controler", 
-Selectionner Add a domain controler in an existing domain
-Indiquer le nom du domain
-Dans "Change" mettre les ID d'un administrator 
+- Revenir dans "Server Manager"
+Clique droit sur le drapeau rouge en haut 
+-> Promote this server to a a domain controler -> a new DC in an existing domain 
+Dans credential entrer le compte Administrator + mot de passe 
+Entrer un DSRM password 
+Replicate depuis un server AD 
+Suivant jusqu'a la fin + installation 
 
-
-A REPRENDRE ICI 
-
-( Replicate depuis "SRV-AD1" )   
-Le SRV-AD2 devrait redémarrer.   
-Add a domain controler in a existing domain
-
-Vérifier en faisant depuis n'importe quel server :   
+- Vérifier en faisant depuis n'importe quel server :   
 ``` powershell
 Get-ADDomainController -Filter * | Select-Object HostName  
 ```
+Chaque DC du domaine devrait apparaitre. 
 
 - Verifier si OpenSSH est installé   
 ``` powershell
@@ -167,13 +174,6 @@ Test-Path "C:\Windows\System32\OpenSSH\sshd.exe"
 netstat -an | findstr :22
 ```
 
-- synchronisation des horloges :   
-``` powershell
-w32tm /config /syncfromflags:domhier /update
-net stop w32time
-net start w32time
-w32tm /resync
-```
 
 ### 2.2 Server Debian DHCP  
 
