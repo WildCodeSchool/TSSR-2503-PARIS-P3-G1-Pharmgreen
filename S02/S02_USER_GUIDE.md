@@ -334,17 +334,20 @@ sudo chronyc makestep
 ```
 
 ### 2.4 PC Administration (Windows 10)   
-- Création d'une VM
-Image : Windows 10
+- Création d'une VM  
+Image : Windows 10  
 
-- Renommer l'ordinateur
-Rename-Computeur -NewName "PC-ADMIN-WIN10" -Restart
+- Renommer l'ordinateur  
+``` powershell
+Rename-Computeur -NewName "PC-ADMIN-WIN10" -Restart  
+```
 
 ( - Installer SSH.client )
 
 - Ajout au domaine :
-Add-Computer -DomainName "pharmgreen.local" -Credential "pharmgreen\Administrator" -Restart
-
+``` powershell
+Add-Computer -DomainName "pharmgreen.local" -Credential "pharmgreen\Administrator" -Restart  
+```  
 
 ### 2.5 Server GLPI  
 Configuration en cours   
