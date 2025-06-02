@@ -8,7 +8,7 @@ Ce document inclut la procédure à suivre afin de créer les servers.  Ces mach
 - DHCP (Debian CLI)   
 - DHCP - Redondance (Debian CLI)   
 - GLPI   
-- PC administration (Windows 11 GUI)   
+- PC administration (Windows 10 GUI)   
 
 ## 2. Création des VMs  
 
@@ -333,9 +333,18 @@ chronyc tracking
 sudo chronyc makestep
 ```
 
-### 2.4 PC Administration (Windows 11)   
-Pas de configuration pour le moment du à un problème technique sur proxmox    
-Installer OpenSSH.Client  
+### 2.4 PC Administration (Windows 10)   
+- Création d'une VM
+Image : Windows 10
+
+- Renommer l'ordinateur
+Rename-Computeur -NewName "PC-ADMIN-WIN10" -Restart
+
+( - Installer SSH.client )
+
+- Ajout au domaine :
+Add-Computer -DomainName "pharmgreen.local" -Credential "pharmgreen\Administrator" -Restart
+
 
 ### 2.5 Server GLPI  
 Configuration en cours   
