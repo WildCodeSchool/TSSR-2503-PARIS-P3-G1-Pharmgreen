@@ -61,8 +61,8 @@ Paramétrer les configuration suivantes :
 ### 3.1 GPO de sécurité 
 
 #### 3.1.1 Gestion du pare-feu
-Name : User_Manage_Firewall_Deny 
 
+Name : User_Manage_Firewall_Deny 
 Dérouler : User Configuration -> Policies -> Administrative Template -> Network -> Network Connection
 - Prohibit adding and removing components for a LAN or remote access connecion - Enabled   
 - Prohibit access to the Advanced Settings item on the Advanced menu -> Enabled 
@@ -78,11 +78,9 @@ Dérouler : User Configuration -> Policies -> Administrative Template -> Network
 - Prohibit changing properties of a private remote access connection -> Enabled
 - Prohibit renaming private remote access connections -> Enabled
 - Prohibit viewing if status for an active connection -> Enabled
-
 Lier cette GPO au domain.
 
 Name : User_Manage_Firewall_Allow 
-
 Dérouler : User Configuration -> Policies -> Administrative Template -> Network -> Network Connection
 - Prohibit adding and removing components for a LAN or remote access connecion - Disabled   
 - Prohibit access to the Advanced Settings item on the Advanced menu -> Disabled 
@@ -98,35 +96,58 @@ Dérouler : User Configuration -> Policies -> Administrative Template -> Network
 - Prohibit changing properties of a private remote access connection -> Disabled
 - Prohibit renaming private remote access connections -> Disabled
 - Prohibit viewing if status for an active connection -> Disabled
-
 Lier cette GPO aux OU à exclure de la premiere GPO
 -> enforce
 
 #### 3.1.2 Ecran de veille en sortie  
-Name : User_Manage_SleepDelay 
 
+Name : User_Manage_SleepDelay_5min
 Dérouler : User Configuration -> Policies -> Administrative Template -> Controle Panel -> 
 Personalization 
-
 - Enable screen saver -> Enable 
 - Screen save executable name -> Value 300 -> Enable
 - Password Protect the screen saver -> Enable
+Lier cette GPO au domain.
 
-Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+Name : User_Manage_SleepDelay_None
+Dérouler : User Configuration -> Policies -> Administrative Template -> Controle Panel -> 
+Personalization 
+- Enable screen saver -> Disable
+- - Screen save executable name -> Value 300 -> Disable
+- Password Protect the screen saver -> Disable
+Lier cette GPO aux OU à exclure de la premiere GPO
+-> enforce
 
 
 #### 3.1.3 Blocage panneau de configuration 
-Name : User_Manage_ControlPanelAndSettings
 
+Name : User_ControlPanelAccess_Deny
 Dérouler : User Configuration -> Policies -> Administrative Template -> Control Panel
-
 - Prohibit access to Control Panel and PC settings -> Enabled
+Lier cette GPO au domain.
 
-Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+Name : User_ControlPanelAccess_Allow
+Dérouler : User Configuration -> Policies -> Administrative Template -> Control Panel
+- Prohibit access to Control Panel and PC settings -> Disabled
+Lier cette GPO aux OU à exclure de la premiere GPO
+-> enforce
 
 
 #### 3.1.4 Verrouillage de compte  
- Blocage après 3 erreurs pendant 15 min 
+
+Name : Computer_Manage_BlockAccount_3times/10min
+Dérouler : Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Account Policies -> Account Lockout Policy
+- Account lockout threshold : 3 tentatives
+- Account lockout duration : 10 min
+- Reset account lockout counter after : 10 min
+Lier cette GPO au domain.
+
+Name : Computer_Manage_BlockAccount_None
+Dérouler : Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Account Policies -> Account Lockout Policy
+- Account lockout threshold : 0 tentatives
+Lier cette GPO aux OU à exclure de la premiere GPO
+-> enforce
+
 
 #### 3.1.5 Restriction installation
 totale 
