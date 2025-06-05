@@ -61,7 +61,7 @@ Paramétrer les configuration suivantes :
 ### 3.1 GPO de sécurité 
 
 #### 3.1.1 Gestion du pare-feu
-Name : User_Manage_Firewall 
+Name : User_Manage_Firewall_Deny 
 
 Dérouler : User Configuration -> Policies -> Administrative Template -> Network -> Network Connection
 - Prohibit adding and removing components for a LAN or remote access connecion - Enabled   
@@ -79,7 +79,28 @@ Dérouler : User Configuration -> Policies -> Administrative Template -> Network
 - Prohibit renaming private remote access connections -> Enabled
 - Prohibit viewing if status for an active connection -> Enabled
 
-Choisir l'OU concerné par cette GPO, clique droit dessus et "Link an existing GPO" 
+Lier cette GPO au domain.
+
+Name : User_Manage_Firewall_Allow 
+
+Dérouler : User Configuration -> Policies -> Administrative Template -> Network -> Network Connection
+- Prohibit adding and removing components for a LAN or remote access connecion - Disabled   
+- Prohibit access to the Advanced Settings item on the Advanced menu -> Disabled 
+- Prohibit TCP/IP adanced configuration -> Disabled 
+- Prohibit Enabling/Disabling component of a LAN connection -> Disabled
+- Prohibit deletion of remote access connnections -> Disabled
+- Prohibit access to the remote access preferences item on the Advanced menu -> Disabled
+- Prohibit access to proprieties of components of a LAN connection -> Disabled
+- Prohibit access to properties of a LAN connecion -> Disabled
+- Prohibit access to the New Connection Wizard -> Disabled
+- Prohibit access to properties of components of a remote access connection -> Disabled
+- Prohibit connecting and disconnecting a remote access connection -> Disabled
+- Prohibit changing properties of a private remote access connection -> Disabled
+- Prohibit renaming private remote access connections -> Disabled
+- Prohibit viewing if status for an active connection -> Disabled
+
+Lier cette GPO aux OU à exclure de la premiere GPO
+-> enforce
 
 #### 3.1.2 Ecran de veille en sortie  
 Name : User_Manage_SleepDelay 
