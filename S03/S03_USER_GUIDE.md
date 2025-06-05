@@ -27,7 +27,52 @@ vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255
 vmbr1 (adresse ip : 172.16.20.5 / masque : 255.255.255.224) 
 
 #### 2.2.2 Synchronisation GLPI et AD avec ldap
-x
+
+##### 2.2.2.1 Installation des outils LDAP sur le serveur GLPI 
+``` bash
+sudo apt update  
+sudo apt install ldap-utils -y  
+```
+- Tester la connexion LDAP  
+``` bash
+ldapsearch -x \  
+  -H ldap://172.16.20.1 \  
+  -D "CN=glpi-ldap,OU=OU_AdminSystm,OU=OU_DSI,OU=OU_Users,DC=pharmgreen,DC=local" \  
+  -W \   
+  -b "DC=pharmgreen,DC=local"  
+```
+
+##### 2.2.2.2 Configuration de l'annuaire LDAP dans GLPI  
+Aller dans Configuration -> Authentification -> Annuaire LDAP -> Ajouter un nouvel annuaire ou modifier celui existant 
+
+Renseigner les champs :  
+Nom	: Active Directory  
+Serveur par défaut : oui  
+Serveur	: 172.16.20.1  
+Actif	: oui  
+Port	: 389  
+Base DN	: DC=pharmgreen,DC=local  
+Filtre de connexion :	(&(objectClass=user)(sAMAccountName=%u))  
+Utiliser un bind ? : oui  
+DN du compte :	CN=glpi-sync,CN=Users,DC=pharmgreen,DC=local (ou OU personnalisé)  
+Mot de passe du compte	: (mot de passe du compte glpi-ldap)  
+Champ identifiant	: sAMAccountName  
+Champs de synchronisation :	cn,mail,displayName  
+
+Cliquer sur "Tester"  
+Si le test echoue : vérifier le DN du compte avec la commande  
+``` powershell  
+Get-ADUser glpi_ldap | Select DistinguishedName  
+```
+
+##### 2.2.2.3 Importer les utilisateurs AD dans GLPI   
+- Ouvrir l'interface web de GLPI  
+
+Aller dans Administration -> Utilisateurs  
+Cliquer sur "Depuis une source externe"  
+
+A reprendre  
+
 #### 2.2.3 Inclusion des Objects AD (utilisateurs, groupes, ordinateurs) 
 x
 
