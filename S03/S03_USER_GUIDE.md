@@ -3,17 +3,17 @@
 ## 1. Introduction
 
 Ce document reprend les instructions pour :   
+- La création et configuration pour le PC d'administration  
+- La création et configuration pour GLPI
+- La création et configuration pour GLPI redondance  
+- La création et configuration pour Pfsense  
 - La mise en place des GPO de sécurité et les GPO standards
 - Gestion de la télémétrie via GPO  
-- Installation du server GLPI  
-- Configuration GLPI (Synchronisation de l'AD et l'inclusion des objets AD)   
-- Installation de l'agent GLPI sur chaque ordinateur du domaine (via script ou GPO)  pour la gestion de l'inventaire  
-- Server Pfsense (TBC)
 
 
 ## 2. Création des VMs
 
-### 2.1 PC Administration (Windows 11) 
+### 2.1 PC Administration (Windows 10) 
 
 Installation de OpenSSH Client (et server optionnel) 
 
@@ -87,7 +87,7 @@ vmbr0 (adresse ip : 192.168.240.(deux dernier numéro numéro VM) / masque : 255
 vmbr1 (adresse ip : 172.16.20.6 / masque : 255.255.255.224) 
 
 
-### 2.4 Server pfsense ?? TBC  
+### 2.4 Server pfsense
 
 - Créer une VM dans Proxmox 
 - ISO : Debian12.iso
@@ -210,7 +210,13 @@ en publication
 #### 3.2.4 Redirection de dossier 
 activée pour tt les utilisateurs dans server fichier 
 #### 3.2.5 Gestion des paramètres du navigateurs 
-definir page d'accueil 
-forcer un moteur de recherche (google) 
-bloquer extensions non autorisé 
+definir page d'accueil  
+forcer un moteur de recherche (google)  
+bloquer extensions non autorisé  
+
+### 3.3 Gestion de la télémétrie via GPO  
+
+3.3.1 Installation et mise à jour des ADMX  
+- Télécharger les modèles d'administration (ADMX) correspondant à la version de Windows de tes postes clients :
+https://www.microsoft.com/en-us/download/details.aspx?id=104003
 
