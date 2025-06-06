@@ -3,11 +3,12 @@
 ## 1. Introduction
 
 Ce document reprend les instructions pour :   
-- la mise en place des GPO de sécurité et les GPO standards   
+- La mise en place des GPO de sécurité et les GPO standards
+- Gestion de la télémétrie via GPO  
 - Installation du server GLPI  
 - Configuration GLPI (Synchronisation de l'AD et l'inclusion des objets AD)   
 - Installation de l'agent GLPI sur chaque ordinateur du domaine (via script ou GPO)  pour la gestion de l'inventaire  
-- Server Pfsense (TBC) 
+- Server Pfsense (TBC)
 
 
 ## 2. Création des VMs
