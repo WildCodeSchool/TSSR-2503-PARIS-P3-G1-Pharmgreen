@@ -368,69 +368,48 @@ L’objectif de cette section est de déployer un ensemble de stratégies de gro
 
 ### 3.3 Gestion de la télémétrie via GPO  
 
+1. Télécharger les fichiers ADMX de Windows  
 
-1. Télécharger les fichiers ADMX de Windows
+- Aller sur le site microsoft et télécharger :  ADMX Windows 10/11 - Microsoft Download Center  
+- Exécute le fichier  
+Cela va extraire tous les fichiers ADMX dans ce dossier :  
+C:\Program Files (x86)\Microsoft Group Policy\Windows 11 October 2023 Update (ou équivalent)\PolicyDefinitions\  
+- Copier les fichiers + dossier langue dans le dossier Sysvol du domaine  
+\\<ton-domaine>\SYSVOL\<ton-domaine>\Policies\PolicyDefinitions\  
 
-- Aller sur le site microsoft et télécharger :  ADMX Windows 10/11 - Microsoft Download Center
-- Exécute le fichier 
-Cela va extraire tous les fichiers ADMX dans ce dossier :
-C:\Program Files (x86)\Microsoft Group Policy\Windows 11 October 2023 Update (ou équivalent)\PolicyDefinitions\
-- Copier les fichiers + dossier langue dans le dossier Sysvol du domaine 
-\\<ton-domaine>\SYSVOL\<ton-domaine>\Policies\PolicyDefinitions\
+2. Configurer la stratégie “Allow Telemetry”  
 
-6. Configurer la stratégie “Allow Telemetry”
+- Premiere configuration :  
+Computer Configuration  
+└── Administrative Templates  
+    └── Windows Components  
+        └── Data Collection and Preview Builds  
+            └── Allow Telemetry (ou Allow Diagnostic Data)  
+Mettre Enabled et Send optionnal diagnostic data  
 
-Computer Configuration
-└── Administrative Templates
-    └── Windows Components
-        └── Data Collection and Preview Builds
-            └── Allow Telemetry (ou Allow Diagnostic Data) 
+- Deuxieme configuration :  
+Computer Configuration  
+└── Administrative Templates  
+    └── Windows Components  
+        └── Application Compatibility  
+            └── Turn Off application Telemetry  
+Mettre Enabled  
+
+- Lier la GPO au domaine  
             
-            Mettre Enabled et Send optionnal diagnostic data 
+3. Vérification de l’application de la GPO   
 
+- Sur un poste client, faire  
+``` powershell
+gpupdate /force  
+```
 
+- Dans la barre de recherche, cherche et ouvre : regedit
 
-Computer Configuration
-└── Administrative Templates
-    └── Windows Components
-        └── Application Compatibility 
-            └── Turn Off application Telemetry 
-            
-Mettre Enabled
-            
-            
-            🔄 7. Appliquer la GPO
+- Dérouler les dossiers : HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection
 
-    Retourne dans la console GPMC
-
-    Lier ta GPO à une OU (Organizational Unit) contenant tes postes clients
-
-    Sur un poste client, exécute dans CMD ou PowerShell :
-
-gpupdate /force
-
-    Tu peux aussi simplement redémarrer le poste
-            
-✅ 8. Vérification de l’application
-
-Sur un poste client, fais :
-
-    regedit → ouvre le registre
-
-    Va ici :
-
-    HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection
-
-    Vérifie que la clé suivante existe :
-
-        Nom : AllowTelemetry
-
-        Type : REG_DWORD
-
-        Valeur : 1, 2 ou 3 selon ce que tu as configuré
-
-
-           
-           
-           
+- Vérifie que la clé suivante existe :
+Nom : AllowTelemetry
+Type : REG_DWORD
+Valeur : 1, 2 ou 3 selon ce que tu as configuré
 
