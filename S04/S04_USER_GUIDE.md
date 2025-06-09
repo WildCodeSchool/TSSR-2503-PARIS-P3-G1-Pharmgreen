@@ -25,14 +25,23 @@ A venir
 ### 2.3 Gestion des routes inter-vlan  
 A venir  
 
-### 2.4 Gestion carte vmbr pour la DMZ  
+### 2.4 Gestion cartes vmbr dans proxmox  
 
-#### 2.4.1 Création carte vmbr dans proxmox 
+#### 2.4.1 Création carte vmbr   
 - Selectionner le noeud (sous le datacenter) -> Network -> Create -> Linux Bridge   
 - Donner un nom type : vmbr5  
 - Attribuer une adresse IPv4 ou IPv6 - optionnel  
 - Attribuer un masque sous réseaux - optionnel  
-- Cocher `Vlan aware`  
+- Cocher `Vlan aware`
+
+#### 2.4.2 Simulation de switch par tag VLan  
+Selectionner la machine virtuelle concernée  -> hardware -> Network Device  
+Dans `Vlan Tag` entrer le numéro de Vlan dans laquelle la machine doit être incluse  (par exemple 10, 20, 30, 40 ou 50)  
+
+Dans notre projet, nous avons :  
+- vmbr0 pour le WAN  
+- vmbr2 pour le LAN (avec gestion de tag VLAN)  
+- vmbr 5 pour la DMZ  
 
 ### 2.5 Déclaration des pools   
 A venir  
@@ -85,13 +94,6 @@ Nom : AllowTelemetry
 Type : REG_DWORD  
 Valeur : 1, 2 ou 3 selon ce que tu as configuré  
 
-## 3. Proxmox  
 
-### 3.1 Simulation de switch par tag VLan  
-A venir  
-
-### 3.2 Utilisation de sous réseaux de carte bridge  
-A venir  
-
-## 4. Configuration DHCP Relais (au niveau routeur) 
+## 3. Configuration DHCP Relais (au niveau routeur) 
 A venir  
