@@ -26,7 +26,13 @@ A venir
 A venir  
 
 ### 2.4 Gestion carte vmbr pour la DMZ  
-A venir  
+
+#### 2.4.1 Création carte vmbr dans proxmox 
+- Selectionner le noeud (sous le datacenter) -> Network -> Create -> Linux Bridge   
+- Donner un nom type : vmbr5  
+- Attribuer une adresse IPv4 ou IPv6 - optionnel  
+- Attribuer un masque sous réseaux - optionnel  
+- Cocher `Vlan aware`  
 
 ### 2.5 Déclaration des pools   
 A venir  
