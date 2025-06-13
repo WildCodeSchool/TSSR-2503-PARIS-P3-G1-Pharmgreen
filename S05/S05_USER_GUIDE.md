@@ -23,6 +23,7 @@ du lundi au samedi de 7h30 a 20h autorisé
 - Mettre en place des clones mirpoirs des VM en high priority
 A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé. 
 
+**Optionnel : autoriser quelques utilisateurs à se connecter sur un serveur (AD par exemple)**
   
 ## 2. Stockage avancé    
 
@@ -72,3 +73,13 @@ Clique droit -> Clone -> Full clone
 Ajouter le nom, l'ID et les emplacements dans les disques  
 
 Manipulation à faire pour chaque serveur AD et pour Pfsense   
+
+
+## 4. Optionnel      
+Procédure à suivre pour autoriser quelques utilisateurs (dans notre cas, le groupe de sécurité GPO_Admin) à se connecter sur un serveur : AD principal  
+
+Sur le serveur en question :   
+- Ouvrir secpol.msc   
+- Déployer : Local Policies -> User Rights Assignment  
+- Modifier : Allow log on locally  
+- Cliquer sur Add User or Group, et ajouter l’utilisateur ou le groupe (dans notre cas le groupe GPO_Utilisateurs qui contient les utilisateurs Pauline, Priscilla, Omar et Mohamed)  
