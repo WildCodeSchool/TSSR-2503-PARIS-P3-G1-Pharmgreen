@@ -26,10 +26,13 @@ A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé.
 **Additionnel : mise en place d'un DHCP relay sur Pfsense**  
 
 **Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer**
+
   
 ## 2. Stockage avancé    
 
 ### 2.1 Mise en place des dossiers partagés  
+A venir  
+
 ### 2.2 Mappage des lecteurs sur des clients   
 I pour dossier individuel  
 J pour dossier de service   
@@ -55,19 +58,23 @@ Rename-Computer -NewName "SRV-Sauvegarde" -Restart
 Install-WindowsFeature Windows-Server-Backup
 Get-WindowsFeature Windows-Server-Backup
 
-
-
 ### 2.5 Gestion des droits des dossiers partagés  
+A venir  
+
 
 ## 3. GPO    
 
 ### 3.1 Restriction d'utilisation pour les utilisateurs  
 du lundi au samedi de 7h30 a 20h autorisé  
+
 ### 3.2 Aucune restriction d'utilisation pour les administrateurs  
+A venir  
+
 
 ## 4. Optimisation du projet    
 
 ### 4.1 Mise à jour des Readme  
+Ok
 
 ### 4.2 Mettre en place des clones miroirs des VM en high priority  
 Eteindre les VM  
@@ -102,7 +109,6 @@ Sur le serveur en question :
 - Déployer : Local Policies -> User Rights Assignment   
 - Modifier : Allow log on locally   
 - Cliquer sur Add User or Group, et ajouter l’utilisateur ou le groupe (dans notre cas le groupe GPO_Utilisateurs qui contient les utilisateurs Pauline, Priscilla, Omar et Mohamed)  
-
 
 ### 5.2. Pour autoriser à créer et gérer les GPO   
 Sur le serveur AD, ouvrir dsa.mcs  
