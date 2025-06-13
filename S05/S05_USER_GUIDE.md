@@ -23,7 +23,7 @@ du lundi au samedi de 7h30 a 20h autorisé
 - Mettre en place des clones mirpoirs des VM en high priority
 A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé. 
 
-**Optionnel : autoriser quelques utilisateurs à se connecter sur un serveur (AD par exemple)**
+**Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer**
   
 ## 2. Stockage avancé    
 
@@ -75,11 +75,21 @@ Ajouter le nom, l'ID et les emplacements dans les disques
 Manipulation à faire pour chaque serveur AD et pour Pfsense   
 
 
-## 4. Optionnel      
-Procédure à suivre pour autoriser quelques utilisateurs (dans notre cas, le groupe de sécurité GPO_Admin) à se connecter sur un serveur : AD principal  
-
-Sur le serveur en question :   
-- Ouvrir secpol.msc   
-- Déployer : Local Policies -> User Rights Assignment  
-- Modifier : Allow log on locally  
+## 4. Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer
+      
+### 4.1. Pour autoriser à se connecter sur le serveur Active Directory   
+Sur le serveur en question :    
+- Ouvrir secpol.msc    
+- Déployer : Local Policies -> User Rights Assignment   
+- Modifier : Allow log on locally   
 - Cliquer sur Add User or Group, et ajouter l’utilisateur ou le groupe (dans notre cas le groupe GPO_Utilisateurs qui contient les utilisateurs Pauline, Priscilla, Omar et Mohamed)  
+
+
+### 4.2. Pour autoriser à créer et gérer les GPO   
+Sur le serveur AD, ouvrir dsa.mcs  
+Déployer Pharmgreen.local -> Users  
+Dans Group Policy Creator Owners, aller dans Membre, et ajouter le groupe de sécurité (GPO_Admin) ou les membres un à un.   
+
+### 4.3. Pour autoriser à lier une GPO à une OU : 
+Toujours dans dsa.mcs, clique droit sur l'OU cible (ou le domaine) -> "Delegage controle" → ajouter l’utilisateur → lui accorder les permissions de gérer les stratégies de groupe.  
+      
