@@ -90,6 +90,9 @@ Dans Interfaces, sélectionner l’interface sur laquelle pfSense recevra les re
 Dans Destination Server, indiquer l’adresse IP du serveur DHCP  
 Cliquer sur Save, puis Apply Changes
 
+### 4.3. Regle Pfsense
+Ne pas oiblier d'ajouter une règle sur Pfsense pour ouvrir les ports 67 et 68 entre le pfsense et le serveur DHCP. 
+
 
 ## 5. Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer
       
