@@ -121,7 +121,7 @@ Dans Group Policy Creator Owners, aller dans Membre, et ajouter le groupe de sé
 Toujours dans dsa.mcs, clique droit sur l'OU cible (ou le domaine) -> "Delegage controle" → ajouter l’utilisateur → lui accorder les permissions de gérer les stratégies de groupe.  
       
 
-# 7.0. Additionnel : utiliser les filtres WMI sur les GPO  
+## 7.0. Additionnel : utiliser les filtres WMI sur les GPO  
 
  Objectif : retirer les Domain Controller de la GPO "COMPUTER_Manage_SleepDelay_5min"  
  en utilisant les filtre WMI (filtre en fonction du matériel)  
