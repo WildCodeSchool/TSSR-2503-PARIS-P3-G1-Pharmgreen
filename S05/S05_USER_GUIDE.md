@@ -27,6 +27,8 @@ A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé.
 
 **Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer**
 
+**Additionnel : utiliser les filtres WMI sur les GPO**  
+
   
 ## 2. Stockage avancé    
 
@@ -118,3 +120,17 @@ Dans Group Policy Creator Owners, aller dans Membre, et ajouter le groupe de sé
 ### 6.3. Pour autoriser à lier une GPO à une OU : 
 Toujours dans dsa.mcs, clique droit sur l'OU cible (ou le domaine) -> "Delegage controle" → ajouter l’utilisateur → lui accorder les permissions de gérer les stratégies de groupe.  
       
+
+# 7.0. Additionnel : utiliser les filtres WMI sur les GPO  
+
+ Objectif : retirer les Domain Controller de la GPO "COMPUTER_Manage_SleepDelay_5min"  
+ en utilisant les filtre WMI (filtre en fonction du matériel)  
+
+ - Ouvrir gpmc.msc  
+ - Dans l'arborescence à gauche, clique droit sur "Filtres WMI" → Nouveau  
+ - Donner un nom et descriptif  
+ - Cliquer sur Ajouter, puis entrer cette requête :  
+SELECT * FROM Win32_OperatingSystem WHERE ProductType = "2"  
+(pour info : 1 = poste client / 2 = Controleur de domaine / 3 = Serveur membre)  
+- Revenir sur la GPO "COMPUTER_Manage_SleepDelay_5min" et clique droit  
+- Aller dans "Filtre WMI" et ajouter le groupe créée précédement.
