@@ -23,6 +23,8 @@ du lundi au samedi de 7h30 a 20h autorisé
 - Mettre en place des clones mirpoirs des VM en high priority
 A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé. 
 
+**Additionnel : mise en place d'un DHCP relay sur Pfsense**  
+
 **Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer**
   
 ## 2. Stockage avancé    
@@ -75,9 +77,23 @@ Ajouter le nom, l'ID et les emplacements dans les disques
 Manipulation à faire pour chaque serveur AD et pour Pfsense   
 
 
-## 4. Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer
+## 4. Mise en place d'un DHCP relay sur Pfsense  
+
+### 4.1. Désactiver le serveur DHCP intégré sur pfSense  
+Depuis l'interface graphique aller dans :  
+Services -> DHCP Server -> LAN -> décocher "Enable DHCP server on LAN interface" -> Save  
+
+### 4.2. Activer le DHCP Relay  
+Toujours dans l'interface graphique aller dans :  
+Services > DHCP Relay -> Cocher "Enable DHCP Relay on Interface"  
+Dans Interfaces, sélectionner l’interface sur laquelle pfSense recevra les requêtes DHCP : LAN  
+Dans Destination Server, indiquer l’adresse IP du serveur DHCP  
+Cliquer sur Save, puis Apply Changes
+
+
+## 5. Additionnel : autoriser un groupe d'utilisateurs à se connecter sur un serveur (AD par exemple), à créer des GPO et à les gérer
       
-### 4.1. Pour autoriser à se connecter sur le serveur Active Directory   
+### 5.1. Pour autoriser à se connecter sur le serveur Active Directory   
 Sur le serveur en question :    
 - Ouvrir secpol.msc    
 - Déployer : Local Policies -> User Rights Assignment   
@@ -85,11 +101,11 @@ Sur le serveur en question :
 - Cliquer sur Add User or Group, et ajouter l’utilisateur ou le groupe (dans notre cas le groupe GPO_Utilisateurs qui contient les utilisateurs Pauline, Priscilla, Omar et Mohamed)  
 
 
-### 4.2. Pour autoriser à créer et gérer les GPO   
+### 5.2. Pour autoriser à créer et gérer les GPO   
 Sur le serveur AD, ouvrir dsa.mcs  
 Déployer Pharmgreen.local -> Users  
 Dans Group Policy Creator Owners, aller dans Membre, et ajouter le groupe de sécurité (GPO_Admin) ou les membres un à un.   
 
-### 4.3. Pour autoriser à lier une GPO à une OU : 
+### 5.3. Pour autoriser à lier une GPO à une OU : 
 Toujours dans dsa.mcs, clique droit sur l'OU cible (ou le domaine) -> "Delegage controle" → ajouter l’utilisateur → lui accorder les permissions de gérer les stratégies de groupe.  
       
