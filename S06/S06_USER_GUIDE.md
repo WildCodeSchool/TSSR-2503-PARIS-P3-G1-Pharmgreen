@@ -5,7 +5,7 @@ Voici le contenu de ce Readme :
 **Mise en place RAID 1**   
 
 
-## - Mise en place RAID 1 - Srv-AD1  
+## Mise en place RAID 1 - Srv-AD1  
 
 ### - Étape 1 – Ajouter deux disques à la VM dans Proxmox  
 Aller dans l'interface web de Proxmox  
