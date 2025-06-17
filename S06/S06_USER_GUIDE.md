@@ -2,7 +2,16 @@
 
 ## 1. Introduction  
 Voici le contenu de ce Readme :  
+
 **Mise en place RAID 1**   
+
+**SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX**  
+Installation sur VM/CT dédié  
+Supervision des éléments de l'infrastructure (actuels et à venir)  
+Mise en place de dashboard  
+
+**AD - Nouveau fichier RH pour les utilisateurs de l'entreprise**
+Adapter le script initial pour l'intégration des nouveaux utilisateurs et modifs infos 
 
 
 ## Mise en place RAID 1 - Srv-AD1  
