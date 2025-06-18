@@ -11,7 +11,7 @@ Blocage panneau de configuration
 Verrouillage de compte  
 Restriction installation  
 
-**La mise en place des GPO standards** 
+**La mise en place des GPO standards**  
 Déploiement d’un fond d’écran d’entreprise  
 Gestion Alimentation  
 Déploiement logiciel  
