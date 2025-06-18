@@ -5,6 +5,8 @@ Voici le contenu de ce Readme :
 
 **Mise en place RAID 1**   
 
+**Mise en place d’un serveur FTP pour le partage de dossiers** 
+
 **SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX**  
 Installation sur VM/CT dédié  
 Supervision des éléments de l'infrastructure (actuels et à venir)  
@@ -14,7 +16,7 @@ Mise en place de dashboard
 Adapter le script initial pour l'intégration des nouveaux utilisateurs et modifs infos 
 
 
-## Mise en place RAID 1 - Srv-AD1  
+## 2. Mise en place RAID 1 - Srv-AD1  
 
 ### - Étape 1 – Ajouter deux disques à la VM dans Proxmox  
 Aller dans l'interface web de Proxmox  
@@ -39,7 +41,8 @@ Attendre la fin du formatage
 Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en miroir"  
 L'état doit être "OK" 
 
-### Mise en place d’un serveur FTP pour le partage de dossiers
+
+## 3. Mise en place d’un serveur FTP pour le partage de dossiers
 
 ### Objectif
 
