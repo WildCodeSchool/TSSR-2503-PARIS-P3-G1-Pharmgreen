@@ -176,3 +176,74 @@ server_name <ici tu rentreras l'adresse IPv4 de ta machine>;
 systemctl restart zabbix-server zabbix-agent nginx php8.2-fpm  
 systemctl enable zabbix-server zabbix-agent nginx php8.2-fpm  
 ```
+
+### Supervision des éléments de l'infrastructure (actuels et à venir)   
+
+#### 1. Sur les machines Debian 12 à superviser  
+🔹 Étape 1 : Installer l'agent Zabbix  
+
+sudo apt update  
+sudo apt install zabbix-agent -y  
+
+🔹 Étape 2 : Configurer l’agent  
+
+Édite le fichier de config :  
+sudo nano /etc/zabbix/zabbix_agentd.conf  
+
+Modifie les lignes suivantes :  
+Server=192.168.1.X         # IP du serveur Zabbix  
+ServerActive=192.168.1.X   # Idem  
+Hostname=debian-client     # Un nom unique (doit correspondre à celui que tu mettras dans l’interface web)  
+
+🔹 Étape 3 : Redémarrer et activer le service  
+
+sudo systemctl restart zabbix-agent  
+sudo systemctl enable zabbix-agent  
+
+🔹 Tester la connectivité  
+
+Depuis le serveur Zabbix :  
+telnet 192.168.1.Y 10050  
+
+Tu dois avoir un écran vide (connexion OK).  
+
+
+#### 2. Sur les machines Windows à superviser  
+
+🔹 Étape 1 : Télécharger l’agent Zabbix  
+    Va ici : https://www.zabbix.com/download_agents  
+    Choisis : Windows -> Architecture : x64 -> Version Zabbix correspondant  
+Télécharge le .msi.  
+
+🔹 Étape 2 : Installer l’agent  
+    Double-clique sur le .msi  
+    Lors de l’installation, renseigne :  
+        Zabbix Server : IP de ton serveur Zabbix  
+        Hostname : un nom unique, ex. windows-client  
+        Laisse le port 10050  
+
+🔹 Étape 3 : Vérifier que l’agent tourne  
+Dans les services Windows (services.msc) :  
+    Vérifie que Zabbix Agent est en cours d'exécution  
+    Autorise le port 10050 dans le pare-feu Windows si besoin  
+
+#### 3. Ajouter les hôtes dans l’interface Zabbix  
+
+Depuis l'interface web Zabbix :  
+🔹 Aller dans :  
+Configuration → Hosts → Create host  
+
+🔹 Renseigner :  
+    Hostname : debian-client ou windows-client (doit correspondre à la conf agent)  
+    Groups : crée un groupe ou sélectionne-en un (ex. "Linux servers", "Windows servers")  
+    Interfaces :  
+        Type : Agent  
+        IP : IP de la machine à superviser  
+        Port : 10050  
+
+🔹 Appliquer un Template :  
+Clique sur l’onglet Templates, puis :  
+        Pour Debian :  
+          Template OS Linux by Zabbix agent  
+        Pour Windows :  
+          Template OS Windows by Zabbix agent  
