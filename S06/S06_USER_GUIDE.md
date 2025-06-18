@@ -37,4 +37,81 @@ Attendre la fin du formatage
 
 ### - Vérification du RAID  
 Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en miroir"  
-L'état doit être "OK"  
+L'état doit être "OK" 
+
+### Mise en place d’un serveur FTP pour le partage de dossiers
+
+### Objectif
+
+Installer et configurer un serveur FTP (vsftpd) pour permettre aux utilisateurs de partager et d’échanger des fichiers via FTP.
+
+### Étapes détaillées
+
+```bash
+1. Installation de vsftpd
+sudo apt update
+sudo apt install vsftpd -y
+
+2. Création de l’utilisateur FTP dédié
+
+sudo adduser ftpuser
+Définir un mot de passe sécurisé.
+
+Cet utilisateur sera utilisé pour se connecter au serveur FTP.
+
+3. Configuration du répertoire FTP
+Création de la structure des dossiers pour le partage :
+
+sudo mkdir -p /home/ftpuser/uploads/docs
+sudo mkdir -p /home/ftpuser/uploads/projets
+sudo mkdir -p /home/ftpuser/uploads/depots
+Attribution des droits :
+
+sudo chown -R ftpuser:ftpuser /home/ftpuser/uploads
+sudo chmod -R 775 /home/ftpuser/uploads
+Pour des raisons de sécurité, le dossier personnel /home/ftpuser doit être non modifiable :
+
+sudo chmod a-w /home/ftpuser
+
+4. Configuration de vsftpd
+Modifier le fichier /etc/vsftpd.conf avec les options suivantes (ajouter ou modifier) :
+
+write_enable=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+local_umask=022
+listen=YES
+listen_ipv6=NO
+Ces options permettent :
+
+L’écriture dans le dossier FTP,
+
+Le confinement de l’utilisateur dans son répertoire personnel (chroot),
+
+De contourner l’erreur liée à un dossier personnel inscriptible,
+
+L’écoute du service FTP sur IPv4 uniquement.
+
+5. Redémarrage du service FTP
+
+sudo systemctl restart vsftpd
+
+6. Test de connexion FTP
+Utiliser un client FTP (FileZilla, Cyberduck, ou en ligne de commande) pour se connecter :
+
+ftp <adresse_IP_du_serveur>
+Se connecter avec le login ftpuser et son mot de passe.
+
+Naviguer dans les dossiers /uploads et ses sous-dossiers.
+
+Tester le téléchargement et l’envoi de fichiers.
+
+7. Configuration du pare-feu (si actif)
+Autoriser les ports FTP nécessaires :
+
+sudo ufw allow 20,21/tcp
+sudo ufw allow 30000:31000/tcp
+Cela correspond au port de commande FTP (21), au port de données (20) et à la plage des ports passifs (30000-31000) si configurée.
+
+
+
