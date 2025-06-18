@@ -116,5 +116,6 @@ sudo ufw allow 20,21/tcp
 sudo ufw allow 30000:31000/tcp
 Cela correspond au port de commande FTP (21), au port de données (20) et à la plage des ports passifs (30000-31000) si configurée.
 
+## 4. SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX  
 
-
+### Installation sur VM/CT dédié
