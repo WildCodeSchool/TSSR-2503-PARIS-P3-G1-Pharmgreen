@@ -3,10 +3,26 @@
 ## 1. Introduction
 
 Ce document reprend les instructions pour :   
-- La mise en place des GPO de sécurité  
-- La mise en place des GPO standards  
-- La configuration du server GLPI 
 
+**La mise en place des GPO de sécurité** 
+Gestion du pare-feu  
+Ecran de veille en sortie  
+Blocage panneau de configuration  
+Verrouillage de compte  
+Restriction installation  
+
+**La mise en place des GPO standards** 
+Déploiement d’un fond d’écran d’entreprise  
+Gestion Alimentation  
+Déploiement logiciel  
+Redirection de dossier  
+Gestion des paramètres du navigateurs  
+
+**La configuration du server GLPI**  
+Installation Server GLPI  
+Synchronisation GLPI et AD avec ldap   
+Inclusion des Objects AD (utilisateurs, groupes, ordinateurs)   
+Installation de l'agent GLPI par GPO    
 
 ## 2. Les GPO de sécurités 
 Pour la mise en place des GPOs, dans Server Manager -> Tools -> Group Policy Management
@@ -311,16 +327,16 @@ Aller dans Configuration -> Authentification -> Annuaire LDAP -> Ajouter un nouv
 Renseigner les champs :  
 Nom	: Active Directory  
 Serveur par défaut : oui  
-Serveur	: 172.16.20.1  
+Serveur	: 172.16.20.1  (mettre adresse de l'AD principal)  
 Actif	: oui  
 Port	: 389  
-Base DN	: DC=pharmgreen,DC=local  
-Filtre de connexion :	(&(objectClass=user)(sAMAccountName=%u))  
+Base DN	: OU=OU_Users,DC=pharmgreen,DC=local  (mettre l'OU dans lequel les utilisateurs sont dans User and computers)  
+Filtre de connexion :	(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))  
 Utiliser un bind ? : oui  
-DN du compte :	CN=glpi-sync,CN=Users,DC=pharmgreen,DC=local (ou OU personnalisé)  
+DN du compte :	CN=glpi-sync,CN=Users,DC=pharmgreen,DC=local (Mettre l'adresse de l'utilisateur utilisé pour synchroniser)  
 Mot de passe du compte	: (mot de passe du compte glpi-ldap)  
-Champ identifiant	: sAMAccountName  
-Champs de synchronisation :	cn,mail,displayName  
+Champ identifiant	: userprincipalname    
+Champs de synchronisation :	objectguid    
 
 Cliquer sur "Tester"  
 Si le test echoue : vérifier le DN du compte avec la commande  
@@ -332,9 +348,10 @@ Get-ADUser glpi_ldap | Select DistinguishedName
 - Ouvrir l'interface web de GLPI  
 
 Aller dans Administration -> Utilisateurs  
-Cliquer sur "Depuis une source externe"  
+Cliquer Depuis une source externe -> Importation de nouveaux utilisateurs  
+Laisser les champs vides et cliquer sur rechercher  
+Selectionner les utilisateurs à ajouter (ou tous) et cliquer sur Action pour lancer la synchronisation  
 
-A reprendre  
 
 #### 4.3 Inclusion des Objects AD (utilisateurs, groupes, ordinateurs) 
 x
