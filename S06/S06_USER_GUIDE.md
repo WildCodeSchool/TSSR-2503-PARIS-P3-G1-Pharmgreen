@@ -118,4 +118,61 @@ Cela correspond au port de commande FTP (21), au port de données (20) et à la 
 
 ## 4. SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX  
 
-### Installation sur VM/CT dédié
+### Installation sur VM/CT dédié   
+
+- MAJ et Installation du serveur Zabbix  
+``` bash  
+apt update && apt upgrade -y  
+wget https://repo.zabbix.com/zabbix/7.2/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.2+debian12_all.deb  
+dpkg -i zabbix-release_latest_7.2+debian12_all.deb  
+```
+
+- Installation de Zabbix server, du frontend, et de l'agent :  
+``` bash  
+apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-sql-scripts zabbix-agent  
+```
+
+- Installation du SGBD :  
+``` bash  
+apt install mariadb-server  
+```
+
+- Vérification du SGBD :  
+``` bash  
+systemctl status mysql  
+```
+
+- Création et configuration de la base de données : (ne pas oublier de personnaliser nom et mdp)  
+``` mysql  
+mysql -uroot -p   
+reate database zabbix character set utf8mb4 collate utf8mb4_bin;  
+create user zabbix@localhost identified by 'password';  
+grant all privileges on zabbix.* to zabbix@localhost;  
+set global log_bin_trust_function_creators = 1;  
+quit;  
+```
+
+- Importation du schéma et des données :  
+``` bash  
+zcat /usr/share/zabbix/sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix  
+```
+
+- Désactivation de la possibilité de modifier la configuration de la BD par des acteurs malveillants :  
+``` mysql  
+mysql -uroot -p  
+set global log_bin_trust_function_creators = 0;  
+quit;  
+```
+
+- Edition du fichier de configuration de la BD du serveur Zabbix dans /etc/zabbix/zabbix_server.conf :  
+DBPassword=password  
+
+- Configuration de PHP pour accéder au frontend dans /etc/zabbix/nginx.conf :  
+listen 8080;  
+server_name <ici tu rentreras l'adresse IPv4 de ta machine>;  
+
+- Démarrage du server et des processus de l'agent :   
+``` bash  
+systemctl restart zabbix-server zabbix-agent nginx php8.2-fpm  
+systemctl enable zabbix-server zabbix-agent nginx php8.2-fpm  
+```
