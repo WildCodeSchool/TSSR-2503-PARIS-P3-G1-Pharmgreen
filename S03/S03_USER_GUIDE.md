@@ -4,7 +4,7 @@
 
 Ce document reprend les instructions pour :   
 
-**La mise en place des GPO de sécurité** 
+**La mise en place des GPO de sécurité**  
 Gestion du pare-feu  
 Ecran de veille en sortie  
 Blocage panneau de configuration  
