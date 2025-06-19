@@ -38,20 +38,20 @@ A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé.
 
 Installer et configurer un serveur FTP (vsftpd) pour permettre aux utilisateurs de partager et d’échanger des fichiers via FTP.
 
-### Étapes détaillées
+### Étapes détaillées  
 
-1. Installation de vsftpd
+**1. Installation de vsftpd**  
 sudo apt update
 sudo apt install vsftpd -y
 
-2. Création de l’utilisateur FTP dédié
+**2. Création de l’utilisateur FTP dédié**
 
 sudo adduser ftpuser
 Définir un mot de passe sécurisé.
 
 Cet utilisateur sera utilisé pour se connecter au serveur FTP.
 
-3. Configuration du répertoire FTP
+**3. Configuration du répertoire FTP**  
 Création de la structure des dossiers pour le partage :
 
 sudo mkdir -p /home/ftpuser/uploads/docs  
@@ -60,12 +60,12 @@ sudo mkdir -p /home/ftpuser/uploads/depots
 Attribution des droits :  
 
 sudo chown -R ftpuser:ftpuser /home/ftpuser/uploads
-sudo chmod -R 775 /home/ftpuser/uploads
-Pour des raisons de sécurité, le dossier personnel /home/ftpuser doit être non modifiable :
+sudo chmod -R 775 /home/ftpuser/uploads  
+Pour des raisons de sécurité, le dossier personnel /home/ftpuser doit être non modifiable :  
 
 sudo chmod a-w /home/ftpuser
 
-4. Configuration de vsftpd
+**4. Configuration de vsftpd**  
 Modifier le fichier /etc/vsftpd.conf avec les options suivantes (ajouter ou modifier) :
 
 write_enable=YES
@@ -73,7 +73,7 @@ chroot_local_user=YES
 allow_writeable_chroot=YES
 local_umask=022
 listen=YES
-listen_ipv6=NO
+listen_ipv6=NO  
 Ces options permettent :
 
 L’écriture dans le dossier FTP,
@@ -84,11 +84,11 @@ De contourner l’erreur liée à un dossier personnel inscriptible,
 
 L’écoute du service FTP sur IPv4 uniquement.
 
-5. Redémarrage du service FTP
+**5. Redémarrage du service FTP**
 
 sudo systemctl restart vsftpd
 
-6. Test de connexion FTP
+**6. Test de connexion FTP**  
 Utiliser un client FTP (FileZilla, Cyberduck, ou en ligne de commande) pour se connecter :
 
 ftp <adresse_IP_du_serveur>
@@ -98,11 +98,11 @@ Naviguer dans les dossiers /uploads et ses sous-dossiers.
 
 Tester le téléchargement et l’envoi de fichiers.
 
-7. Configuration du pare-feu (si actif)
+**7. Configuration du pare-feu (si actif)**  
 Autoriser les ports FTP nécessaires :
 
 sudo ufw allow 20,21/tcp
-sudo ufw allow 30000:31000/tcp
+sudo ufw allow 30000:31000/tcp  
 Cela correspond au port de commande FTP (21), au port de données (20) et à la plage des ports passifs (30000-31000) si configurée.
 
 ### 2.2 Mappage des lecteurs sur des clients   
