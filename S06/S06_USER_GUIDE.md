@@ -1,50 +1,53 @@
-# 🛠️ Guide Utilisateur – Sprint 6 : Installation & Configuration  
+# 🛠️ Guide Utilisateur – Sprint 6 : Installation & Configuration    
 
-## 1. Introduction  
-Voici le contenu de ce Readme :  
+## 1. Introduction    
+Voici le contenu de ce Readme :    
 
-**Mise en place RAID 1**   
+**Mise en place RAID 1**     
 
-**SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX**  
-Installation sur VM/CT dédié  
-Supervision des éléments de l'infrastructure (actuels et à venir)  
-Mise en place de dashboard  
+**SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX**    
+Installation sur VM/CT dédié    
+Supervision des éléments de l'infrastructure (actuels et à venir)    
+Mise en place de dashboard    
 
-**AD - Nouveau fichier RH pour les utilisateurs de l'entreprise**
-Adapter le script initial pour l'intégration des nouveaux utilisateurs et modifs infos 
+**AD - Nouveau fichier RH pour les utilisateurs de l'entreprise**    
+Adapter le script initial pour l'intégration des nouveaux utilisateurs et modifs infos   
+
+**JOURNALISATION - Mise en place d'une gestion des logs centralisée**  
+**Uitlisation de Syslog-ng, Installation sur CT**  
+Gestion des Logs de serveurs (installer syslog-ng sur chaque serveur debian et rsyslog sur chaque serveur/client Debian)  
+
+## 2. Mise en place RAID 1 - Srv-AD1    
+
+### - Étape 1 – Ajouter deux disques à la VM dans Proxmox    
+Aller dans l'interface web de Proxmox    
+Sélectionne la VM : P3-G1-WinServ22-GUI-SRV-AD1-SchemaMaster    
+Aller dans l'onglet Hardware -> Add -> Hard Disk    
+Ajouter deux nouveaux disques de 50Go, dans "local-lvm", selectionne "Interface SCSI"    
+Redémarrer la VM si nécessaire    
+
+### - Étape 2 – Configurer le RAID 1 dans Windows Server 2022    
+Ouvrir le Gestionnaire de disques    
+Windows détectera les nouveaux disques    
+Initialiser les deux disques en GTP    
+Convertir les deux disques en disque dynamique    
+Clique droit sur l’un des deux disques → "Nouveau volume en miroir"    
+Suivre l’assistant    
+Ajouter le second disque comme miroir    
+Attribuer une lettre de lecteur (ex. E:)    
+Formater le disque en NTFS    
+Attendre la fin du formatage    
+
+### - Vérification du RAID    
+Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en miroir"    
+L'état doit être "OK"   
 
 
-## 2. Mise en place RAID 1 - Srv-AD1  
+## 3. SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX    
 
-### - Étape 1 – Ajouter deux disques à la VM dans Proxmox  
-Aller dans l'interface web de Proxmox  
-Sélectionne la VM : P3-G1-WinServ22-GUI-SRV-AD1-SchemaMaster  
-Aller dans l'onglet Hardware -> Add -> Hard Disk  
-Ajouter deux nouveaux disques de 50Go, dans "local-lvm", selectionne "Interface SCSI"  
-Redémarrer la VM si nécessaire  
+### Installation sur VM/CT dédié     
 
-### - Étape 2 – Configurer le RAID 1 dans Windows Server 2022  
-Ouvrir le Gestionnaire de disques  
-Windows détectera les nouveaux disques  
-Initialiser les deux disques en GTP  
-Convertir les deux disques en disque dynamique  
-Clique droit sur l’un des deux disques → "Nouveau volume en miroir"  
-Suivre l’assistant  
-Ajouter le second disque comme miroir  
-Attribuer une lettre de lecteur (ex. E:)  
-Formater le disque en NTFS  
-Attendre la fin du formatage  
-
-### - Vérification du RAID  
-Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en miroir"  
-L'état doit être "OK" 
-
-
-## 3. SUPERVISION - Mise en place d'une supervision de l'infrastructure réseau : ZABBIX  
-
-### Installation sur VM/CT dédié   
-
-- MAJ et Installation du serveur Zabbix  
+- MAJ et Installation du serveur Zabbix    
 ``` bash  
 apt update && apt upgrade -y  
 wget https://repo.zabbix.com/zabbix/7.2/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.2+debian12_all.deb  
@@ -171,3 +174,80 @@ Clique sur l’onglet Templates, puis :
           Template OS Linux by Zabbix agent  
         Pour Windows :  
           Template OS Windows by Zabbix agent  
+
+## 5. Centralisation des logs avec Syslog-ng  
+**Objectif**  
+**Mettre en place une gestion centralisée des logs sur un serveur Debian via Syslog-ng, avec réception des
+logs en provenance de serveurs clients configurés avec rsyslog.**    
+
+**🏗️ Architecture**    
+- Serveur Syslog-ng : Conteneur Debian (CT) sous Proxmox - IP : 192.168.240.19  
+- Client Rsyslog : Serveur Debian (VM) - IP : 192.168.240.20
+  
+**Étapes réalisées**  
+
+**1. Installation du serveur Syslog-ng**  
+
+Mise à jour du système  
+apt update && apt upgrade -y  
+
+Installation de syslog-ng  
+apt install syslog-ng -y  
+
+Création du répertoire de stockage des logs distants  
+mkdir -p /var/log/remote  
+chown root:root /var/log/remote  
+chmod 700 /var/log/remoteCentralisation des logs avec Syslog-ng  
+
+Configuration de syslog-ng (dans /etc/syslog-ng/syslog-ng.conf)  
+@version: 3.38  
+@include "scl.conf"  
+source s_network {  
+network(ip(0.0.0.0) port(514));  
+};  
+destination d_remote {  
+file("/var/log/remote/${HOST}/${YEAR}${MONTH}${DAY}.log"  
+create-dirs(yes)  
+owner(root) group(root) perm(0600));  
+};  
+log {  
+source(s_network);  
+destination(d_remote);  
+};  
+
+Redémarrage du service  
+systemctl restart syslog-ng  
+systemctl enable syslog-ng  
+
+Vérification du port 514 Centralisation des logs avec Syslog-ng  
+ss -tuln | grep 514  
+
+**2. Configuration du client (rsyslog)**  
+
+Installation de rsyslog  
+apt update && apt install rsyslog -y  
+
+Ajout de la configuration d'envoi vers le serveur (dans /etc/rsyslog.d/90-remote.conf)  
+*.* @192.168.240.10:514  
+
+Redémarrage de rsyslog  
+systemctl restart rsyslog  
+
+**3. Vérification**  
+Depuis le client :  
+logger "TEST SYSLOG depuis $(hostname)"    
+
+Depuis le serveur :    
+find /var/log/remote -type f -exec grep "TEST SYSLOG" {} +  
+Exemple de sortie :  
+Jun 19 14:24:59 192.168.240.20 TEST SYSLOG depuis P3-G1-Debian-Core-ZabbixCentralisation des logs avec Syslog-ng  
+
+Résultat attendu  
+Sur le serveur Syslog-ng, les logs distants sont enregistrés ici :  
+/var/log/remote/<nom_du_client>/<YYYYMMDD>.log  
+
+**Remarques**  
+- Le nom du dossier (<nom_du_client>) est basé par défaut sur l'adresse IP du client.  
+- Pour utiliser le hostname, assurez-vous que :  
+- le client envoie bien le hostname dans ses logs,  
+- la config syslog-ng utilise ${HOST} dans la destination.  
