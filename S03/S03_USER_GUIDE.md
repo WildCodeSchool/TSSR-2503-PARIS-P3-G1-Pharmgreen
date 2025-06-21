@@ -142,15 +142,53 @@ Paramétrer les configuration suivantes :
     5. Tester sur un poste client via gpupdate /force.  
 
 ### 3.2 Gestion Alimentation   
-**Objectif :** Réduire la consommation d’énergie des postes inactifs.  
-**Étapes :**  
-    1. Créer une GPO nommée USER_GestionAlim_10Min.  
-    2. Édition de la GPO :  
-        ◦ Chemin : Configuration ordinateur > Paramètres > Panneau de configuration > Options d’alimentation  
-        ◦ Créer ou importer un plan d'alimentation personnalisé (ex : "Économie d’énergie").  
-        ◦ Configurer les délais d’extinction d’écran, mise en veille, par exemple.  
-    3. Lier la GPO à l’OU contenant les ordinateurs.  
-    4. Tester sur un poste client via gpupdate /force.  
+🎯 ***Objectif :**
+**Configurer une GPO pour verrouiller automatiquement la session utilisateur après 10 minutes d’inactivité.**
+  1. Ouvrir la console de gestion des stratégies de groupe (GPMC)
+Sur le contrôleur de domaine, allez dans :
+Start > Administrative Tools > Group Policy Management
+
+2. Créer une nouvelle GPO
+Dans le panneau de gauche, clic droit sur le domaine ou l’unité d’organisation (OU) cible.
+
+Sélectionnez : Create a GPO in this domain, and Link it here…
+
+Nommez-la par exemple : User_AutoLock_10min
+
+🔒 Configurer le verrouillage automatique après 10 minutes
+Option 1 (à privilégier) : inactivité de la machine
+Accédez à :
+Computer Configuration > Windows Settings > Security Settings > Local Policies > Security Options
+
+Double-cliquez sur :
+Interactive logon: Machine inactivity limit
+
+Activez-la et entrez la valeur : 600 (secondes → 10 minutes)
+
+Option 2 (complémentaire, via économiseur d’écran)
+Accédez à :
+User Configuration > Policies > Administrative Templates > Control Panel > Personalization
+
+Activez les paramètres suivants :
+
+Enable screen saver → Enabled
+
+Screen saver timeout → Enabled, valeur : 600 secondes
+
+Password protect the screen saver → Enabled
+
+🔄 Appliquer immédiatement la GPO
+Sur un poste client, ouvrez une invite de commandes et tapez :
+
+gpupdate /force
+Pour vérifier l’application :
+
+gpresult /r
+
+✅ Résultat attendu
+Si l'utilisateur est inactif pendant 10 minutes, la session se verrouille automatiquement, soit par l'inactivité système, soit via l'activation de l’économiseur d’écran avec demande de mot de passe.
+
+ 
     
 ### 3.3 Déploiement logiciel   
 **Objectif :** Publier une application (ex : 7-Zip) sur tous les postes via GPO.  
