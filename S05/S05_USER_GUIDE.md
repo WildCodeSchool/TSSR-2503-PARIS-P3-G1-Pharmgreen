@@ -212,7 +212,20 @@ SELECT * FROM Win32_OperatingSystem WHERE ProductType = "2"
 
 L'utilité principal de ce serveur sera la sauvegarde via la solution Veeam. Nous allons également installer et configurer AD DS et DNS afin d'avoir un poste supplémentaire pour la gestion de l'AD (étant donnée que nous sommes 4 à travailler sur le projet, cette mise en place nous permettra de gagner en productiviité)  
 
+### 8.1. Installation  
 - Clone du template "Windows Serveur 22 GUI"    
-- Installation AD et DNS. Ajout de la machine dans le domaine. Promotion en tant que DC du domaine (cf. installation Readme semaine 2)  
-- Téléchargement de "Veeam Backup & replication CE" et "VeeamAgentWindows" via le site officiel : https://www.veeam.com/fr/products/free/backup-recovery.html
-- 
+- Installation AD et DNS. Ajout de la machine dans le domaine. Promotion en tant que DC du domaine (cf. installation Readme semaine 2)   
+- Téléchargement de "Veeam Backup & replication CE" et "VeeamAgentWindows" via le site officiel : https://www.veeam.com/fr/products/free/backup-recovery.html  
+- Monter l’ISO téléchargé puis double-cliquer sur Setup.exe
+- Cliquer sur "Veeam Backup & Replication".
+- Accepter la licence et continuer  
+- Laisser la sélection par défaut (tous cochés)  
+Veeam installe automatiquement les composants manquants  
+- Attendre la fin de l’installation des dépendances, puis cliquer "Next".  
+- Laisser les paramètres par défaut ou configurer les chemins selon vos préférences.
+
+### 8.2. Configuration  
+
+- Ouvrir le menu Démarrer > Veeam Backup & Replication.
+
+
