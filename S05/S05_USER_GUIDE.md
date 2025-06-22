@@ -29,6 +29,8 @@ A savoir : Pfsense, chaque serveur AD et Vyos si déjà installé.
 
 **Additionnel : utiliser les filtres WMI sur les GPO**  
 
+**Mise en place d'un serveur de sauvegarde avec Veeam**
+
   
 ## 2. Stockage avancé    
 
@@ -204,3 +206,13 @@ SELECT * FROM Win32_OperatingSystem WHERE ProductType = "2"
 (pour info : 1 = poste client / 2 = Controleur de domaine / 3 = Serveur membre)  
 - Revenir sur la GPO "COMPUTER_Manage_SleepDelay_5min" et clique droit  
 - Aller dans "Filtre WMI" et ajouter le groupe créée précédement.
+
+
+## 8.0. Mise en place d'un serveur de sauvegarde avec Veeam  
+
+L'utilité principal de ce serveur sera la sauvegarde via la solution Veeam. Nous allons également installer et configurer AD DS et DNS afin d'avoir un poste supplémentaire pour la gestion de l'AD (étant donnée que nous sommes 4 à travailler sur le projet, cette mise en place nous permettra de gagner en productiviité)  
+
+- Clone du template "Windows Serveur 22 GUI"    
+- Installation AD et DNS. Ajout de la machine dans le domaine. Promotion en tant que DC du domaine (cf. installation Readme semaine 2)  
+- Téléchargement de "Veeam Backup & replication CE" et "VeeamAgentWindows" via le site officiel : https://www.veeam.com/fr/products/free/backup-recovery.html
+- 
