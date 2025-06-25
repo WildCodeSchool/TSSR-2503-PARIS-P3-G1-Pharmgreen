@@ -9,7 +9,7 @@ Voici le contenu de ce Readme :
 I pour dossier individuel  
 J pour dossier de service  
 K pour dossier de departement
-- Mettre en place un RAID 10 sur AD1
+- Mettre en place un RAID 1 sur AD1
 - Mettre en place un serveur de sauvegarde
 - Gestion des droits des dossiers partagés
 
@@ -111,7 +111,32 @@ Cela correspond au port de commande FTP (21), au port de données (20) et à la 
 I pour dossier individuel  
 J pour dossier de service   
 K pour dossier de departement  
+
 ### 2.3 Mettre en place un RAID 10 sur AD1  
+
+#### - Étape 1 – Ajouter deux disques à la VM dans Proxmox    
+Aller dans l'interface web de Proxmox    
+Sélectionne la VM : P3-G1-WinServ22-GUI-SRV-AD1-SchemaMaster    
+Aller dans l'onglet Hardware -> Add -> Hard Disk    
+Ajouter deux nouveaux disques de 50Go, dans "local-lvm", selectionne "Interface SCSI"    
+Redémarrer la VM si nécessaire    
+
+#### - Étape 2 – Configurer le RAID 1 dans Windows Server 2022    
+Ouvrir le Gestionnaire de disques    
+Windows détectera les nouveaux disques    
+Initialiser les deux disques en GTP    
+Convertir les deux disques en disque dynamique    
+Clique droit sur l’un des deux disques → "Nouveau volume en miroir"    
+Suivre l’assistant    
+Ajouter le second disque comme miroir    
+Attribuer une lettre de lecteur (ex. E:)    
+Formater le disque en NTFS    
+Attendre la fin du formatage    
+
+#### - Vérification du RAID    
+Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en miroir"    
+L'état doit être "OK"   
+
 
 ### 2.4 Mettre en place un serveur de sauvegarde  ( en cours )  
 - PREREQUIS  
