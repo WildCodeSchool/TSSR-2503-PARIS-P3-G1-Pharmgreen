@@ -119,8 +119,38 @@ Lier cette GPO aux OU à exclure de la premiere GPO
 -> enforce
 
 
-### 2.5 Restriction installation
-totale 
+### 2.5 Restriction installation : Interdire l'installation de logiciels pour les non-admins  
+
+- Ouvrir : Group Policy Management
+
+- Créer une GPo : COMPUTEUR_Software_Restriction_Standard_Users
+
+- Clique droit dessus et dérouler : Computer Configuration -> Policies > Windows Settings -> Security Settings -> Software Restriction Policies
+
+- Clique-droit sur Software Restriction Policies -> New Software Restriction Policies.  
+Dans Security Levels : Clique-droit sur Disallowed > Set as Default.  
+Dans Additional Rules : Crée une nouvelle Path Rule :  
+            Path : C:\Program Files\  
+            Security level : Unrestricted  
+            
+- Refaire la même chose pour : C:\Windows\  
+
+Cela permet aux admins d’installer dans ces dossiers, mais bloque les utilisateurs standard (car ils ne peuvent écrire ailleurs sans droit admin).  
+Pour cibler les utilisateurs non-admin, applique la GPO à une OU contenant uniquement ces comptes (OU_Users par exemple)  
+
+
+### 2.6 Politique de mot de passe (longueur, complexité…)  
+- Ouvrir : Group Policy Management
+  
+- Créer une GPo : COMPUTEUR_Password_Policy
+  
+- Clique droit dessus et dérouler : Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Account Policies -> Password Policy    
+
+- Mettre ces configurations :    
+Minimum password length → 12   
+Password must meet complexity requirements → Enabled   
+Maximum password age → ex : 90 jours   
+Enforce password history → 5    
 
 
 ## 3. Les GPO standards 
