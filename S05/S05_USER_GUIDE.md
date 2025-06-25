@@ -10,7 +10,6 @@ I pour dossier individuel
 J pour dossier de service  
 K pour dossier de departement
 - Mettre en place un RAID 1 sur AD1
-- Mettre en place un serveur de sauvegarde
 - Gestion des droits des dossiers partagés
 
 **GPO**  
@@ -112,7 +111,7 @@ I pour dossier individuel
 J pour dossier de service   
 K pour dossier de departement  
 
-### 2.3 Mettre en place un RAID 10 sur AD1  
+### 2.3 Mettre en place un RAID 1 sur AD1  
 
 #### - Étape 1 – Ajouter deux disques à la VM dans Proxmox    
 Aller dans l'interface web de Proxmox    
@@ -138,26 +137,7 @@ Dans le Gestionnaire de disques : les deux disques apparaissent comme "Volume en
 L'état doit être "OK"   
 
 
-### 2.4 Mettre en place un serveur de sauvegarde  ( en cours )  
-- PREREQUIS  
-1 VM Windows Server core  
-RAM 4096Go  
-2 soquets 2 cores 
-vmbr0 : 192.168.240.71/24  
-New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.240.71 -PrefixLength 24 -DefaultGateway 192.168.240.1  
-Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 8.8.8.8  
-
-vmbr2 : 172.16.20.20/27  
-Storage : 1 PV  en LVM avec 3 LV  : home, root et swap 
-
-- Changer le nom de la machine si nécessaire 
-Rename-Computer -NewName "SRV-Sauvegarde" -Restart
-
--  Installation du rôle via PowerShell
-Install-WindowsFeature Windows-Server-Backup
-Get-WindowsFeature Windows-Server-Backup
-
-### 2.5 Gestion des droits des dossiers partagés  
+### 2.4 Gestion des droits des dossiers partagés  
 A venir  
 
 
