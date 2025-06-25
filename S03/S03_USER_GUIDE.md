@@ -10,6 +10,7 @@ Ecran de veille en sortie
 Blocage panneau de configuration  
 Verrouillage de compte  
 Restriction installation  
+Politique de mot de passe (complexité, longueur, etc.)
 
 **La mise en place des GPO standards**  
 Déploiement d’un fond d’écran d’entreprise  
