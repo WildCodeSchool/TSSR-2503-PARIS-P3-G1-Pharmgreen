@@ -99,10 +99,10 @@ Enforce password history → 5
 
 - Ajouter les network  
 vmbr1 : accès aux VLAN (en 172.16.20.0/27)  
-vmbrX : accès au LAN (en 192.168.200.0/24)  
+vmbr6 : accès au LAN (en 192.168.200.0/24)  
 
 - Ajouter l'image  
-vyos-1.1.8-i586.iso  
+vyos-1.5.iso  
 
 - Allumer la machine et procéder à l'installation  
 Une fois l'installation terminé, s'identifier avec : vyos/vyos (id/mdp)  
@@ -110,117 +110,116 @@ Une fois l'installation terminé, s'identifier avec : vyos/vyos (id/mdp)
 - Une fois Vyos installé, entrer en mode configuration et procéder à l'identification des cartes réseaux (eth0, eth1 ...)  
 ``` vyos  
 configure  
-show interfaces    
+ip a
 ```
 
-### 6.2 Configuration de la carte eth0 (VLAN) 
-
-- Configuration VLAN 10 - Direction/DSI (172.16.20.32/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 10 address '172.16.20.33/27'  
-set interfaces ethernet eth0 vif 10 description 'VLAN10-Direction/DSI'  
-```   
-
-- Configuration VLAN 20 - DRH (172.16.20.64/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 20 address '172.16.20.65/27'  
-set interfaces ethernet eth0 vif 20 description 'VLAN20-DRH'  
-```  
-
-- Configuration VLAN 30 - Finance/Comptabilité (172.16.20.96/27)   
-``` vyos  
-set interfaces ethernet eth0 vif 30 address '172.16.20.97/27'  
-set interfaces ethernet eth0 vif 30 description 'VLAN30-Finance/Comptabilité'  
-```  
-
-- Configuration VLAN 40 - Développement (172.16.20.128/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 40 address '172.16.20.129/27'  
-set interfaces ethernet eth0 vif 40 description 'VLAN40-Développement'  
-```  
-
-- Configuration VLAN 50 - Communication (172.16.20.160/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 50 address '172.16.20.161/27'  
-set interfaces ethernet eth0 vif 50 description 'VLAN50-Communication'  
-```  
-
-- Configuration VLAN 60 - Service Commercial (172.16.20.192/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 60 address '172.16.20.193/27'  
-set interfaces ethernet eth0 vif 60 description 'VLAN60-ServiceCommercial'  
-``` 
-
-- Configuration VLAN 70 - Serveurs (172.16.20.224/27)  
-``` vyos  
-set interfaces ethernet eth0 vif 70 address '172.16.20.225/27'  
-set interfaces ethernet eth0 vif 70 description 'VLAN70-Serveurs'  
-``` 
-
-### 6.3 Ajout une route par défaut dans VyOS vers le pare-feu :  
-``` vyos  
-set protocols static route 0.0.0.0/0 next-hop 192.168.200.254  
-``` 
-
-### 6.4 Création d'un groupe d’adresses pour VLANs 10 à 60 (sources/destinations autorisées)  
-``` vyos  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.32/27  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.64/27  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.96/27  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.128/27  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.160/27  
-set firewall group network-group VLAN10_TO_60 network 172.16.20.192/27  
-``` 
-
-### 6.4  Mise en place ACL VLAN70-IN (entrée sur interface VLAN70)  pour autoriser uniquement le trafic entrant sur VLAN70 provenant des VLANs 10 à 60  
-``` vyos  
-set firewall name VLAN70-IN default-action drop  
-set firewall name VLAN70-IN rule 10 action accept  
-set firewall name VLAN70-IN rule 10 source group network-group VLAN10_TO_60  
-set firewall name VLAN70-IN rule 10 destination address 172.16.20.224/27  
-set firewall name VLAN70-IN rule 10 description "Allow VLAN 10-60 to VLAN 70"  
-```  
-
-### 6.5 Mise en place ACL VLAN70-OUT (sortie sur interface VLAN70) pour autoriser le trafic sortant depuis VLAN70 vers les VLANs 10 à 60 (réponses, etc.)  
-``` vyos  
-set firewall name VLAN70-OUT default-action drop  
-set firewall name VLAN70-OUT rule 10 action accept  
-set firewall name VLAN70-OUT rule 10 source address 172.16.20.224/27  
-set firewall name VLAN70-OUT rule 10 destination group network-group VLAN10_TO_60  
-set firewall name VLAN70-OUT rule 10 description "Allow VLAN 70 to VLAN 10-60"  
-```  
-
-### 6.6  Appliquer ces ACL à l’interface VLAN70  
-``` vyos  
-set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN  
-set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT  
-``` 
+### 6.2 Configuration de la carte eth1 (LAN point à point) 
+set interfaces ethernet eth1 address 192.168.200.1/24 
+set interfaces ethernet eth1 description 'LAN'
 
 
--  (PAS ENCORE CONFIGURé) Pour interdire la communication directe entre VLANs 10 à 60
-Si tu veux bloquer que les VLANs 10 à 60 communiquent entre eux, tu peux ajouter sur chaque interface VLAN 10, 20, 30, 40, 50, 60 une ACL entrante qui autorise uniquement le trafic vers VLAN70.
-Exemple pour VLAN 10 :
-set firewall name VLAN10-IN default-action drop
-set firewall name VLAN10-IN rule 10 action accept
-set firewall name VLAN10-IN rule 10 destination address 172.16.20.224/27
-set firewall name VLAN10-IN rule 10 description "Allow VLAN 10 to VLAN 70"
-set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN
+### 6.3 Configuration de la carte eth0 (avec VLANs)
 
-- Finaliser avec un commit et une sauvegarde  
-```  commit  
-save  
-exit  
-``` 
+# VLAN 10 - Serveurs
+set interfaces ethernet eth0 vif 10 address '172.16.20.1/27'
+set interfaces ethernet eth0 vif 10 description 'VLAN10-Serveurs'
 
-- (PAS ENCORE FAIT ) 
-Création d'une nouvelle carte vmbr pour le réseaux 192.168.200.0/24  
-et la configurer dans vyos et dans PFSENSE (en remplacement de la vmbr1 en LAN) 
+# VLAN 20 - Direction/DSI
+set interfaces ethernet eth0 vif 20 address '172.16.20.33/27'
+set interfaces ethernet eth0 vif 20 description 'VLAN20-Direction/DSI'
 
-- (PAS ENCORE FAIT ) 
-Définir les VLAN dans les vmbr1 de chaque machine  
-Retirer les vmbr0 de chaque machine  
+# VLAN 30 - DRH
+set interfaces ethernet eth0 vif 30 address '172.16.20.65/27'
+set interfaces ethernet eth0 vif 30 description 'VLAN30-DRH'
 
-- (PAS ENCORE FAIT ) 
-faire les test 
+# VLAN 40 - Finance/Comptabilité
+set interfaces ethernet eth0 vif 40 address '172.16.20.97/27'
+set interfaces ethernet eth0 vif 40 description 'VLAN40-Finance/Comptabilité'
+
+# VLAN 50 - Développement
+set interfaces ethernet eth0 vif 50 address '172.16.20.129/27'
+set interfaces ethernet eth0 vif 50 description 'VLAN50-Développement'
+
+# VLAN 60 - Communication
+set interfaces ethernet eth0 vif 60 address '172.16.20.161/27'
+set interfaces ethernet eth0 vif 60 description 'VLAN60-Communication'
+
+# VLAN 70 - Service Commercial
+set interfaces ethernet eth0 vif 70 address '172.16.20.193/27'
+set interfaces ethernet eth0 vif 70 description 'VLAN70-ServiceCommercial'
+
+
+### 6.4 Route par défaut
+set protocols static route 0.0.0.0/0 next-hop '192.168.200.254'
+
+### 6.5 Configuration groupe de réseaux pour VLAN10
+set firewall group network-group VLAN10 network '172.16.20.0/27'
+
+### 6.6 Configuration groupe de réseaux pour VLAN-20-to-70 
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.32/27'
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.64/27'
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.96/27'
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.128/27'
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.160/27'
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.192/27'
+
+### 6.7 Creation regles pour VLAN10-IN : trafic entrant autorisé uniquement depuis les VLAN-20-to-70
+# interdire tout par defaut 
+set firewall ipv4 name VLAN10-IN default-action drop
+# Autoriser trafic établi et lié
+set firewall ipv4 name VLAN10-IN rule 10 action accept
+set firewall ipv4 name VLAN10-IN rule 10 state established (enable)
+set firewall ipv4 name VLAN10-IN rule 10 state related (enable)
+# Autoriser le trafic depuis les VLAN-20-to-70 vers VLAN 10
+set firewall ipv4 name VLAN10-IN rule 20 action accept
+set firewall ipv4 name VLAN10-IN rule 20 source group network-group VLAN-20-TO-70
+set firewall ipv4 name VLAN10-IN rule 20 destination address '172.16.20.0/27'
+set firewall ipv4 name VLAN10-IN rule 20 description 'Allow VLAN-20-TO-70 to VLAN 10'
+
+### 6.8 Creation regles pour VLAN10-OUT  : trafic sortant autorisé vers tout le monde 
+#  tout accepter par defaut 
+set firewall ipv4 name VLAN10-OUT default-action accept
+set firewall ipv4 name VLAN10-OUT rule 10 action accept
+set firewall ipv4 name VLAN10-OUT rule 10 state established enable
+set firewall ipv4 name VLAN10-OUT rule 10 state related enable
+
+### 6.9 Creation regles pour VLAN-20-to-70-IN : trafic entrant autorisé uniquement depuis VLAN 10
+# interdire tout par defaut 
+set firewall ipv4 name VLAN-20-to-70-IN default-action drop
+# Autoriser trafic établi et lié
+set firewall ipv4 name VLAN-20-to-70-IN rule 10 action accept
+set firewall ipv4 name VLAN-20-to-70-IN rule 10 state established (enable)
+set firewall ipv4 name VLAN-20-to-70-IN rule 10 state related (enable)
+# Autoriser le trafic depuis les VLAN10 vers VLAN-20-70
+set firewall ipv4 name VLAN-20-to-70-IN rule 20 action accept
+set firewall ipv4 name VLAN-20-to-70-IN rule 20 source address '172.16.20.0/27'
+set firewall ipv4 name VLAN-20-to-70-IN rule 20 destination group network-group VLAN-20-to-70
+set firewall ipv4 name VLAN-20-to-70-IN rule 20 description 'Allow VLAN 10 to VLAN-20-to-70'
+
+### 6.10 Creation regles pour VLAN-20-to-70-OUT  : trafic sortant autorisé VLAN10  
+set firewall ipv4 name VLAN-20-to-70-OUT rule 40 action accept
+set firewall ipv4 name VLAN-20-to-70-OUT rule 40 source network-group VLAN-20-to-70
+set firewall ipv4 name VLAN-20-to-70-OUT rule 40 destination  network-group VLAN10
+set firewall ipv4 name VLAN-20-to-70-OUT rule 40 description  "Allow VLAN-20-to-70 to VLAN 10"
+
+
+### 6.9  Application des regles pare-feux sur l’interface VLAN10
+set firewall ipv4 name VLAN10-IN rule 10 inbound-interface name eth0  
+set firewall ipv4 name VLAN10-IN rule 20 inbound-interface name eth0  
+set firewall ipv4 name VLAN10-OUT rule 10 inbound-interface name eth0  
+
+### 6.10  Application des regles pare-feux sur l’interface VLAN-20-to-70
+set firewall ipv4 name VLAN-20-to-70-IN rule 10 inbound-interface name eth0  
+set firewall ipv4 name VLAN-20-to-70-IN rule 20 inbound-interface name eth0  
+set firewall ipv4 name VLAN-20-to-70-OUT rule 10 inbound-interface name eth0  
+
+commit
+save
+
+ pour vérifier :
+
+show interfaces
+show configuration commands | grep firewall
+
 
 ## 7. Configuration PFsense  
