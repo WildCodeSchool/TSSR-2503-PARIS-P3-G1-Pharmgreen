@@ -120,31 +120,31 @@ set interfaces ethernet eth1 description 'LAN'
 
 ### 6.3 Configuration de la carte eth0 (avec VLANs)
 
-# VLAN 10 - Serveurs
+##### VLAN 10 - Serveurs
 set interfaces ethernet eth0 vif 10 address '172.16.20.1/27'
 set interfaces ethernet eth0 vif 10 description 'VLAN10-Serveurs'
 
-# VLAN 20 - Direction/DSI
+##### VLAN 20 - Direction/DSI
 set interfaces ethernet eth0 vif 20 address '172.16.20.33/27'
 set interfaces ethernet eth0 vif 20 description 'VLAN20-Direction/DSI'
 
-# VLAN 30 - DRH
+##### VLAN 30 - DRH
 set interfaces ethernet eth0 vif 30 address '172.16.20.65/27'
 set interfaces ethernet eth0 vif 30 description 'VLAN30-DRH'
 
-# VLAN 40 - Finance/Comptabilité
+##### VLAN 40 - Finance/Comptabilité
 set interfaces ethernet eth0 vif 40 address '172.16.20.97/27'
 set interfaces ethernet eth0 vif 40 description 'VLAN40-Finance/Comptabilité'
 
-# VLAN 50 - Développement
+##### VLAN 50 - Développement
 set interfaces ethernet eth0 vif 50 address '172.16.20.129/27'
 set interfaces ethernet eth0 vif 50 description 'VLAN50-Développement'
 
-# VLAN 60 - Communication
+##### VLAN 60 - Communication
 set interfaces ethernet eth0 vif 60 address '172.16.20.161/27'
 set interfaces ethernet eth0 vif 60 description 'VLAN60-Communication'
 
-# VLAN 70 - Service Commercial
+##### VLAN 70 - Service Commercial
 set interfaces ethernet eth0 vif 70 address '172.16.20.193/27'
 set interfaces ethernet eth0 vif 70 description 'VLAN70-ServiceCommercial'
 
