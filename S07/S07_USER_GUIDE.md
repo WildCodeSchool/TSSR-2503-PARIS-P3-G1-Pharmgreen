@@ -160,16 +160,16 @@ set interfaces ethernet eth0 vif 70 description 'VLAN70'
 ### 6.4 Route par défaut  
 set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
 
-### 6.5 Configuration groupe de réseaux pour VLAN10  
-set firewall group network-group VLAN10 network '172.16.20.0/27'  
+### 6.5 Configuration groupe de réseaux pour GR-VLAN10  
+set firewall group network-group GR-VLAN10 network '172.16.20.0/27'  
 
-### 6.6 Configuration groupe de réseaux pour VLAN-20-to-70  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.32/27'  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.64/27'  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.96/27'  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.128/27'  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.160/27'  
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.192/27'  
+### 6.6 Configuration groupe de réseaux pour GR-VLAN20-70  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.32/27'  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.64/27'  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.96/27'  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.128/27'  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.160/27'  
+set firewall group network-group GR-VLAN20-70 network '172.16.20.192/27'  
 
 
 
