@@ -154,7 +154,7 @@ set interfaces ethernet eth0 vif 60 address '172.16.20.190/27'
 set interfaces ethernet eth0 vif 60 description 'VLAN60'  
 
 #### VLAN 70 - Service Commercial  
-set interfaces ethernet eth0 vif 70 address '172.16.20.254/27'  
+set interfaces ethernet eth0 vif 70 address '172.16.20.222/27'  
 set interfaces ethernet eth0 vif 70 description 'VLAN70'  
 
 ### 6.4 Route par défaut  
