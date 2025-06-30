@@ -95,9 +95,9 @@ Enforce password history → 5
 
 ### 6.1 Installation de Vyos  
 - Création d'une VM   
-4Go RAM / 4 cores / 32Go disque dur  
+2Go RAM / 4 cores / 32Go disque dur  
 
-- Ajouter les network  
+- Ajouter les networks  
 vmbr1 : accès aux VLAN (en 172.16.20.0/27)  
 vmbr6 : accès au LAN (en 192.168.200.0/24)  
 
@@ -130,31 +130,31 @@ set interfaces ethernet eth1 description 'LAN'
 ### 6.3 Configuration de la carte eth0 (avec VLANs) vmbr1  
 
 #### VLAN 10 - Serveurs  
-set interfaces ethernet eth0 vif 10 address '172.16.20.1/27'  
+set interfaces ethernet eth0 vif 10 address '172.16.20.30/27'  
 set interfaces ethernet eth0 vif 10 description 'VLAN10'  
 
 #### VLAN 20 - Direction/DSI  
-set interfaces ethernet eth0 vif 20 address '172.16.20.33/27'  
+set interfaces ethernet eth0 vif 20 address '172.16.20.62/27'  
 set interfaces ethernet eth0 vif 20 description 'VLAN20'  
 
 #### VLAN 30 - DRH  
-set interfaces ethernet eth0 vif 30 address '172.16.20.65/27'  
+set interfaces ethernet eth0 vif 30 address '172.16.20.94/27'  
 set interfaces ethernet eth0 vif 30 description 'VLAN30'  
 
 #### VLAN 40 - Finance/Comptabilité  
-set interfaces ethernet eth0 vif 40 address '172.16.20.97/27'  
+set interfaces ethernet eth0 vif 40 address '172.16.20.126/27'  
 set interfaces ethernet eth0 vif 40 description 'VLAN40'  
 
 #### VLAN 50 - Développement  
-set interfaces ethernet eth0 vif 50 address '172.16.20.129/27'   
+set interfaces ethernet eth0 vif 50 address '172.16.20.158/27'   
 set interfaces ethernet eth0 vif 50 description 'VLAN50'   
 
 #### VLAN 60 - Communication  
-set interfaces ethernet eth0 vif 60 address '172.16.20.161/27'   
+set interfaces ethernet eth0 vif 60 address '172.16.20.190/27'   
 set interfaces ethernet eth0 vif 60 description 'VLAN60'  
 
 #### VLAN 70 - Service Commercial  
-set interfaces ethernet eth0 vif 70 address '172.16.20.193/27'  
+set interfaces ethernet eth0 vif 70 address '172.16.20.254/27'  
 set interfaces ethernet eth0 vif 70 description 'VLAN70'  
 
 ### 6.4 Route par défaut  
