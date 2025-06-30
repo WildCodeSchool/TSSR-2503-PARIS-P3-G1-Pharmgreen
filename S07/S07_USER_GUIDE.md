@@ -173,7 +173,7 @@ set firewall group network-group GR-VLAN20-70 network '172.16.20.192/27'
 
 ### 6.7 Mise en place des règles de trafic entrant et sortant  
 
-#### 6.8 Trafic entrant dans GR-VLAN10  
+#### 6.7.1 Trafic entrant dans GR-VLAN10  
 
 set firewall name VLAN10-IN rule 10 action accept  
 set firewall name VLAN10-IN rule 10 state established enable  
@@ -184,14 +184,14 @@ set firewall name VLAN10-IN rule 20 source group network-group GR-VLAN20-70
 set firewall name VLAN10-IN rule 20 destination group network-group GR-VLAN10  
 set firewall name VLAN10-IN rule 20 description 'Allow VLAN20-70 to VLAN10'  
 
-#### 6.9 Trafic sortant de GR-VLAN10  
+#### 6.7.2 Trafic sortant de GR-VLAN10  
 
 set firewall name VLAN10-OUT default-action accept  
 set firewall name VLAN10-OUT rule 10 action accept  
 set firewall name VLAN10-OUT rule 10 state established enable  
 set firewall name VLAN10-OUT rule 10 state related enable  
 
-#### 6.10 Trafic entrant dans GR-VLAN 20-70  
+#### 6.7.3 Trafic entrant dans GR-VLAN 20-70  
 
 set firewall name VLAN20-70-IN rule 10 action accept  
 set firewall name VLAN20-70-IN rule 10 state established enable  
@@ -202,14 +202,39 @@ set firewall name VLAN20-70-IN rule 20 source group network-group GR-VLAN10
 set firewall name VLAN20-70-IN rule 20 destination group network-group GR-VLAN20-70  
 set firewall name VLAN20-70-IN rule 20 description 'Allow VLAN10 to VLAN20-70'  
 
-#### 6.11 Trafic sortant de VLAN 20-70  
+#### 6.7.4 Trafic sortant de VLAN 20-70  
 
 set firewall name VLAN20-70-OUT default-action accept  
 set firewall name VLAN20-70-OUT rule 10 action accept  
 set firewall name VLAN20-70-OUT rule 10 state established enable  
 set firewall name VLAN20-70-OUT rule 10 state related enable  
 
+### 6.8 Application des règles aux interfaces VLAN  
 
+#### 6.8.1 Pour VLAN 10  
+
+set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN  
+set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT  
+
+#### 6.8.2 Pour VLAN20-70  
+
+set interfaces ethernet eth0 vif 20 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 20 firewall out name VLAN20-70-OUT  
+
+set interfaces ethernet eth0 vif 30 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 30 firewall out nanme VLAN20-70-OUT  
+
+set interfaces ethernet eth0 vif 40 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 40 firewall out name VLAN20-70-OUT  
+
+set interfaces ethernet eth0 vif 50 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 50 firewall out name VLAN20-70-OUT  
+
+set interfaces ethernet eth0 vif 60 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 60 firewall out name VLAN20-70-OUT  
+
+set interfaces ethernet eth0 vif 70 firewall in name VLAN20-70-IN  
+set interfaces ethernet eth0 vif 70 firewall out name VLAN20-70-OUT  
 
 ## 7. Configuration PFsense  
 A venir  
