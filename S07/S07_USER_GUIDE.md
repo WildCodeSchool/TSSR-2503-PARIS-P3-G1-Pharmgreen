@@ -186,6 +186,7 @@ set firewall name VLAN10-IN rule 20 description 'Allow VLAN20-70 to VLAN10'
 
 #### 6.9 Trafic sortant de GR-VLAN10  
 
+set firewall name VLAN10-OUT default-action accept  
 set firewall name VLAN10-OUT rule 10 action accept  
 set firewall name VLAN10-OUT rule 10 state established enable  
 set firewall name VLAN10-OUT rule 10 state related enable  
@@ -197,12 +198,13 @@ set firewall name VLAN20-70-IN rule 10 state established enable
 set firewall name VLAN20-70-IN rule 10 state related enable  
 
 set firewall name VLAN20-70-IN rule 20 action accept  
-set firewall name VLAN20-70-IN rule 20 source group network-group VLAN10  
-set firewall name VLAN20-70-IN rule 20 destination group network-group VLAN20-70  
+set firewall name VLAN20-70-IN rule 20 source group network-group GR-VLAN10  
+set firewall name VLAN20-70-IN rule 20 destination group network-group GR-VLAN20-70  
 set firewall name VLAN20-70-IN rule 20 description 'Allow VLAN10 to VLAN20-70'  
 
 #### 6.11 Trafic sortant de VLAN 20-70  
 
+set firewall name VLAN20-70-OUT default-action accept  
 set firewall name VLAN20-70-OUT rule 10 action accept  
 set firewall name VLAN20-70-OUT rule 10 state established enable  
 set firewall name VLAN20-70-OUT rule 10 state related enable  
