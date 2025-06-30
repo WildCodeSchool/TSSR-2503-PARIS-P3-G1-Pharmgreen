@@ -121,55 +121,55 @@ reboot
 - S'identifier (vyos/vyos), entrer en mode configuration et procéder à l'identification des cartes réseaux (eth0, eth1 ...)  
 ``` vyos   
 configure   
-ip a
+ip a  
 ```
-### 6.2 Configuration de la carte eth1 (LAN point à point) vmbr6 
-set interfaces ethernet eth1 address 192.168.200.1/24 
-set interfaces ethernet eth1 description 'LAN'
+### 6.2 Configuration de la carte eth1 (LAN point à point) vmbr6  
+set interfaces ethernet eth1 address 192.168.200.1/24  
+set interfaces ethernet eth1 description 'LAN'  
 
-### 6.3 Configuration de la carte eth0 (avec VLANs) vmbr1 
+### 6.3 Configuration de la carte eth0 (avec VLANs) vmbr1  
 
-#### VLAN 10 - Serveurs
-set interfaces ethernet eth0 vif 10 address '172.16.20.1/27'
-set interfaces ethernet eth0 vif 10 description 'VLAN10'
+#### VLAN 10 - Serveurs  
+set interfaces ethernet eth0 vif 10 address '172.16.20.1/27'  
+set interfaces ethernet eth0 vif 10 description 'VLAN10'  
 
-#### VLAN 20 - Direction/DSI
-set interfaces ethernet eth0 vif 20 address '172.16.20.33/27'
-set interfaces ethernet eth0 vif 20 description 'VLAN20'
+#### VLAN 20 - Direction/DSI  
+set interfaces ethernet eth0 vif 20 address '172.16.20.33/27'  
+set interfaces ethernet eth0 vif 20 description 'VLAN20'  
 
-#### VLAN 30 - DRH
-set interfaces ethernet eth0 vif 30 address '172.16.20.65/27'
-set interfaces ethernet eth0 vif 30 description 'VLAN30'
+#### VLAN 30 - DRH  
+set interfaces ethernet eth0 vif 30 address '172.16.20.65/27'  
+set interfaces ethernet eth0 vif 30 description 'VLAN30'  
 
-#### VLAN 40 - Finance/Comptabilité
-set interfaces ethernet eth0 vif 40 address '172.16.20.97/27'
-set interfaces ethernet eth0 vif 40 description 'VLAN40'
+#### VLAN 40 - Finance/Comptabilité  
+set interfaces ethernet eth0 vif 40 address '172.16.20.97/27'  
+set interfaces ethernet eth0 vif 40 description 'VLAN40'  
 
-#### VLAN 50 - Développement
-set interfaces ethernet eth0 vif 50 address '172.16.20.129/27'
-set interfaces ethernet eth0 vif 50 description 'VLAN50'
+#### VLAN 50 - Développement  
+set interfaces ethernet eth0 vif 50 address '172.16.20.129/27'   
+set interfaces ethernet eth0 vif 50 description 'VLAN50'   
 
-#### VLAN 60 - Communication
-set interfaces ethernet eth0 vif 60 address '172.16.20.161/27'
-set interfaces ethernet eth0 vif 60 description 'VLAN60'
+#### VLAN 60 - Communication  
+set interfaces ethernet eth0 vif 60 address '172.16.20.161/27'   
+set interfaces ethernet eth0 vif 60 description 'VLAN60'  
 
-#### VLAN 70 - Service Commercial
-set interfaces ethernet eth0 vif 70 address '172.16.20.193/27'
-set interfaces ethernet eth0 vif 70 description 'VLAN70'
+#### VLAN 70 - Service Commercial  
+set interfaces ethernet eth0 vif 70 address '172.16.20.193/27'  
+set interfaces ethernet eth0 vif 70 description 'VLAN70'  
 
-### 6.4 Route par défaut
-set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'
+### 6.4 Route par défaut  
+set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
 
-### 6.5 Configuration groupe de réseaux pour VLAN10
-set firewall group network-group VLAN10 network '172.16.20.0/27'
+### 6.5 Configuration groupe de réseaux pour VLAN10  
+set firewall group network-group VLAN10 network '172.16.20.0/27'  
 
-### 6.6 Configuration groupe de réseaux pour VLAN-20-to-70 
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.32/27'
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.64/27'
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.96/27'
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.128/27'
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.160/27'
-set firewall group network-group VLAN-20-TO-70 network '172.16.20.192/27'
+### 6.6 Configuration groupe de réseaux pour VLAN-20-to-70  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.32/27'  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.64/27'  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.96/27'  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.128/27'  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.160/27'  
+set firewall group network-group VLAN-20-TO-70 network '172.16.20.192/27'  
 
 
 
