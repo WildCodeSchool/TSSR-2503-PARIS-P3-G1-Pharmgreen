@@ -163,172 +163,169 @@ set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'
 
 ### 6.5 Mise en place des règles de trafic entrant et sortant  
 
-#### 6.5.1 VLAN10 
-set firewall name VLAN10-IN rule 10 action accept
-set firewall name VLAN10-IN rule 10 source address 172.16.20.128/27
-set firewall name VLAN10-IN rule 10 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 10 protocol all
-set firewall name VLAN10-IN rule 10 description "Allow VLAN50 → VLAN10"
+#### 6.5.1 VLAN10  
+set firewall name VLAN10-IN rule 10 action accept  
+set firewall name VLAN10-IN rule 10 source address 172.16.20.128/27  
+set firewall name VLAN10-IN rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 10 protocol all  
+set firewall name VLAN10-IN rule 10 description "Allow VLAN50 → VLAN10"  
 
-set firewall name VLAN10-IN rule 20 action accept
-set firewall name VLAN10-IN rule 20 source address 172.16.20.32/27
-set firewall name VLAN10-IN rule 20 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 20 protocol all
-set firewall name VLAN10-IN rule 20 description "Allow VLAN20 → VLAN10"
+set firewall name VLAN10-IN rule 20 action accept  
+set firewall name VLAN10-IN rule 20 source address 172.16.20.32/27  
+set firewall name VLAN10-IN rule 20 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 20 protocol all  
+set firewall name VLAN10-IN rule 20 description "Allow VLAN20 → VLAN10"  
 
-set firewall name VLAN10-IN rule 30 action accept
-set firewall name VLAN10-IN rule 30 source address 172.16.20.64/27
-set firewall name VLAN10-IN rule 30 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 30 protocol all
-set firewall name VLAN10-IN rule 30 description "Allow VLAN30 → VLAN10"
+set firewall name VLAN10-IN rule 30 action accept  
+set firewall name VLAN10-IN rule 30 source address 172.16.20.64/27  
+set firewall name VLAN10-IN rule 30 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 30 protocol all  
+set firewall name VLAN10-IN rule 30 description "Allow VLAN30 → VLAN10"  
 
-set firewall name VLAN10-IN rule 40 action accept
-set firewall name VLAN10-IN rule 40 source address 172.16.20.96/27
-set firewall name VLAN10-IN rule 40 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 40 protocol all
-set firewall name VLAN10-IN rule 40 description "Allow VLAN40 → VLAN10"
+set firewall name VLAN10-IN rule 40 action accept  
+set firewall name VLAN10-IN rule 40 source address 172.16.20.96/27  
+set firewall name VLAN10-IN rule 40 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 40 protocol all  
+set firewall name VLAN10-IN rule 40 description "Allow VLAN40 → VLAN10"  
 
-set firewall name VLAN10-IN rule 50 action accept
-set firewall name VLAN10-IN rule 50 source address 172.16.20.160/27
-set firewall name VLAN10-IN rule 50 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 50 protocol all
-set firewall name VLAN10-IN rule 50 description "Allow VLAN60 → VLAN10"
+set firewall name VLAN10-IN rule 50 action accept  
+set firewall name VLAN10-IN rule 50 source address 172.16.20.160/27  
+set firewall name VLAN10-IN rule 50 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 50 protocol all  
+set firewall name VLAN10-IN rule 50 description "Allow VLAN60 → VLAN10"  
 
-set firewall name VLAN10-IN rule 60 action accept
-set firewall name VLAN10-IN rule 60 source address 172.16.20.192/27
-set firewall name VLAN10-IN rule 60 destination address 172.16.20.0/27
-set firewall name VLAN10-IN rule 60 protocol all
-set firewall name VLAN10-IN rule 60 description "Allow VLAN70 → VLAN10"
+set firewall name VLAN10-IN rule 60 action accept  
+set firewall name VLAN10-IN rule 60 source address 172.16.20.192/27  
+set firewall name VLAN10-IN rule 60 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 60 protocol all  
+set firewall name VLAN10-IN rule 60 description "Allow VLAN70 → VLAN10"  
 
-set firewall name VLAN10-IN default-action drop
+set firewall name VLAN10-IN default-action drop  
 
-set firewall name VLAN10-OUT rule 10 action accept
-set firewall name VLAN10-OUT rule 10 destination address 172.16.20.128/27
-set firewall name VLAN10-OUT rule 10 source address 172.16.20.0/27
-set firewall name VLAN10-OUT rule 10 protocol all
-set firewall name VLAN10-OUT rule 10 description "Allow VLAN10 → VLAN50 (OUT)"
-set firewall name VLAN10-OUT default-action drop
+set firewall name VLAN10-OUT rule 10 action accept  
+set firewall name VLAN10-OUT rule 10 destination address 172.16.20.128/27  
+set firewall name VLAN10-OUT rule 10 source address 172.16.20.0/27  
+set firewall name VLAN10-OUT rule 10 protocol all  
+set firewall name VLAN10-OUT rule 10 description "Allow VLAN10 → VLAN50 (OUT)"  
+set firewall name VLAN10-OUT default-action drop  
 
-#### 6.5.2 VLAN20 
-set firewall name VLAN20-IN rule 10 action accept
-set firewall name VLAN20-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN20-IN rule 10 destination address 172.16.20.32/27
-set firewall name VLAN20-IN rule 10 protocol all
-set firewall name VLAN20-IN rule 10 description "Allow VLAN10 → VLAN20"
-set firewall name VLAN20-IN default-action drop
+#### 6.5.2 VLAN20   
+set firewall name VLAN20-IN rule 10 action accept  
+set firewall name VLAN20-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN20-IN rule 10 destination address 172.16.20.32/27  
+set firewall name VLAN20-IN rule 10 protocol all  
+set firewall name VLAN20-IN rule 10 description "Allow VLAN10 → VLAN20"  
+set firewall name VLAN20-IN default-action drop  
 
-set firewall name VLAN20-OUT rule 10 action accept
-set firewall name VLAN20-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN20-OUT rule 10 source address 172.16.20.32/27
-set firewall name VLAN20-OUT rule 10 protocol all
-set firewall name VLAN20-OUT rule 10 description "Allow VLAN20 → VLAN10"
-set firewall name VLAN20-OUT default-action drop
+set firewall name VLAN20-OUT rule 10 action accept  
+set firewall name VLAN20-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN20-OUT rule 10 source address 172.16.20.32/27  
+set firewall name VLAN20-OUT rule 10 protocol all  
+set firewall name VLAN20-OUT rule 10 description "Allow VLAN20 → VLAN10"  
+set firewall name VLAN20-OUT default-action drop  
 
-#### 6.5.3 VLAN30 
-set firewall name VLAN30-IN rule 10 action accept
-set firewall name VLAN30-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN30-IN rule 10 destination address 172.16.20.64/27
-set firewall name VLAN30-IN rule 10 protocol all
-set firewall name VLAN30-IN rule 10 description "Allow VLAN10 → VLAN30"
-set firewall name VLAN30-IN default-action drop
+#### 6.5.3 VLAN30  
+set firewall name VLAN30-IN rule 10 action accept  
+set firewall name VLAN30-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN30-IN rule 10 destination address 172.16.20.64/27  
+set firewall name VLAN30-IN rule 10 protocol all  
+set firewall name VLAN30-IN rule 10 description "Allow VLAN10 → VLAN30"  
+set firewall name VLAN30-IN default-action drop  
 
-set firewall name VLAN30-OUT rule 10 action accept
-set firewall name VLAN30-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN30-OUT rule 10 source address 172.16.20.64/27
-set firewall name VLAN30-OUT rule 10 protocol all
-set firewall name VLAN30-OUT rule 10 description "Allow VLAN30 → VLAN10"
-set firewall name VLAN30-OUT default-action drop
-
-
-#### 6.5.4 VLAN40 
-set firewall name VLAN40-IN rule 10 action accept
-set firewall name VLAN40-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN40-IN rule 10 destination address 172.16.20.96/27
-set firewall name VLAN40-IN rule 10 protocol all
-set firewall name VLAN40-IN rule 10 description "Allow VLAN10 → VLAN40"
-set firewall name VLAN40-IN default-action drop
-
-set firewall name VLAN40-OUT rule 10 action accept
-set firewall name VLAN40-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN40-OUT rule 10 source address 172.16.20.96/27
-set firewall name VLAN40-OUT rule 10 protocol all
-set firewall name VLAN40-OUT rule 10 description "Allow VLAN40 → VLAN10"
-set firewall name VLAN40-OUT default-action drop
-
-#### 6.5.5 VLAN50 
-set firewall name VLAN50-IN rule 10 action accept
-set firewall name VLAN50-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN50-IN rule 10 destination address 172.16.20.128/27
-set firewall name VLAN50-IN rule 10 protocol all
-set firewall name VLAN50-IN rule 10 description "Allow VLAN10 → VLAN50"
-set firewall name VLAN50-IN default-action drop
-
-set firewall name VLAN50-OUT rule 10 action accept
-set firewall name VLAN50-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN50-OUT rule 10 source address 172.16.20.128/27
-set firewall name VLAN50-OUT rule 10 protocol all
-set firewall name VLAN50-OUT rule 10 description "Allow VLAN50 → VLAN10"
-set firewall name VLAN50-OUT default-action drop
-
-#### 6.5.6 VLAN60 
-set firewall name VLAN60-IN rule 10 action accept
-set firewall name VLAN60-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN60-IN rule 10 destination address 172.16.20.160/27
-set firewall name VLAN60-IN rule 10 protocol all
-set firewall name VLAN60-IN rule 10 description "Allow VLAN10 → VLAN60"
-set firewall name VLAN60-IN default-action drop
-
-set firewall name VLAN60-OUT rule 10 action accept
-set firewall name VLAN60-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN60-OUT rule 10 source address 172.16.20.160/27
-set firewall name VLAN60-OUT rule 10 protocol all
-set firewall name VLAN60-OUT rule 10 description "Allow VLAN60 → VLAN10"
-set firewall name VLAN60-OUT default-action drop
-
-#### 6.5.7 VLAN70 
-set firewall name VLAN70-IN rule 10 action accept
-set firewall name VLAN70-IN rule 10 source address 172.16.20.0/27
-set firewall name VLAN70-IN rule 10 destination address 172.16.20.192/27
-set firewall name VLAN70-IN rule 10 protocol all
-set firewall name VLAN70-IN rule 10 description "Allow VLAN10 → VLAN70"
-set firewall name VLAN70-IN default-action drop
-
-set firewall name VLAN70-OUT rule 10 action accept
-set firewall name VLAN70-OUT rule 10 destination address 172.16.20.0/27
-set firewall name VLAN70-OUT rule 10 source address 172.16.20.192/27
-set firewall name VLAN70-OUT rule 10 protocol all
-set firewall name VLAN70-OUT rule 10 description "Allow VLAN70 → VLAN10"
-set firewall name VLAN70-OUT default-action drop
-
-### 6.6 Application des règles aux interfaces correspondantes  
-
-set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN
-set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT
-
-set interfaces ethernet eth0 vif 20 firewall in name VLAN20-IN
-set interfaces ethernet eth0 vif 20 firewall out name VLAN20-OUT
-
-set interfaces ethernet eth0 vif 30 firewall in name VLAN30-IN
-set interfaces ethernet eth0 vif 30 firewall out name VLAN30-OUT
-
-set interfaces ethernet eth0 vif 40 firewall in name VLAN40-IN
-set interfaces ethernet eth0 vif 40 firewall out name VLAN40-OUT
-
-set interfaces ethernet eth0 vif 50 firewall in name VLAN50-IN
-set interfaces ethernet eth0 vif 50 firewall out name VLAN50-OUT
-
-set interfaces ethernet eth0 vif 60 firewall in name VLAN60-IN
-set interfaces ethernet eth0 vif 60 firewall out name VLAN60-OUT
-
-set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN
-set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT
+set firewall name VLAN30-OUT rule 10 action accept  
+set firewall name VLAN30-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN30-OUT rule 10 source address 172.16.20.64/27  
+set firewall name VLAN30-OUT rule 10 protocol all  
+set firewall name VLAN30-OUT rule 10 description "Allow VLAN30 → VLAN10"  
+set firewall name VLAN30-OUT default-action drop  
 
 
+#### 6.5.4 VLAN40  
+set firewall name VLAN40-IN rule 10 action accept  
+set firewall name VLAN40-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN40-IN rule 10 destination address 172.16.20.96/27  
+set firewall name VLAN40-IN rule 10 protocol all  
+set firewall name VLAN40-IN rule 10 description "Allow VLAN10 → VLAN40"  
+set firewall name VLAN40-IN default-action drop  
+
+set firewall name VLAN40-OUT rule 10 action accept  
+set firewall name VLAN40-OUT rule 10 destination address 172.16.20.0/27   
+set firewall name VLAN40-OUT rule 10 source address 172.16.20.96/27  
+set firewall name VLAN40-OUT rule 10 protocol all  
+set firewall name VLAN40-OUT rule 10 description "Allow VLAN40 → VLAN10"  
+set firewall name VLAN40-OUT default-action drop  
+
+#### 6.5.5 VLAN50  
+set firewall name VLAN50-IN rule 10 action accept  
+set firewall name VLAN50-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN50-IN rule 10 destination address 172.16.20.128/27  
+set firewall name VLAN50-IN rule 10 protocol all  
+set firewall name VLAN50-IN rule 10 description "Allow VLAN10 → VLAN50"  
+set firewall name VLAN50-IN default-action drop  
+
+set firewall name VLAN50-OUT rule 10 action accept  
+set firewall name VLAN50-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN50-OUT rule 10 source address 172.16.20.128/27  
+set firewall name VLAN50-OUT rule 10 protocol all  
+set firewall name VLAN50-OUT rule 10 description "Allow VLAN50 → VLAN10"  
+set firewall name VLAN50-OUT default-action drop  
+
+#### 6.5.6 VLAN60  
+set firewall name VLAN60-IN rule 10 action accept  
+set firewall name VLAN60-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN60-IN rule 10 destination address 172.16.20.160/27  
+set firewall name VLAN60-IN rule 10 protocol all  
+set firewall name VLAN60-IN rule 10 description "Allow VLAN10 → VLAN60"  
+set firewall name VLAN60-IN default-action drop  
+
+set firewall name VLAN60-OUT rule 10 action accept  
+set firewall name VLAN60-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN60-OUT rule 10 source address 172.16.20.160/27  
+set firewall name VLAN60-OUT rule 10 protocol all  
+set firewall name VLAN60-OUT rule 10 description "Allow VLAN60 → VLAN10"  
+set firewall name VLAN60-OUT default-action drop  
+
+#### 6.5.7 VLAN70  
+set firewall name VLAN70-IN rule 10 action accept  
+set firewall name VLAN70-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN70-IN rule 10 destination address 172.16.20.192/27  
+set firewall name VLAN70-IN rule 10 protocol all  
+set firewall name VLAN70-IN rule 10 description "Allow VLAN10 → VLAN70"  
+set firewall name VLAN70-IN default-action drop  
+
+set firewall name VLAN70-OUT rule 10 action accept  
+set firewall name VLAN70-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN70-OUT rule 10 source address 172.16.20.192/27  
+set firewall name VLAN70-OUT rule 10 protocol all  
+set firewall name VLAN70-OUT rule 10 description "Allow VLAN70 → VLAN10"  
+set firewall name VLAN70-OUT default-action drop  
+
+### 6.6 Application des règles aux interfaces correspondantes   
+
+set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN  
+set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT  
+
+set interfaces ethernet eth0 vif 20 firewall in name VLAN20-IN  
+set interfaces ethernet eth0 vif 20 firewall out name VLAN20-OUT  
+
+set interfaces ethernet eth0 vif 30 firewall in name VLAN30-IN  
+set interfaces ethernet eth0 vif 30 firewall out name VLAN30-OUT  
+
+set interfaces ethernet eth0 vif 40 firewall in name VLAN40-IN  
+set interfaces ethernet eth0 vif 40 firewall out name VLAN40-OUT  
+
+set interfaces ethernet eth0 vif 50 firewall in name VLAN50-IN  
+set interfaces ethernet eth0 vif 50 firewall out name VLAN50-OUT  
+
+set interfaces ethernet eth0 vif 60 firewall in name VLAN60-IN  
+set interfaces ethernet eth0 vif 60 firewall out name VLAN60-OUT  
+
+set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN  
+set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT  
 
 
 
 
- 
 
 ## 7. Configuration PFsense  
 A venir  
