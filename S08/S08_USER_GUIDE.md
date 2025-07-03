@@ -43,9 +43,11 @@ Network : ajouter vmbr 1 -> ajouter IP (dans la DMZ, donc ici 10.10.20.3/24) et 
 ### 4.2 Installation Apache2   
 
 #### 4.2.1 Mise à jour + installation apache2  
+``` bash
 apt update && apt upgrade -y  
 apt install apache2 -y  
 systemctl status apache2  
+```
 
 #### 4.2.2 Rappel des fichiers  
 - /var/www/html/index.html -> contenu du site  
@@ -55,8 +57,10 @@ Ce fichier de configuration pointe vers un numéro de VirtualHost (le port d'éc
 #### 4.2.3 Création d'un répertoire pour chaque site (internet.local et intranet.local) avec son contenu  
 
 Pour le site internet :  
+``` bash
 mkdir /var/www/internet  
 nano /var/www/internet/index.html  
+```
 
 et ajouter le contenu  
 
@@ -146,11 +150,12 @@ Par exemple:
     </div>  
 </body>  
 </html>
-```
+```  
 
 Pour le site intranet :  
-mkdir /var/www/intranet  
+```  mkdir /var/www/intranet  
 nano /var/www/intranet/index.html  
+```  
 
 et ajouter le contenu  
 
@@ -203,40 +208,53 @@ et ajouter le contenu
     </div>  
 </body>  
 </html>  
-```
+```  
 
 #### 4.2.4 Création des fichiers de configuration dans /etc/apache2/sites-available  
 
 - pour internet  
-sudo nano /etc/apache2/sites-available/internet.conf  
+```
+sudo nano /etc/apache2/sites-available/internet.conf
+```  
 
 et ajouter :  
+```
 <VirtualHost *:80>  
     ServerName internet.local  
     DocumentRoot /var/www/internet  
 </VirtualHost>  
+```  
 
 - pour intranet  
+```
 sudo nano /etc/apache2/sites-available/intranet.conf  
+```
 
 Et ajouter :  
+```
 <VirtualHost *:80>  
     ServerName intranet.local  
     DocumentRoot /var/www/intranet  
 </VirtualHost>  
+```
 
 Activer les sites et relancer apache2  
- a2ensite internet.conf  
- a2ensite intranet.conf  
- systemctl reload apache2  
-
+```
+a2ensite internet.conf  
+a2ensite intranet.conf  
+systemctl reload apache2  
+```  
 
 #### 4.2.5 Modification du fichier  
+```
 sudo nano /etc/hosts  
+```
 
 ajoute :  
+```
 <ip serveur> internet.local  
-<ip serveur> intranet.local  
+<ip serveur> intranet.local
+```
 
 Les deux sites doivent être disponible avec les URL : http://internet.local et http://intranet.local (attention accès aux sites depuis un ordinateur dans le même réseaux local seulement pour le moment)    
 
@@ -263,7 +281,9 @@ vyos-1.1.iso
 - Allumer la machine et s'identifier avec : vyos/vyos (id/mdp)  
 
 - Lancer l'installation  
+```
 install image   
+```
 
 - Sur le clavier taper : touche entrée  -> entrée -> yes -> entrée -> vyos  
 
@@ -272,16 +292,18 @@ install image
 - Sur le clavier taper : touche entrée  
 
 - A la fin de l'installation, redemarrer la machine et retirer l'ISO 
-reboot 
+```
+reboot
+```  
 
 - S'identifier (vyos/vyos), entrer en mode configuration et procéder à l'identification des cartes réseaux (eth0, eth1 ...)  
-``` vyos   
+```    
 configure   
 ip a  
 ```
  
 ### 5.2 Configuration de la carte eth0 (avec VLANs) vmbr1  
-
+```  
 #### VLAN 10 - Serveurs  
 set interfaces ethernet eth0 vif 10 address '172.16.20.30/27'  
 set interfaces ethernet eth0 vif 10 description 'VLAN10'  
@@ -309,16 +331,21 @@ set interfaces ethernet eth0 vif 60 description 'VLAN60'
 #### VLAN 70 - Service Commercial  
 set interfaces ethernet eth0 vif 70 address '172.16.20.222/27'  
 set interfaces ethernet eth0 vif 70 description 'VLAN70'  
+```
 
 ### 5.3 Configuration de la carte eth1 (LAN point à point) vmbr6  
+```
 set interfaces ethernet eth1 address 192.168.200.1/24  
-set interfaces ethernet eth1 description 'LAN' 
+set interfaces ethernet eth1 description 'LAN'
+```  
 
 ### 5.4 Route par défaut  
+```
 set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
+```
 
 ### 5.5 Mise en place des règles de trafic entrant et sortant  
-
+```  
 #### 5.5.1 VLAN10  
 set firewall name VLAN10-IN rule 10 action accept  
 set firewall name VLAN10-IN rule 10 source address 172.16.20.128/27  
@@ -454,9 +481,10 @@ set firewall name VLAN70-OUT rule 10 source address 172.16.20.192/27
 set firewall name VLAN70-OUT rule 10 protocol all  
 set firewall name VLAN70-OUT rule 10 description "Allow VLAN70 → VLAN10"  
 set firewall name VLAN70-OUT default-action drop  
+```
 
 ### 5.6 Application des règles aux interfaces correspondantes   
-
+```  
 set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN  
 set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT  
 
@@ -477,6 +505,7 @@ set interfaces ethernet eth0 vif 60 firewall out name VLAN60-OUT
 
 set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN  
 set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT  
+```
 
 #### Pour rappel : 
 vmbr100 -> NAT (192.168.240.0/24)  
