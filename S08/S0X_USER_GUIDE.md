@@ -28,7 +28,6 @@ Configuration PFsense (en integrant Vyos) - s07
 ## 3. SÉCURITÉ - Mettre en place un serveur bastion GUACAMOLE    
 
 ## 4. WEB - Mettre en place un serveur WEB    
-INSTALLATION ET CONFIGURATION SERVEUR-WEB  
 
 ### 4.1 Création CT dans proxmox  
 - Création CT  
