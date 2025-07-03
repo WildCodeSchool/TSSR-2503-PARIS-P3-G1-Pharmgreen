@@ -59,7 +59,7 @@ nano /var/www/internet/index.html
 et ajouter le contenu  
 
 Par exemple:  
-<!DOCTYPE html>  
+``` <!DOCTYPE html>  
 <html lang="fr">  
 <head>  
     <meta charset="UTF-8">  
@@ -143,7 +143,8 @@ Par exemple:
         <div class="sous-titre">BIENVENUE</div>  
     </div>  
 </body>  
-</html>  
+</html>
+```
 
 
 Pour le site intranet :  
@@ -152,7 +153,7 @@ nano /var/www/intranet/index.html
 
 et ajouter le contenu  
 
-<!DOCTYPE html>  
+``` <!DOCTYPE html>  
 <html lang="fr">  
 <head>  
     <meta charset="UTF-8">  
@@ -201,7 +202,7 @@ et ajouter le contenu
     </div>  
 </body>  
 </html>  
-
+```
 
 #### 4.2.4 Création des fichiers de configuration dans /etc/apache2/sites-available  
 
