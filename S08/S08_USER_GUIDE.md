@@ -238,7 +238,7 @@ ajoute :
 
 Les deux sites doivent être disponible avec les URL : http://internet.local et http://intranet.local (attention accès aux sites depuis un ordinateur dans le même réseaux local seulement pour le moment)    
 
-![Site Internet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Internet.png)  
+![Site Internet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/43b1a426ca0dd39e8ddb6b75eba22f654258bb82/S08/Pharmgreen-Internet.png)  
 
 ![Site intranet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Intranet.png)  
 
