@@ -72,11 +72,10 @@ Par exemple:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title> Pharmgreen</title>  
     <style>  
-        /* Corps de la page */  
         body {  
             margin: 0;  
             height: 100vh;  
-            background-image: url('https://via.placeholder.com/1200x800'); /* Remplace cette URL par la tienne */  
+            background-image: url('https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/60e84108e3d214daba6c139a0b86427dfd6e0e6f/S08/Pharmgreen-Internet.png');  
             background-size: cover;  
             background-position: center;  
             background-repeat: no-repeat;  
@@ -87,9 +86,8 @@ Par exemple:
             font-family: Arial, sans-serif;  
         }  
 
-        /* Conteneur central */  
         .conteneur {  
-            background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */  
+            background-color: rgba(255, 255, 255, 0.8);   
             padding: 40px 30px;  
             border-radius: 20px;  
             text-align: center;  
@@ -165,9 +163,8 @@ et ajouter le contenu
     <meta charset="UTF-8">  
     <title>Intranet Pharmgreen</title>  
     <style>  
-        /* Corps de la page */  
         body {  
-            background-image: url('https://via.placeholder.com/1200x800'); /* Remplace par ton image */  
+            background-image: url('https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/60e84108e3d214daba6c139a0b86427dfd6e0e6f/S08/Pharmgreen-Internet.png');   
             background-size: cover;  
             background-position: center;  
             background-repeat: no-repeat;  
@@ -179,9 +176,8 @@ et ajouter le contenu
             align-items: center;  
         }
 
-        /* Conteneur avec fond semi-transparent */  
         .conteneur {  
-            background-color: rgba(255, 255, 255, 0.7); /* blanc semi-transparent */  
+            background-color: rgba(255, 255, 255, 0.7);   
             padding: 40px;  
             border-radius: 20px;  
             text-align: center;  
@@ -197,7 +193,7 @@ et ajouter le contenu
         .sous-titre {  
             font-size: 20px;  
             color: black;  
-            margin-top: 40px; /* Équivalent à deux sauts de ligne */  
+            margin-top: 40px;  
         }  
     </style>  
 </head>  
@@ -527,21 +523,21 @@ vmbr6 -> Réseaux point à point (192.168.200.0/24)
   vmbr1 (ne pas mettre d'autres vmbr, cela pourrait empecher la connexion)
 
 
-## 7. Configuration PFsense  
+## 6. Configuration PFsense  
 
-### 7.1 Ajout d'une route statique pour les VLANs 
+### 6.1 Ajout d'une route statique pour les VLANs 
 Depuis l'interface graphique, aller dans System -> Routing -> Static Routes  
 Ajouter Destination réseau : 172.16.20.0/24 (ou plusieurs /27)  
 Passerelle : 192.168.200.1  
 
-### 7.2 Ajout d'une règle d’autorisation sur l’interface vmbr6 "LAN vers VyOS" :  
+### 6.2 Ajout d'une règle d’autorisation sur l’interface vmbr6 "LAN vers VyOS" :  
 Aller dans : Firewall -> Rules -> vmbr6/LAN  
     Action : Pass  
     Source : 172.16.20.0/24  
     Destination : any  
     Protocol : any  
 
-### 7.3 Ajout d'une règle d’autorisation : any -> This firewall - ICMP  
+### 6.3 Ajout d'une règle d’autorisation : any -> This firewall - ICMP  
 Aller dans : Firewall -> Rules -> vmbr6/LAN  
     Action : Pass  
     Interface : LAN  
@@ -549,7 +545,7 @@ Aller dans : Firewall -> Rules -> vmbr6/LAN
     Source : 192.168.200.0/24  
     Destination : This Firewall  
 
-### 7.4 Test depuis VLAN   
+### 6.4 Test depuis VLAN   
 ping 192.168.200.1 (test interface Vyos)  
 
 ping 192.168.200.254 (test interface pfSense)  #  bloqué ici  
