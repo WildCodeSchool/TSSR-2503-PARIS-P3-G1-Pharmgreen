@@ -21,8 +21,7 @@ Installation de l'agent glpi par script ou gpo (pour faire l inventaire)
 
 **Mise en place Serveur de messagerie IRedMail** 
 
-**Mise en place Vyos** 
-Mise en place Vyos  
+**Mise en place Vyos**  
 Installation de Vyos  
 Configuration de la carte eth0 (avec VLANs) vmbr1  
 Configuration de la carte eth1 (LAN point à point) vmbr6   
