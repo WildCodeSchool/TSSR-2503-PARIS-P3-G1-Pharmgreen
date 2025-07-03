@@ -22,13 +22,13 @@ Installation de l'agent glpi par script ou gpo (pour faire l inventaire)
 **Mise en place Serveur de messagerie IRedMail** 
 
 **Mise en place Vyos** 
-Configuration des VLANS  
-Ajout d'une route par défaut (accès WAN)  
-Création groupe d'adresses  
-Mise en place ACL pour autoriser les VLAN 10 à 60 (utilisateurs) à communiquer avec VLAN 70 (servers)  
-Mise en place ACL pour interdire les VLAN 10 à 60 (utilisateurs) à communiquer entre elles  
-( Création nouvelle vmbr sur proxmox ) A FAIRE   
-( Mise en place des tags VLAN dans proxmox ) A FAIRE  
+Mise en place Vyos  
+Installation de Vyos  
+Configuration de la carte eth0 (avec VLANs) vmbr1  
+Configuration de la carte eth1 (LAN point à point) vmbr6   
+Route par défaut   
+Mise en place des règles de trafic entrant et sortant  
+Application des règles aux interfaces correspondantes  
 
 **Configuration PFsense**  
 ( Configuration de la nouvelle carte vmbr sur le LAN ) A FAIRE  
@@ -323,8 +323,24 @@ set interfaces ethernet eth0 vif 60 firewall out name VLAN60-OUT
 set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN  
 set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT  
 
+#### Pour rappel : 
+vmbr100 -> NAT (192.168.240.0/24)  
+vmbr1 -> VLAN (172.16.20.0/27)  
+vmbr5 -> DMZ (10.10.20.0/24)  
+vmbr6 -> Réseaux point à point (192.168.200.0/24)  
 
-
+#### Vérifier que les VM ont bien ces vmbr et que les adresses des interfaces correspondent :   
+- Pfsense :
+  vmbr 100 (192.168.240.48/24)
+  vmbr 5 (10.10.20.254/24)
+  vmbr 6 (192.168.200.254/24)
+    
+- Vyos :
+  vmbr 6 (192.168.200.1/24)  
+  vmbr 1 ( verifier chaque interface VLAN selon adressage rubrique 6.2 )
+  
+- VM dans les VLAN :
+  vmbr1 (ne pas mettre d'autres vmbr, cela bloquerai la connexion)
 
 
 ## 7. Configuration PFsense  
