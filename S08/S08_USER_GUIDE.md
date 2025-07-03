@@ -146,6 +146,7 @@ Par exemple:
 </html>
 ```
 
+![Site Internet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Internet.png)nn
 
 Pour le site intranet :  
 mkdir /var/www/intranet  
@@ -203,6 +204,7 @@ et ajouter le contenu
 </body>  
 </html>  
 ```
+![Site intranet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Intranet.png)  
 
 #### 4.2.4 Création des fichiers de configuration dans /etc/apache2/sites-available  
 
