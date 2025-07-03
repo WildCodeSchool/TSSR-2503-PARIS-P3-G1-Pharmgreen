@@ -24,8 +24,10 @@ Mise en place Vyos (ajout des vlans) - s07
 Configuration PFsense (en integrant Vyos) - s07  
 
 ## 2. SÉCURITÉ - Mettre en place un serveur de gestion des mises à jour WSUS    
+A venir  
 
 ## 3. SÉCURITÉ - Mettre en place un serveur bastion GUACAMOLE    
+A venir  
 
 ## 4. WEB - Mettre en place un serveur WEB    
 
@@ -247,3 +249,280 @@ A venir
 
 ## 5. Reprise anciens objectifs  
 
+### 5.1 Installation de Vyos  
+- Création d'une VM   
+2Go RAM / 4 cores / 32Go disque dur  
+
+- Ajouter les networks  
+vmbr1 : accès aux VLAN (en 172.16.20.0/27)  
+vmbr6 : accès au LAN (en 192.168.200.0/24)  
+
+- Ajouter l'image  
+vyos-1.1.iso  
+
+- Allumer la machine et s'identifier avec : vyos/vyos (id/mdp)  
+
+- Lancer l'installation  
+install image   
+
+- Sur le clavier taper : touche entrée  -> entrée -> yes -> entrée -> vyos  
+
+- Renseigner un mot de passe pour l'utilisateur Vyos, puis confirmer une seconde fois  
+
+- Sur le clavier taper : touche entrée  
+
+- A la fin de l'installation, redemarrer la machine et retirer l'ISO 
+reboot 
+
+- S'identifier (vyos/vyos), entrer en mode configuration et procéder à l'identification des cartes réseaux (eth0, eth1 ...)  
+``` vyos   
+configure   
+ip a  
+```
+ 
+### 5.2 Configuration de la carte eth0 (avec VLANs) vmbr1  
+
+#### VLAN 10 - Serveurs  
+set interfaces ethernet eth0 vif 10 address '172.16.20.30/27'  
+set interfaces ethernet eth0 vif 10 description 'VLAN10'  
+
+#### VLAN 20 - Direction/DSI  
+set interfaces ethernet eth0 vif 20 address '172.16.20.62/27'  
+set interfaces ethernet eth0 vif 20 description 'VLAN20'  
+
+#### VLAN 30 - DRH  
+set interfaces ethernet eth0 vif 30 address '172.16.20.94/27'  
+set interfaces ethernet eth0 vif 30 description 'VLAN30'  
+
+#### VLAN 40 - Finance/Comptabilité  
+set interfaces ethernet eth0 vif 40 address '172.16.20.126/27'  
+set interfaces ethernet eth0 vif 40 description 'VLAN40'  
+
+#### VLAN 50 - Développement  
+set interfaces ethernet eth0 vif 50 address '172.16.20.158/27'   
+set interfaces ethernet eth0 vif 50 description 'VLAN50'   
+
+#### VLAN 60 - Communication  
+set interfaces ethernet eth0 vif 60 address '172.16.20.190/27'   
+set interfaces ethernet eth0 vif 60 description 'VLAN60'  
+
+#### VLAN 70 - Service Commercial  
+set interfaces ethernet eth0 vif 70 address '172.16.20.222/27'  
+set interfaces ethernet eth0 vif 70 description 'VLAN70'  
+
+### 5.3 Configuration de la carte eth1 (LAN point à point) vmbr6  
+set interfaces ethernet eth1 address 192.168.200.1/24  
+set interfaces ethernet eth1 description 'LAN' 
+
+### 5.4 Route par défaut  
+set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
+
+### 5.5 Mise en place des règles de trafic entrant et sortant  
+
+#### 5.5.1 VLAN10  
+set firewall name VLAN10-IN rule 10 action accept  
+set firewall name VLAN10-IN rule 10 source address 172.16.20.128/27  
+set firewall name VLAN10-IN rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 10 protocol all  
+set firewall name VLAN10-IN rule 10 description "Allow VLAN50 → VLAN10"  
+
+set firewall name VLAN10-IN rule 20 action accept  
+set firewall name VLAN10-IN rule 20 source address 172.16.20.32/27  
+set firewall name VLAN10-IN rule 20 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 20 protocol all  
+set firewall name VLAN10-IN rule 20 description "Allow VLAN20 → VLAN10"  
+
+set firewall name VLAN10-IN rule 30 action accept  
+set firewall name VLAN10-IN rule 30 source address 172.16.20.64/27  
+set firewall name VLAN10-IN rule 30 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 30 protocol all  
+set firewall name VLAN10-IN rule 30 description "Allow VLAN30 → VLAN10"  
+
+set firewall name VLAN10-IN rule 40 action accept  
+set firewall name VLAN10-IN rule 40 source address 172.16.20.96/27  
+set firewall name VLAN10-IN rule 40 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 40 protocol all  
+set firewall name VLAN10-IN rule 40 description "Allow VLAN40 → VLAN10"  
+
+set firewall name VLAN10-IN rule 50 action accept  
+set firewall name VLAN10-IN rule 50 source address 172.16.20.160/27  
+set firewall name VLAN10-IN rule 50 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 50 protocol all  
+set firewall name VLAN10-IN rule 50 description "Allow VLAN60 → VLAN10"  
+
+set firewall name VLAN10-IN rule 60 action accept  
+set firewall name VLAN10-IN rule 60 source address 172.16.20.192/27  
+set firewall name VLAN10-IN rule 60 destination address 172.16.20.0/27  
+set firewall name VLAN10-IN rule 60 protocol all  
+set firewall name VLAN10-IN rule 60 description "Allow VLAN70 → VLAN10"  
+
+set firewall name VLAN10-IN default-action drop  
+
+set firewall name VLAN10-OUT rule 10 action accept  
+set firewall name VLAN10-OUT rule 10 destination address 172.16.20.128/27  
+set firewall name VLAN10-OUT rule 10 source address 172.16.20.0/27  
+set firewall name VLAN10-OUT rule 10 protocol all  
+set firewall name VLAN10-OUT rule 10 description "Allow VLAN10 → VLAN50 (OUT)"  
+set firewall name VLAN10-OUT default-action drop  
+
+#### 5.5.2 VLAN20   
+set firewall name VLAN20-IN rule 10 action accept  
+set firewall name VLAN20-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN20-IN rule 10 destination address 172.16.20.32/27  
+set firewall name VLAN20-IN rule 10 protocol all  
+set firewall name VLAN20-IN rule 10 description "Allow VLAN10 → VLAN20"  
+set firewall name VLAN20-IN default-action drop  
+
+set firewall name VLAN20-OUT rule 10 action accept  
+set firewall name VLAN20-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN20-OUT rule 10 source address 172.16.20.32/27  
+set firewall name VLAN20-OUT rule 10 protocol all  
+set firewall name VLAN20-OUT rule 10 description "Allow VLAN20 → VLAN10"  
+set firewall name VLAN20-OUT default-action drop  
+
+#### 5.5.3 VLAN30  
+set firewall name VLAN30-IN rule 10 action accept  
+set firewall name VLAN30-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN30-IN rule 10 destination address 172.16.20.64/27  
+set firewall name VLAN30-IN rule 10 protocol all  
+set firewall name VLAN30-IN rule 10 description "Allow VLAN10 → VLAN30"  
+set firewall name VLAN30-IN default-action drop  
+
+set firewall name VLAN30-OUT rule 10 action accept  
+set firewall name VLAN30-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN30-OUT rule 10 source address 172.16.20.64/27  
+set firewall name VLAN30-OUT rule 10 protocol all  
+set firewall name VLAN30-OUT rule 10 description "Allow VLAN30 → VLAN10"  
+set firewall name VLAN30-OUT default-action drop  
+
+#### 5.5.4 VLAN40  
+set firewall name VLAN40-IN rule 10 action accept  
+set firewall name VLAN40-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN40-IN rule 10 destination address 172.16.20.96/27  
+set firewall name VLAN40-IN rule 10 protocol all  
+set firewall name VLAN40-IN rule 10 description "Allow VLAN10 → VLAN40"  
+set firewall name VLAN40-IN default-action drop  
+
+set firewall name VLAN40-OUT rule 10 action accept  
+set firewall name VLAN40-OUT rule 10 destination address 172.16.20.0/27   
+set firewall name VLAN40-OUT rule 10 source address 172.16.20.96/27  
+set firewall name VLAN40-OUT rule 10 protocol all  
+set firewall name VLAN40-OUT rule 10 description "Allow VLAN40 → VLAN10"  
+set firewall name VLAN40-OUT default-action drop  
+
+#### 5.5.5 VLAN50  
+set firewall name VLAN50-IN rule 10 action accept  
+set firewall name VLAN50-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN50-IN rule 10 destination address 172.16.20.128/27  
+set firewall name VLAN50-IN rule 10 protocol all  
+set firewall name VLAN50-IN rule 10 description "Allow VLAN10 → VLAN50"  
+set firewall name VLAN50-IN default-action drop  
+
+set firewall name VLAN50-OUT rule 10 action accept  
+set firewall name VLAN50-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN50-OUT rule 10 source address 172.16.20.128/27  
+set firewall name VLAN50-OUT rule 10 protocol all  
+set firewall name VLAN50-OUT rule 10 description "Allow VLAN50 → VLAN10"  
+set firewall name VLAN50-OUT default-action drop  
+
+#### 5.5.6 VLAN60  
+set firewall name VLAN60-IN rule 10 action accept  
+set firewall name VLAN60-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN60-IN rule 10 destination address 172.16.20.160/27  
+set firewall name VLAN60-IN rule 10 protocol all  
+set firewall name VLAN60-IN rule 10 description "Allow VLAN10 → VLAN60"  
+set firewall name VLAN60-IN default-action drop  
+
+set firewall name VLAN60-OUT rule 10 action accept  
+set firewall name VLAN60-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN60-OUT rule 10 source address 172.16.20.160/27  
+set firewall name VLAN60-OUT rule 10 protocol all  
+set firewall name VLAN60-OUT rule 10 description "Allow VLAN60 → VLAN10"  
+set firewall name VLAN60-OUT default-action drop  
+
+#### 5.5.7 VLAN70  
+set firewall name VLAN70-IN rule 10 action accept  
+set firewall name VLAN70-IN rule 10 source address 172.16.20.0/27  
+set firewall name VLAN70-IN rule 10 destination address 172.16.20.192/27  
+set firewall name VLAN70-IN rule 10 protocol all  
+set firewall name VLAN70-IN rule 10 description "Allow VLAN10 → VLAN70"  
+set firewall name VLAN70-IN default-action drop  
+
+set firewall name VLAN70-OUT rule 10 action accept  
+set firewall name VLAN70-OUT rule 10 destination address 172.16.20.0/27  
+set firewall name VLAN70-OUT rule 10 source address 172.16.20.192/27  
+set firewall name VLAN70-OUT rule 10 protocol all  
+set firewall name VLAN70-OUT rule 10 description "Allow VLAN70 → VLAN10"  
+set firewall name VLAN70-OUT default-action drop  
+
+### 5.6 Application des règles aux interfaces correspondantes   
+
+set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN  
+set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT  
+
+set interfaces ethernet eth0 vif 20 firewall in name VLAN20-IN  
+set interfaces ethernet eth0 vif 20 firewall out name VLAN20-OUT  
+
+set interfaces ethernet eth0 vif 30 firewall in name VLAN30-IN  
+set interfaces ethernet eth0 vif 30 firewall out name VLAN30-OUT  
+
+set interfaces ethernet eth0 vif 40 firewall in name VLAN40-IN  
+set interfaces ethernet eth0 vif 40 firewall out name VLAN40-OUT  
+
+set interfaces ethernet eth0 vif 50 firewall in name VLAN50-IN  
+set interfaces ethernet eth0 vif 50 firewall out name VLAN50-OUT  
+
+set interfaces ethernet eth0 vif 60 firewall in name VLAN60-IN  
+set interfaces ethernet eth0 vif 60 firewall out name VLAN60-OUT  
+
+set interfaces ethernet eth0 vif 70 firewall in name VLAN70-IN  
+set interfaces ethernet eth0 vif 70 firewall out name VLAN70-OUT  
+
+#### Pour rappel : 
+vmbr100 -> NAT (192.168.240.0/24)  
+vmbr1 -> VLAN (172.16.20.0/27)  
+vmbr5 -> DMZ (10.10.20.0/24)  
+vmbr6 -> Réseaux point à point (192.168.200.0/24)  
+
+#### Vérifier que les VM ont bien ces vmbr et que les adresses des interfaces correspondent :   
+- Pfsense :
+  vmbr 100 (192.168.240.48/24)
+  vmbr 5 (10.10.20.254/24)
+  vmbr 6 (192.168.200.254/24)
+    
+- Vyos :
+  vmbr 6 (192.168.200.1/24)  
+  vmbr 1 ( verifier chaque interface VLAN selon adressage rubrique 6.2 )
+  
+- VM dans les VLAN :
+  vmbr1 (ne pas mettre d'autres vmbr, cela pourrait empecher la connexion)
+
+
+## 7. Configuration PFsense  
+
+### 7.1 Ajout d'une route statique pour les VLANs 
+Depuis l'interface graphique, aller dans System -> Routing -> Static Routes  
+Ajouter Destination réseau : 172.16.20.0/24 (ou plusieurs /27)  
+Passerelle : 192.168.200.1  
+
+### 7.2 Ajout d'une règle d’autorisation sur l’interface vmbr6 "LAN vers VyOS" :  
+Aller dans : Firewall -> Rules -> vmbr6/LAN  
+    Action : Pass  
+    Source : 172.16.20.0/24  
+    Destination : any  
+    Protocol : any  
+
+### 7.3 Ajout d'une règle d’autorisation : any -> This firewall - ICMP  
+Aller dans : Firewall -> Rules -> vmbr6/LAN  
+    Action : Pass  
+    Interface : LAN  
+    Protocol : ICMP  
+    Source : 192.168.200.0/24  
+    Destination : This Firewall  
+
+### 7.4 Test depuis VLAN   
+ping 192.168.200.1 (test interface Vyos)  
+
+ping 192.168.200.254 (test interface pfSense)  #  bloqué ici  
+ping 8.8.8.8 (test connection internet)  
+dig google.com (test DNS)  
