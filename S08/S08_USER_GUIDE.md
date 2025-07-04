@@ -516,9 +516,8 @@ systemctl status apache2
 - /etc/apache2/sites-availables/000-default.conf -> fichier de configuration  
 Ce fichier de configuration pointe vers un numéro de VirtualHost (le port d'écoute du site) , vers le serverAdmin (adresse email de l'admin, sinon par défault : webmaster@localhost) et le DocumentRoot (le dossier racine du site, par exemple /var/www/html/index.html)  
 
-#### 4.2.3 Création d'un répertoire pour chaque site (internet.local et intranet.local) avec son contenu  
+#### 4.2.3 Création d'un répertoire avec son contenu  
 
-Pour le site internet :  
 ``` bash
 mkdir /var/www/internet  
 nano /var/www/internet/index.html  
@@ -612,65 +611,8 @@ Par exemple:
 </html>
 ```  
 
-Pour le site intranet :  
-```  mkdir /var/www/intranet  
-nano /var/www/intranet/index.html  
-```  
+#### 4.2.4 Création du fichier de configuration dans /etc/apache2/sites-available  
 
-et ajouter le contenu  
-
-``` <!DOCTYPE html>  
-<html lang="fr">  
-<head>  
-    <meta charset="UTF-8">  
-    <title>Intranet Pharmgreen</title>  
-    <style>  
-        body {  
-            background-image: url('https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/60e84108e3d214daba6c139a0b86427dfd6e0e6f/S08/Pharmgreen-Internet.png');   
-            background-size: cover;  
-            background-position: center;  
-            background-repeat: no-repeat;  
-            margin: 0;  
-            height: 100vh;  
-
-            display: flex;  
-            justify-content: center;  
-            align-items: center;  
-        }
-
-        .conteneur {  
-            background-color: rgba(255, 255, 255, 0.7);   
-            padding: 40px;  
-            border-radius: 20px;  
-            text-align: center;  
-        }  
-
-        .titre {  
-            font-weight: bold;  
-            font-size: 30px;  
-            color: darkgreen;  
-            margin: 0;  
-        }  
-
-        .sous-titre {  
-            font-size: 20px;  
-            color: black;  
-            margin-top: 40px;  
-        }  
-    </style>  
-</head>  
-<body>  
-    <div class="conteneur">  
-        <div class="titre">PHARMGREEN</div>  
-        <div class="sous-titre">Espace intranet</div>  
-    </div>  
-</body>  
-</html>  
-```  
-
-#### 4.2.4 Création des fichiers de configuration dans /etc/apache2/sites-available  
-
-- pour internet  
 ```
 sudo nano /etc/apache2/sites-available/internet.conf
 ```  
@@ -683,23 +625,9 @@ et ajouter :
 </VirtualHost>  
 ```  
 
-- pour intranet  
-```
-sudo nano /etc/apache2/sites-available/intranet.conf  
-```
-
-Et ajouter :  
-```
-<VirtualHost *:80>  
-    ServerName intranet.local  
-    DocumentRoot /var/www/intranet  
-</VirtualHost>  
-```
-
-Activer les sites et relancer apache2  
+Activer le site et relancer apache2  
 ```
 a2ensite internet.conf  
-a2ensite intranet.conf  
 systemctl reload apache2  
 ```  
 
@@ -711,14 +639,11 @@ sudo nano /etc/hosts
 ajoute :  
 ```
 <ip serveur> internet.local  
-<ip serveur> intranet.local
 ```
 
-Les deux sites doivent être disponible avec les URL : http://internet.local et http://intranet.local (attention accès aux sites depuis un ordinateur dans le même réseaux local seulement pour le moment)    
+Le site doit être disponible via l'URL : http://intranet.local (attention accès au site depuis un ordinateur dans le même réseaux local seulement pour le moment)    
 
 ![Site Internet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/43b1a426ca0dd39e8ddb6b75eba22f654258bb82/S08/Pharmgreen-Internet.png)  
-
-![Site intranet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Intranet.png)  
 
 #### 4.2.6 Rendre accessible le site Internet depuis le WAN  
 A venir  
