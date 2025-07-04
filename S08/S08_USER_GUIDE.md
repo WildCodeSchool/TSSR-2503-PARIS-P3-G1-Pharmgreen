@@ -14,10 +14,15 @@ En DMZ ou dans un vlan séparé
 Gestion des règles de pare-feu en conséquences  
 Synchronisation des accès avec des groupes AD (opt.)  
 
-**WEB - Mettre en place un serveur WEB**  
+**WEB - Mettre en place un serveur WEB : accessible via internet**  
 Utilisation de la solution suivante : apache  
 Mis en DMZ  
-Hébergement de 2 sites : L'un accessible via le réseau interne et Le second accessible par tout le monde depuis l’extérieur  
+Hébergement d'un site accessible par tout le monde depuis l’extérieur  
+
+**WEB - Mettre en place un serveur WEB : accessible via intranet**  
+Utilisation de la solution suivante : apache   
+Mis dans VLAN 10    
+Hébergement d'un site accessible en interne  
 
 **Reprise anciens objectifs**  
 Mise en place Vyos (ajout des vlans) - s07  
@@ -491,7 +496,7 @@ Ajouter le contenu suivant pour autoriser l'accès des 4 utilisateurs en SSH sur
 sudo systemctl restart guacd
 sudo systemctl restart tomcat10
  ``` 
-## 4. WEB - Mettre en place un serveur WEB    
+## 4. WEB - Mettre en place un serveur WEB : accessible via internet    
 
 ### 4.1 Création CT dans proxmox  
 - Création CT  
@@ -648,9 +653,128 @@ Le site doit être disponible via l'URL : http://intranet.local (attention accè
 #### 4.2.6 Rendre accessible le site Internet depuis le WAN  
 A venir  
 
-## 5. Reprise anciens objectifs  
+INTRANET 
 
-### 5.1 Installation de Vyos  
+## 5. WEB - WEB - Mettre en place un serveur WEB : accessible via intranet  
+
+### 5.1 Création CT dans proxmox  
+- Création CT  
+Ajouter ID, hostname, password, ressource pool  
+Choisir le template Debian dans Local   
+Disque : 20Go  
+Core : 2  
+Memory : 2096  
+Network : ajouter vmbr 1 -> ajouter IP (dans la VLAN10 , donc ici 172.16.20.7/27) et vmbr 100 -> ajouter IP ( 192.168.240.id vm/24)   
+
+### 5.2 Installation Apache2   
+
+#### 5.2.1 Mise à jour + installation apache2  
+``` bash
+apt update && apt upgrade -y  
+apt install apache2 -y  
+systemctl status apache2  
+```
+
+#### 5.2.2 Rappel des fichiers  
+- /var/www/html/index.html -> contenu du site  
+- /etc/apache2/sites-availables/000-default.conf -> fichier de configuration  
+Ce fichier de configuration pointe vers un numéro de VirtualHost (le port d'écoute du site) , vers le serverAdmin (adresse email de l'admin, sinon par défault : webmaster@localhost) et le DocumentRoot (le dossier racine du site, par exemple /var/www/html/index.html)  
+
+#### 5.2.3 Création d'un répertoire pour chaque site (internet.local et intranet.local) avec son contenu  
+
+```  mkdir /var/www/intranet  
+nano /var/www/intranet/index.html  
+```  
+
+et ajouter le contenu  : 
+
+``` <!DOCTYPE html>  
+<html lang="fr">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Intranet Pharmgreen</title>  
+    <style>  
+        body {  
+            background-image: url('https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/60e84108e3d214daba6c139a0b86427dfd6e0e6f/S08/Pharmgreen-Internet.png');   
+            background-size: cover;  
+            background-position: center;  
+            background-repeat: no-repeat;  
+            margin: 0;  
+            height: 100vh;  
+
+            display: flex;  
+            justify-content: center;  
+            align-items: center;  
+        }
+
+        .conteneur {  
+            background-color: rgba(255, 255, 255, 0.7);   
+            padding: 40px;  
+            border-radius: 20px;  
+            text-align: center;  
+        }  
+
+        .titre {  
+            font-weight: bold;  
+            font-size: 30px;  
+            color: darkgreen;  
+            margin: 0;  
+        }  
+
+        .sous-titre {  
+            font-size: 20px;  
+            color: black;  
+            margin-top: 40px;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="conteneur">  
+        <div class="titre">PHARMGREEN</div>  
+        <div class="sous-titre">Espace intranet</div>  
+    </div>  
+</body>  
+</html>  
+```  
+
+#### 4.2.4 Création du fichier de configuration dans /etc/apache2/sites-available  
+
+```
+sudo nano /etc/apache2/sites-available/intranet.conf  
+```
+
+Et ajouter :  
+```
+<VirtualHost *:80>  
+    ServerName intranet.local  
+    DocumentRoot /var/www/intranet  
+</VirtualHost>  
+```
+
+Activer le site et relancer apache2  
+```
+a2ensite intranet.conf  
+systemctl reload apache2  
+```  
+
+#### 4.2.5 Modification du fichier  
+```
+sudo nano /etc/hosts  
+```
+
+ajoute :  
+```
+<ip serveur> intranet.local
+```
+
+Le site doivt être disponible avec l'URL ://intranet.local (attention accès aux sites depuis un ordinateur dans le même réseaux local seulement)    
+
+![Site intranet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/88d13129102b617529d471cb31db8ba5add217b1/S08/Pharmgreen-Intranet.png)  
+
+
+## 6. Reprise anciens objectifs  
+
+### 6.1 Installation de Vyos  
 - Création d'une VM   
 2Go RAM / 4 cores / 32Go disque dur  
 
@@ -685,7 +809,7 @@ configure
 ip a  
 ```
  
-### 5.2 Configuration de la carte eth0 (avec VLANs) vmbr1  
+### 6.2 Configuration de la carte eth0 (avec VLANs) vmbr1  
 ```  
 #### VLAN 10 - Serveurs  
 set interfaces ethernet eth0 vif 10 address '172.16.20.30/27'  
@@ -716,18 +840,18 @@ set interfaces ethernet eth0 vif 70 address '172.16.20.222/27'
 set interfaces ethernet eth0 vif 70 description 'VLAN70'  
 ```
 
-### 5.3 Configuration de la carte eth1 (LAN point à point) vmbr6  
+### 6.3 Configuration de la carte eth1 (LAN point à point) vmbr6  
 ```
 set interfaces ethernet eth1 address 192.168.200.1/24  
 set interfaces ethernet eth1 description 'LAN'
 ```  
 
-### 5.4 Route par défaut  
+### 6.4 Route par défaut  
 ```
-set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
+set protocols static route 0.0.0.0/0 next-hop '192.168.200.254'  
 ```
 
-### 5.5 Mise en place des règles de trafic entrant et sortant  
+### 6.5 Mise en place des règles de trafic entrant et sortant  
 ```  
 #### 5.5.1 VLAN10  
 set firewall name VLAN10-IN rule 10 action accept  
@@ -866,7 +990,7 @@ set firewall name VLAN70-OUT rule 10 description "Allow VLAN70 → VLAN10"
 set firewall name VLAN70-OUT default-action drop  
 ```
 
-### 5.6 Application des règles aux interfaces correspondantes   
+### 6.6 Application des règles aux interfaces correspondantes   
 ```  
 set interfaces ethernet eth0 vif 10 firewall in name VLAN10-IN  
 set interfaces ethernet eth0 vif 10 firewall out name VLAN10-OUT  
@@ -910,21 +1034,21 @@ vmbr6 -> Réseaux point à point (192.168.200.0/24)
   vmbr1 (ne pas mettre d'autres vmbr, cela pourrait empecher la connexion)
 
 
-## 6. Configuration PFsense  
+## 7. Configuration PFsense  
 
-### 6.1 Ajout d'une route statique pour les VLANs 
+### 7.1 Ajout d'une route statique pour les VLANs 
 Depuis l'interface graphique, aller dans System -> Routing -> Static Routes  
 Ajouter Destination réseau : 172.16.20.0/24 (ou plusieurs /27)  
 Passerelle : 192.168.200.1  
 
-### 6.2 Ajout d'une règle d’autorisation sur l’interface vmbr6 "LAN vers VyOS" :  
+### 7.2 Ajout d'une règle d’autorisation sur l’interface vmbr6 "LAN vers VyOS" :  
 Aller dans : Firewall -> Rules -> vmbr6/LAN  
     Action : Pass  
     Source : 172.16.20.0/24  
     Destination : any  
     Protocol : any  
 
-### 6.3 Ajout d'une règle d’autorisation : any -> This firewall - ICMP  
+### 7.3 Ajout d'une règle d’autorisation : any -> This firewall - ICMP  
 Aller dans : Firewall -> Rules -> vmbr6/LAN  
     Action : Pass  
     Interface : LAN  
@@ -932,7 +1056,7 @@ Aller dans : Firewall -> Rules -> vmbr6/LAN
     Source : 192.168.200.0/24  
     Destination : This Firewall  
 
-### 6.4 Test depuis VLAN   
+### 7.4 Test depuis VLAN   
 ping 192.168.200.1 (test interface Vyos)  
 
 ping 192.168.200.254 (test interface pfSense)  #  bloqué ici  
