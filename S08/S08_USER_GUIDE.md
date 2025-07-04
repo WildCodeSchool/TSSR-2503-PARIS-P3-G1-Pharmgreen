@@ -228,7 +228,7 @@ sudo nano /etc/apache2/sites-available/intranet.conf
 
 Et ajouter :  
 ```
-<VirtualHost *:80>  
+<VirtualHost *:8080>  
     ServerName intranet.local  
     DocumentRoot /var/www/intranet  
 </VirtualHost>  
