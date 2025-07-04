@@ -43,9 +43,454 @@ tar -xf mysql-connector-j-8.4.0.tar.gz
 sudo cp mysql-connector-j-8.4.0/mysql-connector-j-8.4.0.jar /usr/share/tomcat10/lib/
 ```
 
-### 3.2 Installation des dépendances    
-A venir  
+### 3.3 Placer le WAR de Guacamole  
+``` 
+mkdir -p /etc/guacamole  
+cd /etc/guacamole  
+wget https://dlcdn.apache.org/guacamole/1.5.5/binary/guacamole-1.5.5.war -O guacamole.war  
+sudo cp guacamole.war /var/lib/tomcat10/webapps/  
+``` 
 
+### 3.4  Créer /etc/guacamole/guacamole.properties  
+```
+nano /etc/guacamole/guacamole.properties  
+``` 
+
+Ajouter :  
+``` 
+guacd-hostname: localhost  
+guacd-port: 4822  
+user-mapping: /etc/guacamole/user-mapping.xml  
+``` 
+
+Ensuite on ajoute :  
+``` 
+echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee /etc/default/tomcat10  
+``` 
+
+### 3.5  Définir les utilisateurs dans /etc/guacamole/user-mapping.xml  
+
+Pour gérer plusieurs utilisateurs avec accès différents (ssh pour linux et rdp pour windows)  
+Identifiants Pauline Prak  : pauline/paulinePass  
+Identifiants Priscilla Manedji : priscilla/priscillaPass  
+Identifiants Omar Kanoute : omar/omarPass  
+Identifiants Mohamed Benslim : mohamed/mohamedPass   
+
+```
+nano /etc/guacamole/user-mapping.xml  
+``` 
+
+Ajouter le contenu suivant pour autoriser l'accès des 4 utilisateurs en SSH sur linux et en RDP sur Windows  
+``` 
+<user-mapping>
+
+    <!-- Utilisateur Pauline Prak -->
+    <authorize username="pauline" password="paulinePass">
+        <!-- SSH Linux port 80 -->
+        <connection name="Linux 10.10.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">10.10.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.4 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.4</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.5 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.5</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.21 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.21</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.11 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.11</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.31 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.31</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+
+        <!-- RDP Windows -->
+        <connection name="Windows 172.16.20.1 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.1</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.2 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.2</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.6 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.6</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.8 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.8</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.9 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.9</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.10 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.10</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+    </authorize>
+
+    <!-- Utilisateur Priscilla Manedji -->
+    <authorize username="priscilla" password="priscillaPass">
+        <!-- SSH Linux port 80 -->
+        <connection name="Linux 10.10.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">10.10.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.4 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.4</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.5 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.5</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.21 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.21</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.11 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.11</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.31 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.31</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+
+        <!-- RDP Windows -->
+        <connection name="Windows 172.16.20.1 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.1</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.2 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.2</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.6 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.6</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.8 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.8</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.9 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.9</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.10 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.10</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+    </authorize>
+
+
+
+    <!-- Utilisateur Omar Kanoute -->
+    <authorize username="omar" password="omarPass">
+        <!-- SSH Linux port 80 -->
+        <connection name="Linux 10.10.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">10.10.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.4 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.4</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.5 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.5</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.21 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.21</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.11 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.11</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.31 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.31</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+
+        <!-- RDP Windows -->
+        <connection name="Windows 172.16.20.1 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.1</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.2 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.2</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.6 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.6</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.8 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.8</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.9 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.9</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.10 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.10</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+    </authorize>
+
+
+
+
+
+
+    <!-- Utilisateur Mohamed Benslim -->
+    <authorize username="mohamed" password="mohamedPass">
+        <!-- SSH Linux port 80 -->
+        <connection name="Linux 10.10.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">10.10.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.3 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.3</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.4 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.4</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.5 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.5</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.21 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.21</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.11 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.11</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Linux 172.16.20.31 SSH">
+            <protocol>ssh</protocol>
+            <param name="hostname">172.16.20.31</param>
+            <param name="port">80</param>
+            <param name="username">root</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+
+        <!-- RDP Windows -->
+        <connection name="Windows 172.16.20.1 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.1</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.2 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.2</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.6 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.6</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.8 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.8</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.9 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.9</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+        <connection name="Windows 172.16.20.10 RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">172.16.20.10</param>
+            <param name="port">3389</param>
+            <param name="username">Administrator</param>
+            <param name="password">Azerty1*</param>
+        </connection>
+    </authorize>
+
+</user-mapping>
+``` 
+
+- Redémarrage  Tomcat et guacd après modification :
+```
+sudo systemctl restart guacd
+sudo systemctl restart tomcat10
+ ``` 
 ## 4. WEB - Mettre en place un serveur WEB    
 
 ### 4.1 Création CT dans proxmox  
