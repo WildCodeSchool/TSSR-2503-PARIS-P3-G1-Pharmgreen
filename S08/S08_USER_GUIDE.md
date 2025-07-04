@@ -27,7 +27,21 @@ Configuration PFsense (en integrant Vyos) - s07
 A venir  
 
 ## 3. SÉCURITÉ - Mettre en place un serveur bastion GUACAMOLE    
-A venir  
+
+### 3.1 Création VM dans proxmox  
+Debian12 core    
+RAM : 2Go   
+Core : 2  
+Disque : 20Go   
+
+### 3.1 Création VM dans proxmox  
+``` sudo apt update && sudo apt upgrade -y  
+sudo apt install -y build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev \  
+libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev \  
+freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev \  
+libpulse-dev libssl-dev libvorbis-dev libwebp-dev tomcat9 \  
+libmysql-java mysql-server mysql-client  
+```
 
 ## 4. WEB - Mettre en place un serveur WEB    
 
