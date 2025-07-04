@@ -653,8 +653,6 @@ Le site doit être disponible via l'URL : http://intranet.local (attention accè
 #### 4.2.6 Rendre accessible le site Internet depuis le WAN  
 A venir  
 
-INTRANET 
-
 ## 5. WEB - WEB - Mettre en place un serveur WEB : accessible via intranet  
 
 ### 5.1 Création CT dans proxmox  
@@ -737,7 +735,7 @@ et ajouter le contenu  :
 </html>  
 ```  
 
-#### 4.2.4 Création du fichier de configuration dans /etc/apache2/sites-available  
+#### 5.2.4 Création du fichier de configuration dans /etc/apache2/sites-available  
 
 ```
 sudo nano /etc/apache2/sites-available/intranet.conf  
@@ -757,7 +755,7 @@ a2ensite intranet.conf
 systemctl reload apache2  
 ```  
 
-#### 4.2.5 Modification du fichier  
+#### 5.2.5 Modification du fichier  
 ```
 sudo nano /etc/hosts  
 ```
