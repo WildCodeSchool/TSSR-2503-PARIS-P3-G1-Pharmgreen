@@ -34,7 +34,7 @@ RAM : 2Go
 Core : 2  
 Disque : 20Go   
 
-### 3.1 Création VM dans proxmox  
+### 3.2 Installation des dépendances    
 ``` sudo apt update && sudo apt upgrade -y  
 sudo apt install -y build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev
 sudo apt install tomcat10 default-mysql-server default-mysql-client
@@ -42,6 +42,9 @@ wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.4.0.tar
 tar -xf mysql-connector-j-8.4.0.tar.gz
 sudo cp mysql-connector-j-8.4.0/mysql-connector-j-8.4.0.jar /usr/share/tomcat10/lib/
 ```
+
+### 3.2 Installation des dépendances    
+A venir  
 
 ## 4. WEB - Mettre en place un serveur WEB    
 
