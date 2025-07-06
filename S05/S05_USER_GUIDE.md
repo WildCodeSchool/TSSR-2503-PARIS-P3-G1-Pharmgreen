@@ -280,11 +280,10 @@ Veeam installe automatiquement les composants manquants
     Dans Schedule : définit le récurrence de la sauvegarde 
     Puis Apply -> Finish 
 
-## 8.9 Sauvegarde  
+### 8.7 Sauvegarde  
    Dans Home -> Jobs -> Nom du backup -> Start 
 
-
-## 8.8 Installation Veeam Agent Linux
+### 8.8 Installation Veeam Agent Linux
 Cette section est à réaliser seulement sur les machines Linux, Veeam Agent étant installé automatiquement sur les machines Windows  
 
 - Télécharger la clé dans un fichier temporaire
