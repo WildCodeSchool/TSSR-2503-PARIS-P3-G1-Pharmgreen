@@ -235,53 +235,53 @@ Veeam installe automatiquement les composants manquants
 - Laisser les paramètres par défaut ou configurer les chemins selon vos préférences.
 
 ### 8.3 Préparation du 2nd disque dur pour la sauvegarde 
-    Ouvre diskmgmt.msc (Gestion des disques)
-    Clic droit sur le disque → Initialiser le disque en GPT.
-    Clic droit sur l’espace non alloué → Nouveau volume simple.
-    Attribue une lettre de lecteur (ex: E:).
-    Choisis le système de fichiers NTFS
+Ouvre diskmgmt.msc (Gestion des disques)
+Clic droit sur le disque → Initialiser le disque en GPT.
+Clic droit sur l’espace non alloué → Nouveau volume simple.
+Attribue une lettre de lecteur (ex: E:).
+Choisis le système de fichiers NTFS
     
 ### 8.4 Ajouter un dépôt de sauvegarde
-    Ouvrir la console Veeam.
-    Aller dans Backup Infrastructure > Backup Repositories.
-    Ajouter un nouveau dépôt local ou distant : Direct Attached Storage -> Microsoft Windows 
-    Dans Name : Donner un nom au nouveau repository 
-    Dans Server : s'assurer que le repository server soit le serveur dans lequel vous venez d'installer Veeam puis Next 
-    Dans Repository : sélectionner le 2nd disque initialisé et formaté à l'étape précédente -> Populate
-    Next / Apply jusqu'à la fin 
+Ouvrir la console Veeam.
+Aller dans Backup Infrastructure > Backup Repositories.
+Ajouter un nouveau dépôt local ou distant : Direct Attached Storage -> Microsoft Windows 
+Dans Name : Donner un nom au nouveau repository 
+Dans Server : s'assurer que le repository server soit le serveur dans lequel vous venez d'installer Veeam puis Next 
+Dans Repository : sélectionner le 2nd disque initialisé et formaté à l'étape précédente -> Populate
+Next / Apply jusqu'à la fin 
 
 ### 8.5. Ajouter les machines Windows dans Veeam (en tant que machine physique)
 
-    Ouvre la console Veeam Backup & Replication.
-    Va dans : Inventory > Physical Infrastructure -> Srv-Windows 
-    En haut à gauche : Edit Group 
-    Dans Name : Laisser le nom
-    Dans Computeur : ajouter l'adresse IP de la machine Windows à sauvegarder 
-    Dans option : definir la récurrence de la sauvegarde, et cocher : Install backup agent 
-    Next -> Finish 
+Ouvre la console Veeam Backup & Replication.
+Va dans : Inventory > Physical Infrastructure -> Srv-Windows 
+En haut à gauche : Edit Group 
+Dans Name : Laisser le nom
+Dans Computeur : ajouter l'adresse IP de la machine Windows à sauvegarder 
+Dans option : definir la récurrence de la sauvegarde, et cocher : Install backup agent 
+Next -> Finish 
 
 ### 8.6. Ajouter les machines Windows dans Veeam (en tant que machine physique)
 
-    Ouvre la console Veeam Backup & Replication.
-    Va dans : Inventory > Physical Infrastructure -> Srv-Linux 
-    En haut à gauche : Edit Group 
-    Dans Name : Laisser le nom
-    Dans Computeur : ajouter l'adresse IP de la machine Linux à sauvegarder 
-    Dans option : definir la récurrence de la sauvegarde, et cocher : Install backup agent 
-    Next -> Finish 
+Ouvre la console Veeam Backup & Replication.
+Va dans : Inventory > Physical Infrastructure -> Srv-Linux 
+En haut à gauche : Edit Group 
+Dans Name : Laisser le nom
+Dans Computeur : ajouter l'adresse IP de la machine Linux à sauvegarder 
+Dans option : definir la récurrence de la sauvegarde, et cocher : Install backup agent 
+Next -> Finish 
     
 ### 8.6 Créer un Job de sauvegarde
-    Va dans "Jobs" > "Backup Job" > "Windows/Linux computer".
-    Dans Job Mode : Managed by backup server 
-    Dans Name : donne un nom au job (par exemple Job-Srv-Veeam) 
-    Dans Computers : clique sur Add et Ajoute la machine physique précédemment ajoutée.
-    Dans Backup mode : Entire computer
-    Dans Storage -> Backup Repository : Selectionner le disque E 
-    Dans Schedule : définit le récurrence de la sauvegarde 
-    Puis Apply -> Finish 
+Va dans "Jobs" > "Backup Job" > "Windows/Linux computer".
+Dans Job Mode : Managed by backup server 
+Dans Name : donne un nom au job (par exemple Job-Srv-Veeam) 
+Dans Computers : clique sur Add et Ajoute la machine physique précédemment ajoutée.
+Dans Backup mode : Entire computer
+Dans Storage -> Backup Repository : Selectionner le disque E 
+Dans Schedule : définit le récurrence de la sauvegarde 
+Puis Apply -> Finish 
 
 ### 8.7 Sauvegarde  
-   Dans Home -> Jobs -> Nom du backup -> Start 
+Dans Home -> Jobs -> Nom du backup -> Start 
 
 ### 8.8 Installation Veeam Agent Linux
 Cette section est à réaliser seulement sur les machines Linux, Veeam Agent étant installé automatiquement sur les machines Windows  
@@ -303,6 +303,6 @@ sudo veeam
 Cela ouvre une interface en mode texte (TUI = Text-based User Interface), même sur une machine sans GUI.
 Sélectionner "Managed by backup server"
 Dans le menu :
-    Choisis Managed by backup server
-    Renseigne l’adresse IP de ton serveur Veeam (ex : 192.168.100.10)
-    L’agent va s’enregistrer sur le serveur
+Choisis Managed by backup server
+Renseigne l’adresse IP de ton serveur Veeam (ex : 192.168.100.10)
+L’agent va s’enregistrer sur le serveur
