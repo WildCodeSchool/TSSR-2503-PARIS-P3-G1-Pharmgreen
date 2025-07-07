@@ -158,7 +158,7 @@ set interfaces ethernet eth1 address 192.168.200.1/24
 set interfaces ethernet eth1 description 'LAN' 
 
 ### 6.4 Route par défaut  
-set protocols static route 0.0.0.0/0 next-hop '192.168.200.1'  
+set protocols static route 0.0.0.0/0 next-hop '192.168.200.254'  
 
 ### 6.5 Mise en place des règles de trafic entrant et sortant  
 
