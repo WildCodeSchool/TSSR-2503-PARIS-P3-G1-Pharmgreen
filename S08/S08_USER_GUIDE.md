@@ -651,7 +651,10 @@ Le site doit être disponible via l'URL : http://intranet.local (attention accè
 ![Site Internet](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/43b1a426ca0dd39e8ddb6b75eba22f654258bb82/S08/Pharmgreen-Internet.png)  
 
 #### 4.2.6 Rendre accessible le site Internet depuis le WAN  
-A venir  
+- Creation première regle NAT : Interface WAN (192.168.240.48) --> IP serveur (10.10.20.3)
+
+- Création deuxième règle NAT : Adresse publique (135.125.4.110) --> Interface WAN (192.168.240.48)
+- 
 
 ## 5. WEB - WEB - Mettre en place un serveur WEB : accessible via intranet  
 
