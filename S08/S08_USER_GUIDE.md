@@ -197,7 +197,7 @@ Le site doit être disponible via l'URL : http://intranet.local (attention accè
 ![Regle_NAT2](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/3243ab20374d07816a3825c4277dc4ed1fbb021e/S08/Regle_Nat2.png)  
 
 
-## 5. WEB - WEB - Mettre en place un serveur WEB : accessible via intranet  
+## 5. WEB - Mettre en place un serveur WEB : accessible via intranet  
 
 ### 5.1 Création CT dans proxmox  
 - Création CT  
