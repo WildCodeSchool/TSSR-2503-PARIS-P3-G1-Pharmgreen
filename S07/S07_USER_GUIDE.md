@@ -89,6 +89,140 @@ Enforce password history → 5
 ## 4. Server GLPI  
 
 ## 5. Mise en place Serveur de messagerie IRedMail  
+**🧱 1. PRÉREQUIS TECHNIQUES**  
+
+**Infrastructure**  
+
+Hyperviseur : Proxmox VE  
+
+Type de machine : Conteneur LXC (CT)  
+
+Réseau : DMZ (zone démilitarisée), configurée avec des règles spécifiques sur le pare-feu  
+
+Adresse IP fixe attribuée au conteneur   
+
+Nom de domaine enregistré pharmgreen.local  
+
+**Système**  
+OS du CT : Debian 12   
+
+**1.1. Préparation du serveur iredmail :**  
+Mise à jour du système:se connecter en root  
+
+apt update && apt upgrade -y  
+Configuration du nom d'hôte: mail.pharmgreen.local  
+
+sudo hostnamectl set-hostname mail  
+echo "mail.pharmgreen.local" | tee /etc/hostname  
+Configuration du fichier /etc/hosts:  
+
+172.16.20.11  localhost mail.pharmgreen.local  
+Installation des outils:  
+
+sudo apt install -y wget vim  
+
+**1.2. Préparation du server DNS :**  
+**a. Nouvelle zone**  
+Clic droit sur "Zones de recherche directe" -> "Nouvelle Zone...".  
+Choisissez "Zone principale" et cliquez sur "Suivant".  
+Entrez le nom de votre domaine pharmgreen.local et cliquez sur "Suivant".  
+Choisissez "Créer un nouveau fichier avec ce nom de fichier" et cliquez sur "Suivant".  
+et "Terminer".  
+
+**b. Ajoutez les enregistrements:**  
+**Enregistrement MX:**  
+
+Clic droit sur votre domaine -> "Nouvel enregistrement...".  
+Choisissez "Échangeur de courrier (MX)" et cliquez sur "Créer un enregistrement...".  
+Dans "Nom de l'hôte de l'échangeur de courrier", entrez le nom d'hôte de votre serveur iredmail (ex: mail).  
+Dans "Priorité", entrez une valeur faible (ex: 10).  
+Cliquez sur "OK".  
+
+**Enregistrement A:**  
+
+Clic droit sur votre domaine -> "Nouvel enregistrement...".  
+Choisissez "Hôte (A)" et cliquez sur "Créer un enregistrement...".  
+Dans "Nom", entrez le nom d'hôte de votre serveur Iredmail (ex: mail).  
+Dans "Adresse IP", entrez l'adresse IP de votre serveur iredmail.  
+Cliquez sur "OK".
+
+**Enregistrement CNAME (optionnel):**  
+
+Clic droit sur votre domaine -> "Nouvel enregistrement...".  
+Choisissez "Alias (CNAME)" et cliquez sur "Créer un enregistrement...".  
+Dans "Nom d'alias", entrez un alias pour votre serveur iredmail (iredmail)).  
+Dans "Nom de domaine complet de la cible", entrez le nom de domaine complet de votre serveur iredmail (ex: mail.tssr.lab).  
+Cliquez sur "OK".  
+ 
+**📥 Étape 2 - Téléchargement et installation d'iRedMail**  
+**2.1. Téléchargement**  
+
+Depuis le site officiel : https://www.iredmail.org/download.html  
+
+**2.2. Installation :**  
+wget https://github.com/iredmail/iRedMail/archive/refs/tags/1.7.4.tar.gz  
+tar xvf 1.7.2.tar.gz  
+cd iRedMail-1.7.4  
+bash iRedMail.sh  
+
+**2.3. Configuration :**   
+Stockage des emails: Choisissez l'emplacement (par défaut /var/vmail).  
+Serveur web: Nginx .    
+Backend: OpenLDAP.  
+Premier domaine: pharmgreen.local  
+Mot de passe administrateur de la base de donnée: Fort et sécurisé.  
+Nom de domaine du premier mail : pharmgreen.local  
+Mot de passe administrateur du premier mail: Fort et sécurisé.  
+Composant optionnel cochez toutes les options  
+Confirmation: Vérifiez les options et confirmez.  
+
+**⚙️ Étape 3 - Configuration initiale d'iRedMail**  
+Depuis le client windows ou ubuntu  
+
+Accès à l'administration: https://mail.pharmgreen.local/iredadmin  
+Connexion: Avec postmaster@tssr.lab et le mot de passe.  
+**Configuration:**  
+Vérifier la configuration du domaine existant : Nom de domaine, adresse  
+
+**🧑‍💻 Étape 4 - Gestion des domaines et des comptes**  
+Cette étape vous permet de créer des comptes utilisateurs sur votre domaine.  
+1. Créez un compte utilisateur :  
+
+Cliquez sur le bouton "Add" puis user.  
+
+Exemple de configuration :  
+
+Email: utilisateur1@pharmgreen.local  
+Password: Un mot de passe fort (au moins 8 caractères avec des lettres majuscules et minuscules, des chiffres et des symboles).  
+Name: Utilisateur Un  
+Quota: 1024 (quota de 1 Go)  
+Active: Cochez la case pour activer le compte.  
+Cliquez sur "Add" pour créer le compte utilisateur.  
+
+**📨 Étape 5 - Accès à la messagerie via webmail**  
+Webmail: https://mail.pharmgreen.local/mail (Roundcube).  
+
+**🖥️ Étape 6 - Configuration de Thunderbird**  
+Lancez Thunderbird et cliquez sur "Configurer un compte existant".  
+
+Saisissez les informations du compte :  
+
+Votre nom: Votre nom complet.  
+Adresse email: utilisateur1@gmail.local  
+Mot de passe: Du compte email.  
+Configuration manuelle (si nécessaire) :  
+
+Serveur entrant: `mail.pharmgreen.local (IMAP)  
+Port: 143  
+Serveur sortant (SMTP): `mail.tssr.lab  
+Port: 587  
+Nom d'utilisateur: Adresse email complète.  
+Authentification: Mot de passe normal.  
+Sécurité de la connexion: SSL/TLS.  
+Cliquez sur "Terminer".  
+
+Vous pouvez maintenant tester l'envoi de mail entre les utilisateurs  
+
 
 ## 6. Mise en place Vyos  
 
@@ -328,159 +462,21 @@ vmbr1 -> VLAN (172.16.20.0/27)
 vmbr5 -> DMZ (10.10.20.0/24)  
 vmbr6 -> Réseaux point à point (192.168.200.0/24)  
 
-#### Vérifier que les VM ont bien ces vmbr et que les adresses des interfaces correspondent :   
-- Pfsense :
-  vmbr 100 (192.168.240.48/24)
-  vmbr 5 (10.10.20.254/24)
-  vmbr 6 (192.168.200.254/24)
+#### Vérifier que les VM ont bien ces vmbr et que les adresses des interfaces correspondent :    
+- Pfsense :  
+  vmbr 100 (192.168.240.48/24)  
+  vmbr 5 (10.10.20.254/24)  
+  vmbr 6 (192.168.200.254/24)  
     
-- Vyos :
+- Vyos :  
   vmbr 6 (192.168.200.1/24)  
-  vmbr 1 ( verifier chaque interface VLAN selon adressage rubrique 6.2 )
+  vmbr 1 ( verifier chaque interface VLAN selon adressage rubrique 6.2 )  
   
-- VM dans les VLAN :
-  vmbr1 (ne pas mettre d'autres vmbr, cela bloquerai la connexion)
+- VM dans les VLAN :  
+  vmbr1  
 
 
 ## 7. Configuration PFsense  
-A venir  
 
-## 8.📨 Documentation d’installation d’un serveur de messagerie iRedMail  
-
-**🧱 1. PRÉREQUIS TECHNIQUES**  
-
-**Infrastructure**  
-
-Hyperviseur : Proxmox VE  
-
-Type de machine : Conteneur LXC (CT)  
-
-Réseau : DMZ (zone démilitarisée), configurée avec des règles spécifiques sur le pare-feu  
-
-Adresse IP fixe attribuée au conteneur   
-
-Nom de domaine enregistré pharmgreen.local  
-
-**Système**  
-OS du CT : Debian 12   
-
-**1.1. Préparation du serveur iredmail :**  
-Mise à jour du système:se connecter en root  
-
-apt update && apt upgrade -y  
-Configuration du nom d'hôte: mail.pharmgreen.local  
-
-sudo hostnamectl set-hostname mail  
-echo "mail.pharmgreen.local" | tee /etc/hostname  
-Configuration du fichier /etc/hosts:  
-
-172.16.20.11  localhost mail.pharmgreen.local  
-Installation des outils:  
-
-sudo apt install -y wget vim  
-
-**1.2. Préparation du server DNS :**  
-**a. Nouvelle zone**  
-Clic droit sur "Zones de recherche directe" -> "Nouvelle Zone...".  
-Choisissez "Zone principale" et cliquez sur "Suivant".  
-Entrez le nom de votre domaine pharmgreen.local et cliquez sur "Suivant".  
-Choisissez "Créer un nouveau fichier avec ce nom de fichier" et cliquez sur "Suivant".  
-et "Terminer".  
-
-**b. Ajoutez les enregistrements:**  
-**Enregistrement MX:**  
-
-Clic droit sur votre domaine -> "Nouvel enregistrement...".  
-Choisissez "Échangeur de courrier (MX)" et cliquez sur "Créer un enregistrement...".  
-Dans "Nom de l'hôte de l'échangeur de courrier", entrez le nom d'hôte de votre serveur iredmail (ex: mail).  
-Dans "Priorité", entrez une valeur faible (ex: 10).  
-Cliquez sur "OK".  
-
-**Enregistrement A:**  
-
-Clic droit sur votre domaine -> "Nouvel enregistrement...".  
-Choisissez "Hôte (A)" et cliquez sur "Créer un enregistrement...".  
-Dans "Nom", entrez le nom d'hôte de votre serveur Iredmail (ex: mail).  
-Dans "Adresse IP", entrez l'adresse IP de votre serveur iredmail.  
-Cliquez sur "OK".
-
-**Enregistrement CNAME (optionnel):**  
-
-Clic droit sur votre domaine -> "Nouvel enregistrement...".  
-Choisissez "Alias (CNAME)" et cliquez sur "Créer un enregistrement...".  
-Dans "Nom d'alias", entrez un alias pour votre serveur iredmail (iredmail)).  
-Dans "Nom de domaine complet de la cible", entrez le nom de domaine complet de votre serveur iredmail (ex: mail.tssr.lab).  
-Cliquez sur "OK".  
- 
-**📥 Étape 2 - Téléchargement et installation d'iRedMail**  
-**2.1. Téléchargement**  
-
-Depuis le site officiel : https://www.iredmail.org/download.html  
-
-**2.2. Installation :**  
-wget https://github.com/iredmail/iRedMail/archive/refs/tags/1.7.4.tar.gz  
-tar xvf 1.7.2.tar.gz  
-cd iRedMail-1.7.4  
-bash iRedMail.sh  
-
-**2.3. Configuration :**   
-Stockage des emails: Choisissez l'emplacement (par défaut /var/vmail).  
-Serveur web: Nginx .    
-Backend: OpenLDAP.  
-Premier domaine: pharmgreen.local  
-Mot de passe administrateur de la base de donnée: Fort et sécurisé.  
-Nom de domaine du premier mail : pharmgreen.local  
-Mot de passe administrateur du premier mail: Fort et sécurisé.  
-Composant optionnel cochez toutes les options  
-Confirmation: Vérifiez les options et confirmez.  
-
-**⚙️ Étape 3 - Configuration initiale d'iRedMail**  
-Depuis le client windows ou ubuntu  
-
-Accès à l'administration: https://mail.pharmgreen.local/iredadmin  
-Connexion: Avec postmaster@tssr.lab et le mot de passe.  
-**Configuration:**  
-Vérifier la configuration du domaine existant : Nom de domaine, adresse  
-
-**🧑‍💻 Étape 4 - Gestion des domaines et des comptes**  
-Cette étape vous permet de créer des comptes utilisateurs sur votre domaine.  
-1. Créez un compte utilisateur :  
-
-Cliquez sur le bouton "Add" puis user.  
-
-Exemple de configuration :  
-
-Email: utilisateur1@pharmgreen.local  
-Password: Un mot de passe fort (au moins 8 caractères avec des lettres majuscules et minuscules, des chiffres et des symboles).  
-Name: Utilisateur Un  
-Quota: 1024 (quota de 1 Go)  
-Active: Cochez la case pour activer le compte.  
-Cliquez sur "Add" pour créer le compte utilisateur.  
-
-**📨 Étape 5 - Accès à la messagerie via webmail**  
-Webmail: https://mail.pharmgreen.local/mail (Roundcube).  
-
-**🖥️ Étape 6 - Configuration de Thunderbird**  
-Lancez Thunderbird et cliquez sur "Configurer un compte existant".  
-
-Saisissez les informations du compte :  
-
-Votre nom: Votre nom complet.  
-Adresse email: utilisateur1@gmail.local  
-Mot de passe: Du compte email.  
-Configuration manuelle (si nécessaire) :  
-
-Serveur entrant: `mail.pharmgreen.local (IMAP)  
-Port: 143  
-Serveur sortant (SMTP): `mail.tssr.lab  
-Port: 587  
-Nom d'utilisateur: Adresse email complète.  
-Authentification: Mot de passe normal.  
-Sécurité de la connexion: SSL/TLS.  
-Cliquez sur "Terminer".  
-
-Vous pouvez maintenant tester l'envoi de mail entre les utilisateurs  
-
-
-
+1. Passerelle par défaut vers 192.168.200.254  
 
