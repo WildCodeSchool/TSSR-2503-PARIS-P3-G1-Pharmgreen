@@ -59,13 +59,9 @@ Aller dans : Firewall -> Rules -> vmbr6/LAN
 
 
 ## 3. SÉCURITÉ - Mettre en place un serveur bastion GUACAMOLE    
+A venir  
+
 ## 4. SÉCURITÉ - Mettre en place un serveur de gestion des mises à jour WSUS    
-## 5. VOIP - Mettre en place un serveur de téléphonie sur IP    
-## 6. SÉCURITÉ - Mettre en place un serveur de gestion de mot de passe
-
-
-## 4. SÉCURITÉ - Mise en place d’un serveur de gestion des mises à jour WSUS
-
 ## 🎯 Objectif
 Mettre en place un serveur **WSUS** (Windows Server Update Services) pour centraliser, sécuriser et automatiser la gestion des mises à jour dans l’environnement Active Directory.  
 L’objectif principal est de :
@@ -134,3 +130,10 @@ Trois GPO ont été créées pour appliquer les paramètres WSUS aux différente
   - Attribution correcte aux groupes
   - Réception des catalogues de mise à jour
   - Capacité d’approuver/refuser des updates selon le groupe
+
+## 5. VOIP - Mettre en place un serveur de téléphonie sur IP    
+A venir  
+
+## 6. SÉCURITÉ - Mettre en place un serveur de gestion de mot de passe  
+A venir  
+
