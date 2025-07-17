@@ -146,6 +146,9 @@ sudo systemctl restart tomcat9 guacd
 
 #### 3.1.5 - Base de données MariaDB pour l'authentification
 
+
+
+
 ## 4. SÉCURITÉ - Mettre en place un serveur de gestion des mises à jour WSUS    
 ## 🎯 Objectif
 Mettre en place un serveur **WSUS** (Windows Server Update Services) pour centraliser, sécuriser et automatiser la gestion des mises à jour dans l’environnement Active Directory.  
