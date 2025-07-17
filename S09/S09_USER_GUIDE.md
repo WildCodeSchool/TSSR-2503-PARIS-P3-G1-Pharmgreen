@@ -59,7 +59,92 @@ Aller dans : Firewall -> Rules -> vmbr6/LAN
 
 
 ## 3. SÉCURITÉ - Mettre en place un serveur bastion GUACAMOLE    
-A venir  
+
+### 3.1 - Installation du serveur Bastion Guacamole 
+
+Créer un CT, ajouter une carte vmbr6 (car VM dans la DMZ), renseigner l'adresse IP en fonction du réseaux et choisir template Debian.  
+Faire les mises à jours.   
+
+#### 3.1.1 - Installer les prérequis d'Apache Guacamole
+    
+- Installer les dépendances     
+```bash
+apt-get install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin uuid-dev libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev
+```
+
+#### 3.1.2 - Compiler et installer Apache Guacamole "Server"
+
+- Télécharger l'archive  
+```bash
+cd /tmp
+wget https://downloads.apache.org/guacamole/1.5.5/source/guacamole-server-1.5.5.tar.gz
+```
+- Décompresser l'archive  
+```bash
+tar -xzf guacamole-server-1.5.5.tar.gz
+cd guacamole-server-1.5.5/
+```
+
+- Vérifier la présence des dépendances  
+```bash
+sudo ./configure --with-systemd-dir=/etc/systemd/system/
+```
+Toutes les dépendances devraient avoir le status YES  
+
+- Compiler le code source de guacamole-server  
+```bash
+sudo make  
+```
+
+- Installer le composant Guacamole Server  
+```bash
+sudo make install  
+```
+
+#### 3.1.3 - Créer le répertoire de configuration  
+
+```bash
+sudo mkdir -p /etc/guacamole/{extensions,lib}  
+```
+
+#### 3.1.4 - Installer Guacamole Client (Web App)
+- Ajout nouveau fichier source pour APT  
+```bash
+sudo nano /etc/apt/sources.list.d/bullseye.list 
+```
+
+- Ajouter cette ligne  
+```
+deb http://deb.debian.org/debian/ bullseye main
+```
+
+- Mettre à jour le système  
+```bash
+apt update && apt upgrade  
+```
+
+- Installer Tomcat9  
+```bash
+sudo apt-get install tomcat9 tomcat9-admin tomcat9-common tomcat9-user
+```
+
+- Telecharger la dernière version de la Web App d'Apache Guacamole depuis le dépot officiel 
+```bash
+cd /tmp
+wget https://downloads.apache.org/guacamole/1.5.5/binary/guacamole-1.5.5.war
+```
+
+- Déplacer le fichier dans la librairie de Web App de Tomcat9  
+```bash
+sudo mv guacamole-1.5.5.war /var/lib/tomcat9/webapps/guacamole.war
+```
+
+- Relancer les services Tomcat9 et guacamole  
+```bash
+sudo systemctl restart tomcat9 guacd
+```
+
+#### 3.1.5 - Base de données MariaDB pour l'authentification
 
 ## 4. SÉCURITÉ - Mettre en place un serveur de gestion des mises à jour WSUS    
 ## 🎯 Objectif
