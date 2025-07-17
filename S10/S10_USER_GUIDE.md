@@ -19,6 +19,6 @@ A venir
 
 ## 3. Mise en place de Filezilla pour l'administration de l'interface GUI de FTP     
 
-## 4. Mise en place une plannification de sauvegarde     
+## 4. Mise en place une plannification de sauvegarde (par script)      
 
 ## 5. Mise en place de dashboard (Zabbix)      
