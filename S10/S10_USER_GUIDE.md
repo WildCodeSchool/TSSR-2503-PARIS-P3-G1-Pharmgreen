@@ -11,7 +11,6 @@ Mettre en place un VPN site-à-site entre les 2 réseaux d'entreprise pour avoir
 **Reprise des anciens objectifs**  
 Mise en place de Filezilla pour l'administration de l'interface GUI de FTP  
 Mise en place une plannification de sauvegarde (script /ou/ GPO puis lancer un script /ou/ logiciel) sur un disque du serveur de sauvegarde - S5  
-Mise en place de dashboard ( zabbix)  
 
 
 ## 2. PARTENARIAT D'ENTREPRISE - VPN site-à-site      
