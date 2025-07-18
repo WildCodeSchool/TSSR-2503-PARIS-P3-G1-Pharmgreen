@@ -146,7 +146,77 @@ sudo systemctl restart tomcat9 guacd
 
 #### 3.1.5 - Base de données MariaDB pour l'authentification
 
+- Installation de la base de donnée MariaDB
+```bash 
+sudo apt-get install mariadb-server
+sudo mysql_secure_installation
+```
 
+- Puis on créer une base de données et un utilisateur dédié pour Apache Guacamole
+```bash
+mysql -u root -p
+```
+
+```maria DB
+CREATE DATABASE guacadb;
+CREATE USER 'guaca_nachos'@'localhost' IDENTIFIED BY 'P@ssword!';
+GRANT SELECT,INSERT,UPDATE,DELETE ON guacadb.* TO 'guaca_nachos'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+- Ajouter l'extension MySQL à Apache Guacamole
+```bash 
+cd /tmp
+wget https://downloads.apache.org/guacamole/1.5.5/binary/guacamole-auth-jdbc-1.5.5.tar.gz
+tar -xzf guacamole-auth-jdbc-1.5.5.tar.gz
+sudo mv guacamole-auth-jdbc-1.5.5/mysql/guacamole-auth-jdbc-mysql-1.5.5.jar /etc/guacamole/extensions/
+```
+
+- Télécharger le connecteur MySQL 
+```bash 
+cd /tmp
+wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-9.1.0.tar.gz
+tar -xzf mysql-connector-j-9.1.0.tar.gz
+sudo cp mysql-connector-j-9.1.0/mysql-connector-j-9.1.0.jar /etc/guacamole/lib/
+```
+
+- Importer la structure de la base de données Apache Guacamole dans la base de données "guacadb"
+```bash
+cd guacamole-auth-jdbc-1.5.5/mysql/schema/
+cat *.sql | mysql -u root -p guacadb
+```
+
+- Création fichier pour déclarer la connexion à MariaDB
+```bash
+sudo nano /etc/guacamole/guacamole.properties
+```
+
+- Insérer ces lignes 
+```# MySQL
+mysql-hostname: 127.0.0.1
+mysql-port: 3306
+mysql-database: guacadb
+mysql-username: guaca_nachos
+mysql-password: Azerty1*
+```
+
+-Déclarer le serveur Guacamole 
+```bash 
+sudo nano /etc/guacamole/guacd.conf
+```
+
+- Ajouter 
+```
+[server] 
+bind_host = 0.0.0.0
+bind_port = 4822
+```
+
+- Relancer les services
+```bash 
+sudo systemctl restart tomcat9 guacd mariadb
+```
 
 
 ## 4. SÉCURITÉ - Mettre en place un serveur de gestion des mises à jour WSUS    
