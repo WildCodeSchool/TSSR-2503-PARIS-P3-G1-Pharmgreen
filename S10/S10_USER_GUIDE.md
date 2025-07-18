@@ -10,8 +10,9 @@ Mettre en place un VPN site-à-site entre les 2 réseaux d'entreprise pour avoir
 
 **Reprise des anciens objectifs**  
 Mise en place de Filezilla pour l'administration de l'interface GUI de FTP  
-Mise en place une plannification de sauvegarde (script /ou/ GPO puis lancer un script /ou/ logiciel) sur un disque du serveur de sauvegarde - S5  
-
+Mise en place une plannification de sauvegarde (script /ou/ GPO puis lancer un script /ou/ logiciel) sur un disque du serveur de sauvegarde - S5   
+Debuguage SRV-BastionGuacamole  
+Mise en place des règles dans Pfsense pour le Srv-BastionGuacamole  
 
 ## 2. PARTENARIAT D'ENTREPRISE - VPN site-à-site      
 A venir 
@@ -108,4 +109,3 @@ Cocher : Allow task to be run on demand et Run task as soon as possible after a 
 - Valider et entrer un mot de passe  
 
 
-## 5. Mise en place de dashboard (Zabbix)      
