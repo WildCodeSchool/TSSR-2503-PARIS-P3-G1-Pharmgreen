@@ -17,6 +17,7 @@ Mise en place une plannification de sauvegarde (script /ou/ GPO puis lancer un s
 A venir 
 
 ## 3. Mise en place de Filezilla pour l'administration de l'interface GUI de FTP     
+A venir
 
 ## 4. Mise en place une plannification de sauvegarde (par script)    
 
