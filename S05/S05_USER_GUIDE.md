@@ -99,6 +99,30 @@ Naviguer dans les dossiers /uploads et ses sous-dossiers.
 
 Tester le téléchargement et l’envoi de fichiers.
 
+ **Utiliser FileZilla (GUI)**
+
+Ouvrir FileZilla
+
+Dans la barre supérieure :
+
+Hôte : ftp://<adresse_IP_du_serveur> ou bien mettre l'ip du serveur simplement   
+
+Identifiant : ftpuser
+
+Mot de passe : <mot_de_passe>
+
+Port : 21 (par défaut pour FTP)
+
+Cliquez sur "Connexion rapide".
+
+Une fois connecté :
+
+Naviguez vers le dossier /uploads.
+
+Essayez d'envoyer un fichier depuis le PC (drag & drop).
+
+Essayez de télécharger un fichier du serveur vers votre machine.
+
 **7. Configuration du pare-feu (si actif)**  
 Autoriser les ports FTP nécessaires :
 
