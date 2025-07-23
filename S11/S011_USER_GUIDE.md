@@ -51,6 +51,8 @@ Choix 1 deux fois et indiquer le nom de domaine
 ### 3.3 - Vérification  
 Ouvrir le fichier : ad_hc_pharmgreen.local dans le répertoire pour voir les failles    
 
+[https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/0be31bedca27915f40718e74e1dead36bc2d84bd/S11/Audit-AD-1.png]
+
 ### 3.4 - Rechercher les anomalies et les modifier en conséquence  
 
 En loccurence, dans notre cas : 
