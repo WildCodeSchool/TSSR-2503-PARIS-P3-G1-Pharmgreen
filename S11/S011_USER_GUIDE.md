@@ -50,8 +50,8 @@ Choix 1 deux fois et indiquer le nom de domaine
 
 ### 3.3 - Vérification  
 Ouvrir le fichier : ad_hc_pharmgreen.local dans le répertoire pour voir les failles    
-
-[https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/0be31bedca27915f40718e74e1dead36bc2d84bd/S11/Audit-AD-1.png]
+Dans le fichier ci contre, nous pouvons constater un (mauvais) score de 100/100  
+![Audit Début](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/0be31bedca27915f40718e74e1dead36bc2d84bd/S11/Audit-AD-1.png)  
 
 ### 3.4 - Rechercher les anomalies et les modifier en conséquence  
 
@@ -70,6 +70,9 @@ Seulement Read et Apply
 
 - modifier la taille minimum de mot de passe dans la GPO "Default Domain Policy"   
 
+### 3.5 - Résultat final  
+Après reprise des anomalies, nous pouvons constater sur l'image ci dessous que le score est meilleur (40/100) 
+![Audit Fin](https://github.com/WildCodeSchool/TSSR-2503-PARIS-P3-G1-Pharmgreen/blob/cb35611ad00a6dd2a849c4b2a9d8338bfb75d822/S11/Audit-AD-2.png)  
 
 ## 4. Audit ACTIVE DIRECTORY : Microsoft Security Compliance Toolkit  
 
