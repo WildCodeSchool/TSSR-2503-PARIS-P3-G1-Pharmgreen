@@ -21,7 +21,7 @@ Voici le contenu de ce Readme qui reprends essentiellement les configurations no
   Audit de système Linux/Unix  
 
 
-**Audit SERVEURS WINDOWS : SYSINTERNAL** 
+**Audit SERVEURS WINDOWS : SYSINTERNAL**  
   AccessChk -> Niveau d'accès d'un utilisateur  
   AccessEnum -> Audit des accès utilisateurs  
   ShareEnum -> Audit des partages de fichiers  
@@ -37,19 +37,23 @@ Voici le contenu de ce Readme qui reprends essentiellement les configurations no
 
 ## 3. Audit ACTIVE DIRECTORY : PingCastle 
 
-1- Télécharger PingCastle sur : https://www.pingcastle.com/download/   
+### 3.1 - Télécharger PingCastle 
+Aller sur : https://www.pingcastle.com/download et télécharger PingCastle.     
+Et extraire le zip.   
 
-2 - Extraire le zip   
-
-3- Ouvrir powershell en mode administrateur, aller dans le répertoire extrait et :   
+### 3.2 - Ouvrir powershell en mode administrateur
+Dans Powershell, aller dans le répertoire extrait et :   
 ```powershell  
-.\PingCastle.exe --healthcheck  
+.\PingCastle.exe    
 ``` 
-Indiquer le nom de domaine  
+Choix 1 deux fois et indiquer le nom de domaine  
 
-4- Ouvrir le fichier : ad_hc_pharmgreen.local dans le répertoire pour voir les failles    
+### 3.3 - Vérification  
+Ouvrir le fichier : ad_hc_pharmgreen.local dans le répertoire pour voir les failles    
 
-5- Rechercher les anomalies et les modifier en conséquence, par exemple :  
+### 3.4 - Rechercher les anomalies et les modifier en conséquence  
+
+En loccurence, dans notre cas : 
 
 - Modification droits du groupe "authenticated user" dans les ACL de chaque GPO (dans delegation -> Advanced)   
 Seulement Read et Apply   
@@ -63,7 +67,6 @@ Seulement Read et Apply
 - activer "Envoyer une réponse NTLMv2 uniquement" dans : -secpol.msc -> Stratégies locales -> Options de sécurité  
 
 - modifier la taille minimum de mot de passe dans la GPO "Default Domain Policy"   
-
 
 
 ## 4. Audit ACTIVE DIRECTORY : Microsoft Security Compliance Toolkit  
