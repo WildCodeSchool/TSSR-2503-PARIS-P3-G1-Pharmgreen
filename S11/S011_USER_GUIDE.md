@@ -49,8 +49,7 @@ Indiquer le nom de domaine
 
 4- Ouvrir le fichier : ad_hc_pharmgreen.local dans le répertoire pour voir les failles    
 
-5- Rechercher les anomalies, par exemple :  
-
+5- Rechercher les anomalies et les modifier en conséquence, par exemple :  
 
 - Modification droits du groupe "authenticated user" dans les ACL de chaque GPO (dans delegation -> Advanced)   
 Seulement Read et Apply   
