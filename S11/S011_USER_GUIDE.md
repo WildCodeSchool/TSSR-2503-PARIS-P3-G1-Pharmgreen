@@ -35,6 +35,97 @@ Voici le contenu de ce Readme qui reprends essentiellement les configurations no
   
 ## 2. Relation de confiancce entre les 2 AD Pharmgreen - Ecoloklast 
 
+### 2.1 - Rappel architecture réseau   
+
+#### 2.1.1 - Site A - Pharmgreen   
+WAN pfSense	192.168.240.48/24   
+LAN pfSense	192.168.1.0/24   
+Tunnel VPN	10.0.8.1  
+
+#### 2.1.2 - Site B - Ekoloclast
+WAN pfSense	192.168.240.192   
+LAN pfSense	192.168.200.1  
+Tunnel VPN        10.0.8.2  
+
+### 2.2 - Configuration du serveur VPN (Site A – pfSense)  
+
+#### 2.2.1 - Création du serveur OpenVPN   
+- Accéder à l’interface web de pfSense (Site A)  
+- Aller dans VPN > OpenVPN > Servers et cliquez sur + Add  
+- Paramètres à configurer :
+	Server mode : Peer to Peer (Shared Key)  
+	Protocol : UDP on IPv4 only  
+	Device mode : tun   
+	Interface : WAN  
+	Local port : 1194   
+	Description : VPN vers Site B   
+	Shared Key : Automatically generate   
+	Encryption Algorithm : AES-256-GCM   
+	Auth digest algorithm : SHA256   
+	IPv4 Tunnel Network : 10.0.8.1  
+	IPv4 Remote Network : ??  
+	
+#### 2.2.2 - Récupération de la clé partagée  
+Retourner dans la liste des serveurs, éditez celui créé.  
+Copier l'intégralité de la clé dans la case Shared Key (-----BEGIN OpenVPN Static key V1-----)  
+Transmettre la clef au Site B de façon sécurisée   
+
+
+### 2.3 - Configuration du serveur VPN (Site B – pfSense)  
+
+#### 2.3.1 - Création du client OpenVPN  
+- Accéder à l’interface web de pfSense (Site B)   
+- Aller  dans VPN > OpenVPN > Clients et cliquez sur + Add   
+- Paramètres à configurer :  
+	Server mode : Peer to Peer (Shared Key)  
+	Protocol : UDP on IPv4 only  
+	Device mode : tun  
+	Interface : WAN  
+	Server host or address : IP publique du Site A  
+	Server port : 1194  
+	Shared Key : Automatically generate → Coller la clé reçue  
+	Encryption Algorithm : AES-256-GCM  
+	Auth digest algorithm : SHA256  
+	IPv4 Tunnel Network : 10.0.8.2  
+	IPv4 Remote Network(s)	??  
+
+### 2.4- Configuration des routes et du NAT  
+
+#### 2.4.1 - Route statique sur pfSense/VyOS  
+Sur le routeur VyOS, ajoutez une route vers le réseau distant (Site B) via l’IP de pfSense sur l’interface connectée à VyOS :  
+set protocols static route 192.168.2.0/24 next-hop 10.0.0.1  
+commit  
+save  
+    
+#### 2.4.2 - NAT sur pfSense (Site A)    
+- Aller dans Firewall > NAT > Outbound    
+- Activer le mode Hybrid Outbound NAT    
+- Créer une règle :    
+	Interface : OpenVPN  
+	Source : 10.0.0.0/24  
+
+### 2.5 - Configuration des règles de pare-feu (sur les 2 PFsense)   
+- Aller dans Firewall > Rules > OpenVPN   
+- Cliquer sur + Add   
+- Configurer :  
+	Action	: Pass  
+	Interface : OpenVPN  
+	Protocol : Any  
+	Source : Any  
+	Destination : Any  
+	Description : Autoriser tout trafic VPN  
+
+### 2.6 -  Vérifications et tests  
+
+#### 2.6.1 - Vérifier le statut du VPN   
+Aller dans Status > OpenVPN sur les deux pfSense  
+Le tunnel doit apparaître "up" (en vert)  
+
+#### 2.6.2 - Test de connectivité  
+Depuis un poste du réseau Site A (192.168.1.x), pinguez un hôte du réseau Site B (192.168.2.x)  
+Si le ping fonctionne → VPN opérationnel   
+
+
 ## 3. Audit ACTIVE DIRECTORY : PingCastle 
 
 ### 3.1 - Télécharger PingCastle 
