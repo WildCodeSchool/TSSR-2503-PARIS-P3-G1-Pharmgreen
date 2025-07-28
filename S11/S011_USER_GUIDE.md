@@ -104,6 +104,92 @@ Après reprise des anomalies, nous pouvons constater sur l'image ci dessous que 
 
 ## 5. Audit SERVEURS LINUX : Tiger  
 
+# 🐯 Audit de sécurité Linux avec Tiger
+
+## 🎯 Objectif 
+
+Réaliser un audit de sécurité sur un ou plusieurs serveurs Linux à l’aide du logiciel Tiger, afin de détecter d’éventuelles failles, mauvaises configurations ou pratiques non sécurisées. Cet objectif vise à acquérir des compétences en sécurisation des systèmes Unix/Linux à travers un outil d’audit automatisé.
+
+---
+
+## 🛠️ Outil utilisé
+
+### 🔹 Tiger – Unix Security Audit Tool
+
+- Site officiel : [https://www.nongnu.org/tiger/](https://www.nongnu.org/tiger/)
+- Fonction : Audit local de la sécurité sur un système Unix/Linux
+- Type d’analyse : Permissions, utilisateurs, rootkits, services, configurations, fichiers suspects…
+
+---
+
+## 🧩 Environnement d’audit
+
+- **Machine auditée** : SRV-FTP (Debian 12)
+- **Environnement** : Proxmox VE
+- **Espace disque** : 31 Go
+- **Audit local exécuté en root**
+
+---
+
+## 🚀 Étapes réalisées
+
+### 1. Installation de Tiger
+
+```bash
+sudo apt update
+sudo apt install tiger -y
+```
+
+> 💡 Problème rencontré : disque saturé (100%).  
+> ✅ Solution : ajout d’un disque secondaire SATA monté sur `/home`.
+
+---
+
+### 2. Lancement de l’audit
+
+```bash
+sudo tiger
+```
+
+Tiger génère un rapport dans :
+
+```bash
+/var/log/tiger/security.report.*
+```
+
+---
+
+### 3. Analyse des résultats
+
+```bash
+grep -E "ALERT|WARNING" /var/log/tiger/security.report.*
+```
+
+#### 🔍 Résumé des alertes rencontrées
+
+| Niveau   | Code        | Description                                    | Statut       |
+|----------|-------------|------------------------------------------------|--------------|
+| ALERT    | `perm023a`  | `/bin/su` et `/usr/bin/passwd` sont `setuid`  | ✅ Comportement normal |
+| ALERT    | `fsys006a`  | Fichiers spéciaux inattendus (`device files`) | 🔍 En cours d’analyse |
+
+---
+
+## ✅ Bilan
+
+L’outil **Tiger** a permis de :
+- Vérifier la conformité des permissions critiques
+- Identifier les comportements système potentiellement dangereux
+- Détecter des fichiers inhabituels pour approfondir l’analyse
+
+---
+
+## 📎 À faire
+
+- Poursuivre l’analyse des fichiers `device` inattendus
+- Documenter les actions correctives appliquées
+- Intégrer Tiger dans une politique d’audit régulière
+
+
 ## 6. Audit SERVEURS WINDOWS : SYSINTERNAL 
                              
 ## 7. Audit SERVEUR WEB :  Nikto  
